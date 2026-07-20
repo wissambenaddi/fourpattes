@@ -1,0 +1,68 @@
+<section class="pet-main-product pet-shell" data-pet-product>
+  {% comment %} BEGIN FOURPATTES SEO — native Shopify product structured data {% endcomment %}
+  {{ product | structured_data }}
+  {% comment %} END FOURPATTES SEO {% endcomment %}
+  <div class="pet-main-product__gallery">
+    {%- for media in product.media -%}
+      <div class="pet-main-product__media{% if forloop.first %} is-active{% endif %}" data-media-id="{{ media.id }}">
+        {%- case media.media_type -%}
+          {%- when 'image' -%}
+            {%- if forloop.first -%}
+              {{ media | image_url: width: 1600 | image_tag: widths: '480, 720, 960, 1200, 1600', sizes: '(min-width: 990px) 55vw, 100vw', loading: 'eager', fetchpriority: 'high', alt: media.alt | default: product.title }}
+            {%- else -%}
+              {{ media | image_url: width: 1600 | image_tag: widths: '480, 720, 960, 1200, 1600', sizes: '(min-width: 990px) 55vw, 100vw', loading: 'lazy', alt: media.alt | default: product.title }}
+            {%- endif -%}
+          {%- when 'video' -%}{{ media | video_tag: controls: true, preload: 'metadata' }}
+          {%- when 'external_video' -%}{{ media | external_video_tag }}
+          {%- when 'model' -%}{{ media | model_viewer_tag }}
+        {%- endcase -%}
+      </div>
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'pet-main-product__placeholder' }}
+    {%- endfor -%}
+  </div>
+
+  <div class="pet-main-product__info">
+    {%- if product.vendor != blank and section.settings.show_vendor -%}<p class="pet-eyebrow">{{ product.vendor }}</p>{%- endif -%}
+    <h1>{{ product.title }}</h1>
+    <div class="pet-main-product__price" data-pet-product-price>
+      <span>{{ product.selected_or_first_available_variant.price | money }}</span>
+      {%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}<s>{{ product.selected_or_first_available_variant.compare_at_price | money }}</s>{%- endif -%}
+    </div>
+
+    {%- form 'product', product, class: 'pet-product-form' -%}
+      {%- unless product.has_only_default_variant -%}
+        <label for="ProductVariant-{{ section.id }}">{{ 'products.variant' | t }}</label>
+        <select id="ProductVariant-{{ section.id }}" name="id" data-pet-variant-select>
+          {%- for variant in product.variants -%}
+            <option value="{{ variant.id }}" data-price="{{ variant.price | money | escape }}" data-compare-price="{{ variant.compare_at_price | money | escape }}"{% if variant == product.selected_or_first_available_variant %} selected{% endif %}{% unless variant.available %} disabled{% endunless %}>
+              {{ variant.title }}{% unless variant.available %} — {{ 'general.sold_out' | t }}{% endunless %}
+            </option>
+          {%- endfor -%}
+        </select>
+      {%- else -%}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      {%- endunless -%}
+
+      <label for="ProductQuantity-{{ section.id }}">{{ 'products.quantity' | t }}</label>
+      <input id="ProductQuantity-{{ section.id }}" class="pet-quantity" type="number" name="quantity" value="1" min="1">
+
+      <button class="pet-button pet-product-form__submit" type="submit"{% unless product.selected_or_first_available_variant.available %} disabled{% endunless %}>
+        {%- if product.selected_or_first_available_variant.available -%}{{ 'general.add_to_cart' | t }}{%- else -%}{{ 'general.sold_out' | t }}{%- endif -%}
+      </button>
+      {%- if section.settings.show_dynamic_checkout -%}{{ form | payment_button }}{%- endif -%}
+    {%- endform -%}
+
+    {%- if product.description != blank -%}<div class="pet-rte pet-main-product__description">{{ product.description }}</div>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Produit principal",
+  "settings": [
+    { "type": "checkbox", "id": "show_vendor", "label": "Afficher la marque", "default": true },
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Afficher le bouton de paiement dynamique", "default": true }
+  ]
+}
+{% endschema %}

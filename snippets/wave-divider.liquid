@@ -1,0 +1,16 @@
+{% doc %}
+  Renders an organic full-width divider.
+  @param {string} color - CSS color value.
+  @param {string} [position] - top or bottom.
+  @param {boolean} [flip] - Mirror the wave horizontally.
+{% enddoc %}
+<svg
+  class="pet-wave pet-wave--{{ position | default: 'top' }}{% if flip %} pet-wave--flip{% endif %}"
+  style="color: {{ color }}"
+  viewBox="0 0 1440 120"
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path fill="currentColor" d="M0 46c58 0 66 47 126 47 68 0 72-54 139-54 63 0 79 42 139 42 62 0 75-62 142-62 64 0 79 54 143 54 62 0 81-45 143-45 68 0 79 61 147 61 62 0 75-45 137-45 67 0 79 54 143 54 62 0 78-45 141-45v67H0V46Z"/>
+</svg>

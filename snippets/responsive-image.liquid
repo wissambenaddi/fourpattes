@@ -1,0 +1,25 @@
+{% doc %}
+  Renders a responsive Shopify image or a decorative placeholder.
+  @param {image} image - Image selected in the theme editor.
+  @param {string} [alt] - Alternative text override.
+  @param {string} [class] - CSS class.
+  @param {string} [sizes] - Responsive sizes value.
+  @param {boolean} [priority] - Load with high priority.
+  @param {string} [placeholder] - Shopify placeholder name.
+{% enddoc %}
+
+{%- liquid
+  assign image_alt = alt | default: image.alt | escape
+  assign image_sizes = sizes | default: '100vw'
+  assign placeholder_name = placeholder | default: 'image'
+-%}
+
+{%- if image != blank -%}
+  {%- if priority -%}
+    {{ image | image_url: width: 2000 | image_tag: widths: '320, 480, 640, 800, 1000, 1200, 1600, 2000', sizes: image_sizes, class: class, alt: image_alt, loading: 'eager', fetchpriority: 'high' }}
+  {%- else -%}
+    {{ image | image_url: width: 2000 | image_tag: widths: '320, 480, 640, 800, 1000, 1200, 1600, 2000', sizes: image_sizes, class: class, alt: image_alt, loading: 'lazy' }}
+  {%- endif -%}
+{%- else -%}
+  {{ placeholder_name | placeholder_svg_tag: class }}
+{%- endif -%}

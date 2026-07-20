@@ -1,0 +1,40 @@
+{
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "general": {
+    "meta": { "tags": "Tags: {{ tags }}", "page": "Page {{ page }}" },
+    "search": "Search",
+    "account": "Account",
+    "cart": "Cart",
+    "menu": "Menu",
+    "close": "Close",
+    "choose_options": "Choose options",
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out",
+    "added_to_cart": "Product added to cart",
+    "view_all": "View all"
+  },
+  "newsletter": {
+    "email": "Your email address",
+    "submit": "Sign me up",
+    "success": "Thank you! You are now part of the pack."
+  },
+  "products": {
+    "price_from": "From {{ price }}",
+    "quantity": "Quantity",
+    "variant": "Choose an option"
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty.",
+    "remove": "Remove",
+    "update": "Update",
+    "checkout": "Checkout",
+    "subtotal": "Subtotal"
+  }
+}

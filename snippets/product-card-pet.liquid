@@ -1,0 +1,57 @@
+{% doc %}
+  Renders a playful Shopify product card.
+  @param {product} product - Shopify product object.
+  @param {number} [index] - Card index used for color and rotation.
+  @param {boolean} [show_quick_add] - Shows native quick-add form.
+{% enddoc %}
+
+{%- liquid
+  assign card_index = index | default: 1
+  assign palette_index = card_index | modulo: 5 | plus: 1
+  assign selected_variant = product.selected_or_first_available_variant
+  assign minimum_price = product.price_min | money
+-%}
+
+<article class="pet-product-card pet-product-card--{{ palette_index }} pet-product-card--tilt-{{ card_index | modulo: 3 }}">
+  <a class="pet-product-card__link" href="{{ product.url }}">
+    <div class="pet-product-card__media">
+      {%- if product.compare_at_price > product.price -%}
+        <span class="pet-badge">Promo</span>
+      {%- elsif product.tags contains 'Nouveau' or product.tags contains 'new' -%}
+        <span class="pet-badge pet-badge--new">Nouveau</span>
+      {%- endif -%}
+      {%- if product.featured_image != blank -%}
+        {{ product.featured_image | image_url: width: 700 | image_tag: widths: '220, 320, 480, 700', sizes: '(min-width: 990px) 220px, 42vw', loading: 'lazy', alt: product.featured_image.alt | default: product.title }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'pet-product-card__placeholder' }}
+      {%- endif -%}
+    </div>
+    <h3 class="pet-product-card__title">{{ product.title }}</h3>
+    <div class="pet-product-card__price">
+      {%- if product.price_varies -%}
+        {{ 'products.price_from' | t: price: minimum_price }}
+      {%- else -%}
+        {{ product.price | money }}
+      {%- endif -%}
+      {%- if product.compare_at_price > product.price -%}
+        <s>{{ product.compare_at_price | money }}</s>
+      {%- endif -%}
+    </div>
+  </a>
+
+  {%- if show_quick_add -%}
+    {%- if product.available and product.has_only_default_variant -%}
+      {%- form 'product', product, class: 'pet-quick-add', data-pet-quick-add: '' -%}
+        <input type="hidden" name="id" value="{{ selected_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button class="pet-icon-button pet-quick-add__button" type="submit" aria-label="{{ 'general.add_to_cart' | t }} – {{ product.title | escape }}">
+          <span aria-hidden="true">+</span>
+        </button>
+      {%- endform -%}
+    {%- elsif product.available -%}
+      <a class="pet-product-card__options" href="{{ product.url }}">{{ 'general.choose_options' | t }}</a>
+    {%- else -%}
+      <span class="pet-product-card__soldout">{{ 'general.sold_out' | t }}</span>
+    {%- endif -%}
+  {%- endif -%}
+</article>

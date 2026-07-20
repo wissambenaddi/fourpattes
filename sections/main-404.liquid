@@ -1,0 +1,8 @@
+<section class="pet-error-page pet-shell">
+  <span class="pet-error-page__icon">{% render 'icon-paw' %}</span>
+  <p class="pet-eyebrow">404</p>
+  <h1>{{ section.settings.title | escape }}</h1>
+  <p>{{ section.settings.text | escape }}</p>
+  <a class="pet-button" href="{{ routes.root_url }}">Retour à l’accueil</a>
+</section>
+{% schema %}{ "name": "Page 404", "settings": [{ "type": "text", "id": "title", "label": "Titre", "default": "CETTE PAGE A PRIS LA POUDRE D’ESCAMPETTE" }, { "type": "textarea", "id": "text", "label": "Texte", "default": "Pas d’inquiétude, la meute connaît le chemin du retour." }] }{% endschema %}

@@ -1,0 +1,24 @@
+{
+  "type": "footer",
+  "name": "Pied de page",
+  "sections": {
+    "footer": {
+      "type": "footer-pet-shop",
+      "blocks": {
+        "shop": { "type": "menu", "settings": { "title": "ACHETER NOS PRODUITS", "menu": "footer" } },
+        "discover": { "type": "menu", "settings": { "title": "DÉCOUVRIR", "menu": "footer" } },
+        "service": { "type": "menu", "settings": { "title": "SERVICE CLIENT", "menu": "footer" } }
+      },
+      "block_order": ["shop", "discover", "service"],
+      "settings": {
+        "tagline": "Le bonheur a quatre pattes.",
+        "legal_text": "Tous droits réservés.",
+        "show_policies": true,
+        "show_payment_icons": true,
+        "background": "#26155F",
+        "text_color": "#FFFFFF"
+      }
+    }
+  },
+  "order": ["footer"]
+}

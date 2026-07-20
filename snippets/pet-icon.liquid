@@ -1,0 +1,13 @@
+{% doc %}
+  Renders a storefront utility icon.
+  @param {string} name - Icon name: menu, close, search, account, cart, arrow, chevron.
+{% enddoc %}
+{%- case name -%}
+  {%- when 'menu' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  {%- when 'close' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>
+  {%- when 'search' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+  {%- when 'account' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.8-5 3.3-7 7.5-7s6.7 2 7.5 7"/></svg>
+  {%- when 'cart' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11h10.9l2-8H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+  {%- when 'arrow' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+  {%- when 'chevron' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+{%- endcase -%}

@@ -1,0 +1,137 @@
+{% comment %} BEGIN FOURPATTES HERO — responsive, editable and optimized for LCP {% endcomment %}
+
+{%- liquid
+  assign hero_alt = section.settings.image_alt | default: section.settings.title
+  assign show_overlay_content = false
+  if section.settings.show_content
+    assign show_overlay_content = true
+  elsif section.settings.show_buttons
+    if section.settings.button_1_label != blank or section.settings.button_2_label != blank
+      assign show_overlay_content = true
+    endif
+  endif
+-%}
+
+<section
+  class="pet-hero pet-hero--{{ section.settings.alignment }}"
+  style="
+    --hero-min-mobile: {{ section.settings.height_mobile }}px;
+    --hero-min-desktop: {{ section.settings.height_desktop }}px;
+    --hero-content-width: {{ section.settings.content_width }}px;
+    --hero-color: {{ section.settings.text_color }};
+    --hero-overlay: {{ section.settings.overlay_color }};
+    --hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --hero-content-x: {{ section.settings.horizontal_position }}%;
+    --hero-content-y: {{ section.settings.vertical_position }}%;
+    --hero-margin-top: {{ section.settings.margin_top }}px;
+    --hero-margin-bottom: {{ section.settings.margin_bottom }}px;
+    --hero-image-fit: {{ section.settings.image_fit }};
+  "
+>
+  <div class="pet-hero__media">
+    <picture class="pet-hero__picture">
+      {%- if section.settings.hero_image_mobile != blank -%}
+        <source
+          media="(max-width: 749px)"
+          srcset="
+            {{ section.settings.hero_image_mobile | image_url: width: 375 }} 375w,
+            {{ section.settings.hero_image_mobile | image_url: width: 550 }} 550w,
+            {{ section.settings.hero_image_mobile | image_url: width: 750 }} 750w,
+            {{ section.settings.hero_image_mobile | image_url: width: 1000 }} 1000w
+          "
+          sizes="100vw"
+        >
+      {%- elsif section.settings.hero_image == blank -%}
+        <source media="(max-width: 749px)" srcset="{{ 'fourpattes-hero-mobile.webp' | asset_url }}">
+      {%- endif -%}
+
+      {%- if section.settings.hero_image != blank -%}
+        {{ section.settings.hero_image | image_url: width: 2400 | image_tag: widths: '750, 1000, 1250, 1500, 1672, 2000, 2400', sizes: '100vw', class: 'pet-hero__image', alt: hero_alt, loading: 'eager', fetchpriority: 'high' }}
+      {%- else -%}
+        <img
+          class="pet-hero__image"
+          src="{{ 'fourpattes-hero.webp' | asset_url }}"
+          width="1672"
+          height="941"
+          alt="{{ hero_alt | escape }}"
+          loading="eager"
+          fetchpriority="high"
+        >
+      {%- endif -%}
+    </picture>
+  </div>
+
+  <div class="pet-hero__overlay" aria-hidden="true"></div>
+
+  {%- if show_overlay_content -%}
+    <div class="pet-shell pet-hero__inner">
+      <div class="pet-hero__content">
+        {%- if section.settings.show_content -%}
+          {%- if section.settings.decorative_text != blank -%}
+            <p class="pet-hero__eyebrow">{{ section.settings.decorative_text | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.title != blank or section.settings.accent_text != blank -%}
+            <h1 class="pet-hero__title">
+              {{ section.settings.title | escape | newline_to_br }}
+              {%- if section.settings.accent_text != blank -%}
+                <span class="font-accent">{{ section.settings.accent_text | escape }}</span>
+              {%- endif -%}
+            </h1>
+          {%- endif -%}
+          {%- if section.settings.subtitle != blank -%}<div class="pet-hero__text">{{ section.settings.subtitle }}</div>{%- endif -%}
+        {%- endif -%}
+
+        {%- if section.settings.show_buttons -%}
+          <div class="pet-button-row">
+            {%- if section.settings.button_1_label != blank -%}
+              <a class="pet-button" href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}">{{ section.settings.button_1_label | escape }}</a>
+            {%- endif -%}
+            {%- if section.settings.button_2_label != blank -%}
+              <a class="pet-button pet-button--light" href="{{ section.settings.button_2_link | default: routes.all_products_collection_url }}">{{ section.settings.button_2_label | escape }}</a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- elsif section.settings.title != blank -%}
+    <h1 class="pet-visually-hidden">{{ section.settings.title | escape }}</h1>
+  {%- endif -%}
+</section>
+
+{% comment %} END FOURPATTES HERO {% endcomment %}
+
+{% schema %}
+{
+  "name": "Hero Fourpattes",
+  "tag": "section",
+  "class": "pet-hero-section",
+  "settings": [
+    { "type": "image_picker", "id": "hero_image", "label": "Image Hero ordinateur" },
+    { "type": "image_picker", "id": "hero_image_mobile", "label": "Image Hero mobile" },
+    { "type": "text", "id": "image_alt", "label": "Texte alternatif de l’image", "default": "Golden retriever et chat gris présentant les accessoires Fourpattes" },
+    { "type": "select", "id": "image_fit", "label": "Ajustement de l’image", "options": [{ "value": "contain", "label": "Afficher l’image entière" }, { "value": "cover", "label": "Remplir la zone" }], "default": "contain" },
+    { "type": "range", "id": "height_desktop", "min": 400, "max": 1000, "step": 20, "unit": "px", "label": "Hauteur sur ordinateur", "default": 720 },
+    { "type": "range", "id": "height_mobile", "min": 200, "max": 700, "step": 20, "unit": "px", "label": "Hauteur sur mobile", "default": 220 },
+    { "type": "checkbox", "id": "show_content", "label": "Afficher les textes sur l’image", "default": false },
+    { "type": "text", "id": "decorative_text", "label": "Texte décoratif", "default": "HEY COUCOU !" },
+    { "type": "textarea", "id": "title", "label": "Titre H1", "default": "Des accessoires qu’ils vont adorer" },
+    { "type": "text", "id": "accent_text", "label": "Mots en police manuscrite" },
+    { "type": "richtext", "id": "subtitle", "label": "Sous-titre", "default": "<p>Des accessoires joyeux pour les chiens, les chats et leurs humains.</p>" },
+    { "type": "checkbox", "id": "show_buttons", "label": "Afficher les boutons", "default": false },
+    { "type": "text", "id": "button_1_label", "label": "Bouton 1", "default": "Découvrir les chiens" },
+    { "type": "url", "id": "button_1_link", "label": "Lien du bouton 1" },
+    { "type": "text", "id": "button_2_label", "label": "Bouton 2", "default": "Découvrir les chats" },
+    { "type": "url", "id": "button_2_link", "label": "Lien du bouton 2" },
+    { "type": "range", "id": "content_width", "min": 280, "max": 900, "step": 20, "unit": "px", "label": "Largeur maximale du contenu", "default": 520 },
+    { "type": "color", "id": "text_color", "label": "Couleur des textes", "default": "#332266" },
+    { "type": "color", "id": "overlay_color", "label": "Couleur de l’overlay", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Opacité de l’overlay", "default": 0 },
+    { "type": "range", "id": "horizontal_position", "min": -40, "max": 40, "step": 5, "unit": "%", "label": "Position horizontale du contenu", "default": 0 },
+    { "type": "range", "id": "vertical_position", "min": -40, "max": 40, "step": 5, "unit": "%", "label": "Position verticale du contenu", "default": 0 },
+    { "type": "select", "id": "alignment", "label": "Alignement du contenu", "options": [{ "value": "left", "label": "Gauche" }, { "value": "center", "label": "Centre" }, { "value": "right", "label": "Droite" }], "default": "center" },
+    { "type": "range", "id": "margin_top", "min": 0, "max": 120, "step": 8, "unit": "px", "label": "Marge supérieure", "default": 0 },
+    { "type": "range", "id": "margin_bottom", "min": 0, "max": 120, "step": 8, "unit": "px", "label": "Marge inférieure", "default": 0 }
+  ],
+  "presets": [{ "name": "Hero Fourpattes" }]
+}
+{% endschema %}

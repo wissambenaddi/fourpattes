@@ -1,0 +1,83 @@
+<section
+  class="pet-bowl pet-bowl--{{ section.settings.variant }}"
+  style="
+    --bowl-bg: {{ section.settings.background }};
+    --bowl-color: {{ section.settings.text_color }};
+    --bowl-accent: {{ section.settings.accent_color }};
+    --bowl-min-mobile: {{ section.settings.height_mobile }}px;
+    --bowl-min-desktop: {{ section.settings.height_desktop }}px;
+    --bowl-size: {{ section.settings.image_size }}%;
+    --bowl-x: {{ section.settings.image_x }}%;
+    --bowl-y: {{ section.settings.image_y }}%;
+  "
+  data-pet-reveal
+>
+  {% render 'wave-divider', color: section.settings.background, position: 'top', flip: section.settings.flip_top_wave %}
+  <div class="pet-shell pet-bowl__inner">
+    <header class="pet-bowl__heading">
+      <h2>{{ section.settings.title | escape | newline_to_br }}</h2>
+      {%- if section.settings.subtitle != blank -%}<p>{{ section.settings.subtitle | escape }}</p>{%- endif -%}
+    </header>
+
+    <div class="pet-bowl__composition">
+      {%- if section.settings.decorations -%}
+        <span class="pet-bowl__star pet-bowl__star--one" aria-hidden="true">✦</span>
+        <span class="pet-bowl__star pet-bowl__star--two" aria-hidden="true">✧</span>
+        <span class="pet-bowl__star pet-bowl__star--three" aria-hidden="true">✦</span>
+        <span class="pet-bowl__halo" aria-hidden="true"></span>
+      {%- endif -%}
+
+      <div class="pet-bowl__image-wrap">
+        {%- if section.settings.image != blank -%}
+          {% render 'responsive-image', image: section.settings.image, alt: section.settings.image_alt, class: 'pet-bowl__image', sizes: '(max-width: 749px) 58vw, 440px' %}
+        {%- else -%}
+          <div class="pet-bowl__placeholder" role="img" aria-label="{{ section.settings.image_alt | escape }}">
+            <svg viewBox="0 0 420 260" aria-hidden="true">
+              <ellipse cx="210" cy="225" rx="135" ry="18" fill="currentColor" opacity=".18"/>
+              <path d="M58 86h304l-32 111c-8 27-31 43-59 43H149c-28 0-51-16-59-43L58 86Z" fill="#fff"/>
+              <ellipse cx="210" cy="86" rx="152" ry="52" fill="#e8f1d0" stroke="currentColor" stroke-width="10"/>
+              <ellipse cx="210" cy="85" rx="124" ry="32" fill="#9b6b3e"/>
+              <path d="M100 122h44v103h-44zm88 1h44v117h-44zm88-1h44v103h-44z" fill="currentColor" opacity=".52"/>
+            </svg>
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.annotation != blank -%}<p class="pet-bowl__annotation">{{ section.settings.annotation | escape | newline_to_br }}</p>{%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.settings.show_bottom_wave -%}
+    {% render 'wave-divider', color: section.settings.bottom_color, position: 'bottom', flip: section.settings.flip_bottom_wave %}
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Mise en avant gamelle",
+  "settings": [
+    { "type": "select", "id": "variant", "label": "Variante", "options": [{ "value": "teal", "label": "Bleu-vert" }, { "value": "lime", "label": "Verte" }], "default": "teal" },
+    { "type": "textarea", "id": "title", "label": "Titre", "default": "CE QUI RENTRE AVEC\nFOURPATTES" },
+    { "type": "text", "id": "subtitle", "label": "Sous-titre", "default": "DU BON, DU BEAU, DU JOYEUX" },
+    { "type": "image_picker", "id": "image", "label": "Image de la gamelle" },
+    { "type": "text", "id": "image_alt", "label": "Texte alternatif", "default": "Gamelle Fourpattes" },
+    { "type": "textarea", "id": "annotation", "label": "Annotation", "default": "Une gamelle pensée\npour les petits bonheurs" },
+    { "type": "range", "id": "image_size", "min": 35, "max": 85, "step": 1, "unit": "%", "label": "Taille de l’image", "default": 58 },
+    { "type": "range", "id": "image_x", "min": -25, "max": 25, "step": 1, "unit": "%", "label": "Décalage horizontal", "default": -6 },
+    { "type": "range", "id": "image_y", "min": -10, "max": 35, "step": 1, "unit": "%", "label": "Décalage vertical", "default": 6 },
+    { "type": "range", "id": "height_mobile", "min": 620, "max": 1300, "step": 20, "unit": "px", "label": "Hauteur mobile", "default": 960 },
+    { "type": "range", "id": "height_desktop", "min": 580, "max": 1000, "step": 20, "unit": "px", "label": "Hauteur ordinateur", "default": 760 },
+    { "type": "color", "id": "background", "label": "Fond", "default": "#00656C" },
+    { "type": "color", "id": "text_color", "label": "Texte", "default": "#F7C84B" },
+    { "type": "color", "id": "accent_color", "label": "Décorations", "default": "#65B2B2" },
+    { "type": "checkbox", "id": "decorations", "label": "Afficher les décorations", "default": true },
+    { "type": "checkbox", "id": "flip_top_wave", "label": "Inverser la vague supérieure", "default": false },
+    { "type": "checkbox", "id": "show_bottom_wave", "label": "Afficher la vague inférieure", "default": false },
+    { "type": "color", "id": "bottom_color", "label": "Couleur sous la vague", "default": "#F9F0EB" },
+    { "type": "checkbox", "id": "flip_bottom_wave", "label": "Inverser la vague inférieure", "default": true }
+  ],
+  "presets": [
+    { "name": "Gamelle bleu-vert" },
+    { "name": "Gamelle verte", "settings": { "variant": "lime", "title": "CE QUI SORT AVEC\nFOURPATTES", "background": "#B1CD71", "text_color": "#00656C", "accent_color": "#82B45F" } }
+  ]
+}
+{% endschema %}

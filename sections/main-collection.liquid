@@ -1,0 +1,68 @@
+<section class="pet-collection pet-shell">
+  <header class="pet-page-heading">
+    <h1>{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}<div class="pet-rte">{{ collection.description }}</div>{%- endif -%}
+  </header>
+
+  <div class="pet-collection__layout">
+    {%- if section.settings.show_filters and collection.filters != empty -%}
+      <aside class="pet-filters">
+        <form method="get" action="{{ collection.url }}" data-pet-filter-form>
+          {%- for filter in collection.filters -%}
+            <details class="pet-filter" open>
+              <summary>{{ filter.label }} {% render 'pet-icon', name: 'chevron' %}</summary>
+              {%- case filter.type -%}
+                {%- when 'boolean', 'list' -%}
+                  <ul role="list">
+                    {%- for value in filter.values -%}
+                      <li><label><input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}> <span>{{ value.label }} ({{ value.count }})</span></label></li>
+                    {%- endfor -%}
+                  </ul>
+                {%- when 'price_range' -%}
+                  <div class="pet-filter__price">
+                    <label>Min. <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '.' }}" min="0" placeholder="0"></label>
+                    <label>Max. <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '.' }}" min="0" placeholder="{{ filter.range_max | money_without_currency | replace: ',', '.' }}"></label>
+                  </div>
+              {%- endcase -%}
+            </details>
+          {%- endfor -%}
+          <button class="pet-button" type="submit">Appliquer</button>
+          <a href="{{ collection.url }}">Réinitialiser</a>
+        </form>
+      </aside>
+    {%- endif -%}
+
+    <div class="pet-collection__products">
+      {%- if section.settings.show_sorting -%}
+        <form class="pet-sort" method="get" action="{{ collection.url }}">
+          {%- for filter in collection.filters -%}{%- for value in filter.active_values -%}<input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">{%- endfor -%}{%- endfor -%}
+          <label for="SortBy-{{ section.id }}">Trier par</label>
+          <select id="SortBy-{{ section.id }}" name="sort_by" data-pet-auto-submit>
+            {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+            {%- for option in collection.sort_options -%}<option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name }}</option>{%- endfor -%}
+          </select>
+        </form>
+      {%- endif -%}
+
+      {%- paginate collection.products by section.settings.products_per_page -%}
+        <p class="pet-collection__count">{{ collection.products_count }} produits</p>
+        <div class="pet-product-grid">
+          {%- for product in collection.products -%}{% render 'product-card-pet', product: product, index: forloop.index, show_quick_add: section.settings.show_quick_add %}{%- else -%}<p>Aucun produit trouvé.</p>{%- endfor -%}
+        </div>
+        {%- if paginate.pages > 1 -%}<nav class="pet-pagination" aria-label="Pagination">{{ paginate | default_pagination }}</nav>{%- endif -%}
+      {%- endpaginate -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection principale",
+  "settings": [
+    { "type": "range", "id": "products_per_page", "min": 8, "max": 32, "step": 4, "label": "Produits par page", "default": 16 },
+    { "type": "checkbox", "id": "show_filters", "label": "Afficher les filtres", "default": true },
+    { "type": "checkbox", "id": "show_sorting", "label": "Afficher le tri", "default": true },
+    { "type": "checkbox", "id": "show_quick_add", "label": "Afficher l’ajout rapide", "default": true }
+  ]
+}
+{% endschema %}

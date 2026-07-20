@@ -1,0 +1,91 @@
+<footer
+  class="pet-footer"
+  style="--footer-bg: {{ section.settings.background }}; --footer-color: {{ section.settings.text_color }};"
+>
+  {% render 'wave-divider', color: section.settings.background, position: 'top', flip: true %}
+  <div class="pet-shell pet-footer__inner">
+    <div class="pet-footer__brand">
+      <a class="pet-footer__logo" href="{{ routes.root_url }}">
+        {%- if settings.logo != blank -%}
+          {{ settings.logo | image_url: width: 360 | image_tag: widths: '120, 180, 240, 360', sizes: '180px', loading: 'lazy', alt: settings.logo.alt | default: shop.name }}
+        {%- else -%}
+          <span class="pet-footer__wordmark">FOURPATTES</span>
+        {%- endif -%}
+      </a>
+      {%- if section.settings.tagline != blank -%}<p>{{ section.settings.tagline | escape }}</p>{%- endif -%}
+      <ul class="pet-socials" role="list">
+        {%- if settings.social_instagram_link != blank -%}<li><a href="{{ settings.social_instagram_link }}" aria-label="Instagram" rel="noopener">IG</a></li>{%- endif -%}
+        {%- if settings.social_tiktok_link != blank -%}<li><a href="{{ settings.social_tiktok_link }}" aria-label="TikTok" rel="noopener">TT</a></li>{%- endif -%}
+        {%- if settings.social_facebook_link != blank -%}<li><a href="{{ settings.social_facebook_link }}" aria-label="Facebook" rel="noopener">FB</a></li>{%- endif -%}
+        {%- if settings.social_pinterest_link != blank -%}<li><a href="{{ settings.social_pinterest_link }}" aria-label="Pinterest" rel="noopener">PT</a></li>{%- endif -%}
+      </ul>
+    </div>
+
+    <div class="pet-footer__menus">
+      {%- for block in section.blocks -%}
+        <details class="pet-footer__menu" open {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.title | escape }} {% render 'pet-icon', name: 'chevron' %}</summary>
+          <ul role="list">
+            {%- for link in block.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+          </ul>
+        </details>
+      {%- endfor -%}
+    </div>
+
+    <div class="pet-footer__localization">
+      {%- if localization.available_countries.size > 1 -%}
+        {%- form 'localization', class: 'pet-localization-form' -%}
+          <label for="FooterCountry-{{ section.id }}">Pays / région</label>
+          <select id="FooterCountry-{{ section.id }}" name="country_code" data-pet-localization-select>
+            {%- for country in localization.available_countries -%}<option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>{{ country.name }} ({{ country.currency.iso_code }})</option>{%- endfor -%}
+          </select>
+        {%- endform -%}
+      {%- endif -%}
+      {%- if localization.available_languages.size > 1 -%}
+        {%- form 'localization', class: 'pet-localization-form' -%}
+          <label for="FooterLanguage-{{ section.id }}">Langue</label>
+          <select id="FooterLanguage-{{ section.id }}" name="locale_code" data-pet-localization-select>
+            {%- for language in localization.available_languages -%}<option value="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>{{ language.endonym_name }}</option>{%- endfor -%}
+          </select>
+        {%- endform -%}
+      {%- endif -%}
+    </div>
+
+    <div class="pet-footer__bottom">
+      <p>© {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.legal_text | escape }}</p>
+      {%- if section.settings.show_policies -%}
+        <ul role="list">{%- for policy in shop.policies -%}{%- if policy != blank -%}<li><a href="{{ policy.url }}">{{ policy.title }}</a></li>{%- endif -%}{%- endfor -%}</ul>
+      {%- endif -%}
+      {%- if section.settings.show_payment_icons and shop.enabled_payment_types != empty -%}
+        <div class="pet-footer__payments" aria-label="Moyens de paiement acceptés">{%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag }}{%- endfor -%}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer Fourpattes",
+  "class": "pet-footer-section",
+  "settings": [
+    { "type": "text", "id": "tagline", "label": "Signature", "default": "Le bonheur a quatre pattes." },
+    { "type": "text", "id": "legal_text", "label": "Mention personnalisée", "default": "Tous droits réservés." },
+    { "type": "checkbox", "id": "show_policies", "label": "Afficher les politiques", "default": true },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Afficher les moyens de paiement", "default": true },
+    { "type": "color", "id": "background", "label": "Fond", "default": "#26155F" },
+    { "type": "color", "id": "text_color", "label": "Texte", "default": "#FFFFFF" }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Colonne de liens",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "DÉCOUVRIR" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [{ "name": "Footer Fourpattes", "blocks": [{ "type": "menu" }, { "type": "menu" }, { "type": "menu" }] }]
+}
+{% endschema %}

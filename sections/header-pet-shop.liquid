@@ -1,0 +1,114 @@
+<header
+  class="pet-header{% if section.settings.sticky %} pet-header--sticky{% endif %}"
+  style="--header-bg: {{ section.settings.background }}; --header-color: {{ section.settings.text_color }};"
+  data-pet-header
+>
+  <div class="pet-shell pet-header__inner">
+    <button
+      class="pet-header__menu-toggle pet-icon-button"
+      type="button"
+      aria-label="{{ 'accessibility.open_menu' | t }}"
+      aria-expanded="false"
+      aria-controls="PetMobileMenu-{{ section.id }}"
+      data-pet-menu-open
+    >
+      {% render 'pet-icon', name: 'menu' %}
+    </button>
+
+    <a class="pet-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: width: 520 | image_tag: widths: '100, 150, 200, 300, 400, 520', sizes: '(max-width: 749px) var(--pet-logo-mobile), var(--pet-logo-desktop)', loading: 'eager', alt: settings.logo.alt | default: shop.name }}
+      {%- else -%}
+        <span class="pet-header__wordmark">FOUR<span>PATTES</span></span>
+      {%- endif -%}
+    </a>
+
+    {%- if section.settings.menu != blank -%}
+      <nav class="pet-header__nav" aria-label="{{ section.settings.navigation_label | escape }}">
+        <ul class="pet-header__links" role="list">
+          {%- for link in section.settings.menu.links -%}
+            <li class="pet-header__link-item{% if link.links != blank %} has-submenu{% endif %}">
+              <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+              {%- if link.links != blank -%}
+                <ul class="pet-header__submenu" role="list">
+                  {%- for child_link in link.links -%}
+                    <li><a href="{{ child_link.url }}"{% if child_link.current %} aria-current="page"{% endif %}>{{ child_link.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+    <div class="pet-header__actions">
+      {%- if section.settings.show_search -%}
+        <a class="pet-icon-button pet-header__desktop-action" href="{{ routes.search_url }}" aria-label="{{ 'general.search' | t }}">
+          {% render 'pet-icon', name: 'search' %}
+        </a>
+      {%- endif -%}
+      {%- if shop.customer_accounts_enabled and section.settings.show_account -%}
+        <a class="pet-icon-button pet-header__desktop-action" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}">
+          {% render 'pet-icon', name: 'account' %}
+        </a>
+      {%- endif -%}
+      <a class="pet-icon-button pet-header__cart" href="{{ routes.cart_url }}" aria-label="{{ 'general.cart' | t }}">
+        {% render 'pet-icon', name: 'cart' %}
+        <span class="pet-header__cart-count{% if cart.item_count == 0 %} is-empty{% endif %}" data-pet-cart-count>{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="pet-menu-drawer" id="PetMobileMenu-{{ section.id }}" hidden data-pet-menu-drawer>
+    <button class="pet-menu-drawer__overlay" type="button" aria-label="{{ 'accessibility.close_menu' | t }}" data-pet-menu-close></button>
+    <div class="pet-menu-drawer__panel" role="dialog" aria-modal="true" aria-label="{{ section.settings.navigation_label | escape }}">
+      <div class="pet-menu-drawer__top">
+        <strong>{{ 'general.menu' | t }}</strong>
+        <button class="pet-icon-button" type="button" aria-label="{{ 'accessibility.close_menu' | t }}" data-pet-menu-close>
+          {% render 'pet-icon', name: 'close' %}
+        </button>
+      </div>
+      <nav>
+        <ul class="pet-menu-drawer__links" role="list">
+          {%- for link in section.settings.menu.links -%}
+            <li>
+              {%- if link.links != blank -%}
+                <details>
+                  <summary>{{ link.title }} {% render 'pet-icon', name: 'chevron' %}</summary>
+                  <ul role="list">
+                    {%- for child_link in link.links -%}
+                      <li><a href="{{ child_link.url }}">{{ child_link.title }}</a></li>
+                    {%- endfor -%}
+                  </ul>
+                </details>
+              {%- else -%}
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+      <div class="pet-menu-drawer__utilities">
+        <a href="{{ routes.search_url }}">{{ 'general.search' | t }}</a>
+        {%- if shop.customer_accounts_enabled -%}<a href="{{ routes.account_url }}">{{ 'general.account' | t }}</a>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "En-tête Fourpattes",
+  "class": "pet-header-section",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu principal", "default": "main-menu" },
+    { "type": "text", "id": "navigation_label", "label": "Libellé de navigation", "default": "Navigation principale" },
+    { "type": "checkbox", "id": "sticky", "label": "En-tête fixe", "default": true },
+    { "type": "checkbox", "id": "show_search", "label": "Afficher la recherche", "default": true },
+    { "type": "checkbox", "id": "show_account", "label": "Afficher le compte", "default": true },
+    { "type": "color", "id": "background", "label": "Fond", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Texte et icônes", "default": "#332266" }
+  ]
+}
+{% endschema %}

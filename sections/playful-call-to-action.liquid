@@ -1,0 +1,51 @@
+<section
+  class="pet-playful"
+  style="--playful-bg: {{ section.settings.background }}; --playful-title: {{ section.settings.title_color }}; --playful-card: {{ section.settings.card_color }}; --playful-mascot: {{ section.settings.mascot_color }};"
+  data-pet-reveal
+>
+  <div class="pet-shell pet-playful__inner">
+    <div class="pet-playful__content">
+      <h2>{{ section.settings.title | escape | newline_to_br }}</h2>
+      <div class="pet-playful__card">
+        <h3>{{ section.settings.card_title | escape }}</h3>
+        <div>{{ section.settings.text }}</div>
+        {%- if section.settings.button_label != blank -%}<a class="pet-button pet-button--light" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }}</a>{%- endif -%}
+        <span class="pet-playful__scroll" aria-hidden="true"><i></i></span>
+      </div>
+    </div>
+
+    <div class="pet-playful__mascot">
+      {%- if section.settings.mascot != blank -%}
+        {% render 'responsive-image', image: section.settings.mascot, alt: section.settings.mascot_alt, class: 'pet-playful__mascot-image', sizes: '(max-width: 749px) 66vw, 520px' %}
+      {%- else -%}
+        <svg class="pet-playful__mascot-placeholder" viewBox="0 0 580 620" role="img" aria-label="{{ section.settings.mascot_alt | escape }}">
+          <path d="M395 559c-51 36-137 20-191-18-58-41-86-109-72-174 13-63 66-92 93-143 26-49 4-94 31-135 39-58 126-50 166-1 36 45 10 97 40 134 25 30 77 32 91 73 18 54-43 84-67 116-33 43-35 108-91 148Z" fill="currentColor"/>
+          <path d="M285 91 244 12l-35 113m176-30 68-63-15 116" fill="currentColor"/>
+          <circle cx="304" cy="176" r="13" fill="var(--pet-deep-purple)"/><circle cx="391" cy="166" r="13" fill="var(--pet-deep-purple)"/>
+          <path d="M334 211c19 18 42 16 58-4" fill="none" stroke="var(--pet-deep-purple)" stroke-width="13" stroke-linecap="round"/>
+          <path d="M470 350c68-55 98-7 73 24-20 25-55 4-35-16" fill="none" stroke="currentColor" stroke-width="33" stroke-linecap="round"/>
+        </svg>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Appel ludique",
+  "settings": [
+    { "type": "textarea", "id": "title", "label": "Titre", "default": "WOW, MÊME NOTRE MASCOTTE\nN’A JAMAIS SCROLLÉ JUSQUE-LÀ…" },
+    { "type": "text", "id": "card_title", "label": "Titre de la carte", "default": "CLAIREMENT, VOUS AVEZ DU FLAIR" },
+    { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Découvrez notre sélection pensée avec attention pour les chiens, les chats et les humains qui les aiment.</p>" },
+    { "type": "text", "id": "button_label", "label": "Bouton", "default": "Découvrir la boutique" },
+    { "type": "url", "id": "button_link", "label": "Lien" },
+    { "type": "image_picker", "id": "mascot", "label": "Mascotte originale" },
+    { "type": "text", "id": "mascot_alt", "label": "Texte alternatif", "default": "Mascotte Fourpattes" },
+    { "type": "color", "id": "background", "label": "Fond", "default": "#F9F0EB" },
+    { "type": "color", "id": "title_color", "label": "Titre", "default": "#C82552" },
+    { "type": "color", "id": "card_color", "label": "Carte", "default": "#C82552" },
+    { "type": "color", "id": "mascot_color", "label": "Mascotte par défaut", "default": "#FFBE58" }
+  ],
+  "presets": [{ "name": "Appel ludique" }]
+}
+{% endschema %}

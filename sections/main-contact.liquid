@@ -1,0 +1,15 @@
+<section class="pet-contact pet-shell">
+  <header class="pet-page-heading"><h1>{{ page.title }}</h1>{%- if page.content != blank -%}<div class="pet-rte">{{ page.content }}</div>{%- endif -%}</header>
+  {%- form 'contact', class: 'pet-contact__form' -%}
+    {%- if form.posted_successfully? -%}<p class="pet-form-message" role="status">Merci, votre message a bien été envoyé.</p>{%- endif -%}
+    {%- if form.errors -%}<div class="pet-form-message pet-form-message--error" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+    <div class="pet-form-grid">
+      <label>Nom<input type="text" name="contact[name]" value="{{ form.name }}" autocomplete="name"></label>
+      <label>E-mail<input type="email" name="contact[email]" value="{{ form.email }}" autocomplete="email" required></label>
+    </div>
+    <label>Téléphone<input type="tel" name="contact[phone]" value="{{ form.phone }}" autocomplete="tel"></label>
+    <label>Message<textarea name="contact[body]" rows="8" required>{{ form.body }}</textarea></label>
+    <button class="pet-button" type="submit">Envoyer</button>
+  {%- endform -%}
+</section>
+{% schema %}{ "name": "Formulaire de contact", "settings": [] }{% endschema %}

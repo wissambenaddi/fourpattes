@@ -1,0 +1,1 @@
+{ "sections": { "main": { "type": "main-product", "settings": { "show_vendor": true, "show_dynamic_checkout": true } }, "recommendations": { "type": "product-recommendations", "settings": { "title": "VOUS AIMEREZ AUSSI", "product_count": 4 } } }, "order": ["main", "recommendations"] }

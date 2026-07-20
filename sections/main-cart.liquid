@@ -1,0 +1,26 @@
+<section class="pet-cart pet-shell">
+  <h1>{{ 'cart.title' | t }}</h1>
+  {%- if cart.item_count == 0 -%}
+    <div class="pet-cart__empty"><p>{{ 'cart.empty' | t }}</p><a class="pet-button" href="{{ routes.all_products_collection_url }}">{{ 'general.view_all' | t }}</a></div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" id="PetCartForm">
+      <div class="pet-cart__items">
+        {%- for item in cart.items -%}
+          <article class="pet-cart-item">
+            <a href="{{ item.url }}">{%- if item.image -%}{{ item.image | image_url: width: 280 | image_tag: widths: '120, 180, 280', sizes: '120px', loading: 'lazy', alt: item.image.alt | default: item.product.title }}{%- endif -%}</a>
+            <div><h2><a href="{{ item.url }}">{{ item.product.title }}</a></h2>{%- unless item.product.has_only_default_variant -%}<p>{{ item.variant.title }}</p>{%- endunless -%}<p>{{ item.final_price | money }}</p><a href="{{ item.url_to_remove }}">{{ 'cart.remove' | t }}</a></div>
+            <label>{{ 'products.quantity' | t }}<input class="pet-quantity" type="number" name="updates[]" value="{{ item.quantity }}" min="0"></label>
+            <strong>{{ item.final_line_price | money }}</strong>
+          </article>
+        {%- endfor -%}
+      </div>
+      <div class="pet-cart__footer">
+        <p><span>{{ 'cart.subtotal' | t }}</span> <strong>{{ cart.total_price | money_with_currency }}</strong></p>
+        <button class="pet-button pet-button--outline" type="submit" name="update">{{ 'cart.update' | t }}</button>
+        <button class="pet-button" type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+      </div>
+    </form>
+  {%- endif -%}
+</section>
+
+{% schema %}{ "name": "Panier principal", "settings": [] }{% endschema %}

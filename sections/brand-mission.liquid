@@ -1,0 +1,66 @@
+<section
+  class="pet-mission"
+  style="--mission-bg: {{ section.settings.background }}; --mission-color: {{ section.settings.text_color }};"
+  data-pet-reveal
+>
+  {% render 'wave-divider', color: section.settings.background, position: 'top' %}
+  <div class="pet-shell">
+    <header class="pet-mission__heading"><h2>{{ section.settings.title | escape | newline_to_br }}</h2></header>
+    <div class="pet-mission__collage">
+      <div class="pet-mission__notes">
+        {%- for block in section.blocks -%}
+          <article class="pet-note pet-note--{{ block.settings.color }}" style="--note-rotation: {{ block.settings.rotation }}deg" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon == 'paw' -%}{% render 'icon-paw' %}{%- elsif block.settings.icon == 'dog' -%}{% render 'icon-dog' %}{%- else -%}{% render 'icon-cat' %}{%- endif -%}
+            <h3>{{ block.settings.title | escape }}</h3>
+            <p>{{ block.settings.text | escape }}</p>
+            {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">En savoir plus <span aria-hidden="true">→</span></a>{%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
+      <div class="pet-mission__photos">
+        <figure class="pet-polaroid pet-polaroid--one">
+          {% render 'responsive-image', image: section.settings.image_one, alt: section.settings.image_one_alt, class: 'pet-polaroid__image', sizes: '(max-width: 749px) 42vw, 260px', placeholder: 'lifestyle-1' %}
+          <figcaption>{{ section.settings.image_one_caption | escape }}</figcaption>
+        </figure>
+        <figure class="pet-polaroid pet-polaroid--two">
+          {% render 'responsive-image', image: section.settings.image_two, alt: section.settings.image_two_alt, class: 'pet-polaroid__image', sizes: '(max-width: 749px) 42vw, 260px', placeholder: 'lifestyle-2' %}
+          <figcaption>{{ section.settings.image_two_caption | escape }}</figcaption>
+        </figure>
+      </div>
+      <span class="pet-mission__paw" aria-hidden="true">{% render 'icon-paw' %}</span>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Valeurs et engagements",
+  "settings": [
+    { "type": "textarea", "id": "title", "label": "Titre", "default": "ON VIENT POUR LE REPAS,\nON RESTE POUR LES VALEURS" },
+    { "type": "image_picker", "id": "image_one", "label": "Photo 1" },
+    { "type": "text", "id": "image_one_alt", "label": "Texte alternatif photo 1", "default": "Coulisses de Fourpattes" },
+    { "type": "text", "id": "image_one_caption", "label": "Légende photo 1", "default": "Notre équipe" },
+    { "type": "image_picker", "id": "image_two", "label": "Photo 2" },
+    { "type": "text", "id": "image_two_alt", "label": "Texte alternatif photo 2", "default": "Action solidaire Fourpattes" },
+    { "type": "text", "id": "image_two_caption", "label": "Légende photo 2", "default": "Nos engagements" },
+    { "type": "color", "id": "background", "label": "Fond", "default": "#792E5F" },
+    { "type": "color", "id": "text_color", "label": "Texte", "default": "#FFFFFF" }
+  ],
+  "blocks": [
+    {
+      "type": "commitment",
+      "name": "Engagement",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "NOTRE ENGAGEMENT" },
+        { "type": "textarea", "id": "text", "label": "Texte", "default": "Présentez ici un engagement concret et vérifiable de votre marque." },
+        { "type": "select", "id": "color", "label": "Couleur de la note", "options": [{ "value": "lavender", "label": "Lavande" }, { "value": "blue", "label": "Bleu" }, { "value": "lime", "label": "Vert" }], "default": "lavender" },
+        { "type": "select", "id": "icon", "label": "Icône", "options": [{ "value": "paw", "label": "Patte" }, { "value": "dog", "label": "Chien" }, { "value": "cat", "label": "Chat" }], "default": "paw" },
+        { "type": "range", "id": "rotation", "min": -8, "max": 8, "step": 1, "unit": "°", "label": "Rotation", "default": 0 },
+        { "type": "url", "id": "link", "label": "Lien" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [{ "name": "Valeurs et engagements", "blocks": [{ "type": "commitment" }, { "type": "commitment" }, { "type": "commitment" }] }]
+}
+{% endschema %}

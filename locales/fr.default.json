@@ -1,0 +1,40 @@
+{
+  "accessibility": {
+    "skip_to_content": "Aller au contenu",
+    "open_menu": "Ouvrir le menu",
+    "close_menu": "Fermer le menu",
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "general": {
+    "meta": { "tags": "Étiquettes : {{ tags }}", "page": "Page {{ page }}" },
+    "search": "Rechercher",
+    "account": "Compte",
+    "cart": "Panier",
+    "menu": "Menu",
+    "close": "Fermer",
+    "choose_options": "Choisir les options",
+    "add_to_cart": "Ajouter au panier",
+    "sold_out": "Épuisé",
+    "added_to_cart": "Produit ajouté au panier",
+    "view_all": "Tout voir"
+  },
+  "newsletter": {
+    "email": "Votre adresse e-mail",
+    "submit": "Je m'inscris",
+    "success": "Merci ! Vous faites maintenant partie de la meute."
+  },
+  "products": {
+    "price_from": "À partir de {{ price }}",
+    "quantity": "Quantité",
+    "variant": "Choisir une option"
+  },
+  "cart": {
+    "title": "Votre panier",
+    "empty": "Votre panier est vide.",
+    "remove": "Retirer",
+    "update": "Mettre à jour",
+    "checkout": "Commander",
+    "subtotal": "Sous-total"
+  }
+}

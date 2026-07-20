@@ -1,0 +1,29 @@
+{
+  "type": "header",
+  "name": "En-tête",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar-custom",
+      "settings": {
+        "text": "Livraison offerte dès 49 €",
+        "accessibility_label": "Annonce",
+        "background": "#F7C84B",
+        "text_color": "#332266",
+        "sticky": false
+      }
+    },
+    "header": {
+      "type": "header-pet-shop",
+      "settings": {
+        "menu": "main-menu",
+        "navigation_label": "Navigation principale",
+        "sticky": true,
+        "show_search": true,
+        "show_account": true,
+        "background": "#FFFFFF",
+        "text_color": "#332266"
+      }
+    }
+  },
+  "order": ["announcement", "header"]
+}

@@ -1,0 +1,35 @@
+{
+  "current": {
+    "logo_width": 150,
+    "logo_width_mobile": 100,
+    "page_width": 1300,
+    "type_heading_font": "assistant_n7",
+    "type_body_font": "assistant_n4",
+    "heading_scale": 100,
+    "body_scale": 100,
+    "pet_cream": "#F9F0EB",
+    "pet_white": "#FFFFFF",
+    "pet_sky_blue": "#9FCEEA",
+    "pet_yellow": "#F7C84B",
+    "pet_deep_teal": "#00656C",
+    "pet_turquoise": "#007C7A",
+    "pet_lime": "#B1CD71",
+    "pet_deep_purple": "#332266",
+    "pet_plum": "#792E5F",
+    "pet_red_pink": "#C82552",
+    "pet_orange": "#FFBE58",
+    "pet_light_lavender": "#E9D9F7",
+    "pet_light_blue": "#BFE2F3",
+    "pet_peach": "#F4C98C",
+    "pet_text_dark": "#2C225D"
+  },
+  "presets": {
+    "Fourpattes": {
+      "pet_cream": "#F9F0EB",
+      "pet_sky_blue": "#9FCEEA",
+      "pet_deep_teal": "#00656C",
+      "pet_lime": "#B1CD71",
+      "pet_deep_purple": "#332266"
+    }
+  }
+}
