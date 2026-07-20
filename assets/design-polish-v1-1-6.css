@@ -57,27 +57,30 @@
   .pet-hero__mobile-scene{width:53%;height:55%;background-size:auto 126%}
 }
 
-/* Desktop: preserve the native 1672×941 artwork ratio instead of stretching it. */
+/* Desktop: fill the available width so no blue side gutters remain. */
 @media (min-width:1200px){
   .pet-header__logo-image{width:clamp(155px,11vw,var(--pet-logo-desktop,210px))}
   .pet-hero--brand-scene{
+    width:100%;
     min-height:0;
-    /* Continue the artwork colours into the safe gutters: blue above, cream below. */
-    background:linear-gradient(
-      to bottom,
-      var(--hero-bg) 0,
-      var(--hero-bg) 76%,
-      var(--pet-cream) 76%,
-      var(--pet-cream) 100%
-    );
+    background:var(--pet-cream);
   }
   .pet-hero__brand-scene{
-    width:min(100%,1672px);
-    max-width:1672px;
+    display:block;
+    width:100%;
+    max-width:none;
     aspect-ratio:1672/941;
     margin-inline:auto;
+    overflow:hidden;
   }
-  .pet-hero__brand-image{width:100%;height:100%;object-fit:contain;object-position:center}
+  .pet-hero__brand-image{
+    display:block;
+    width:100%;
+    height:100%;
+    max-width:none;
+    object-fit:cover;
+    object-position:center;
+  }
   .pet-hero--brand-scene .pet-hero__inner{
     width:min(100% - 3rem,1520px);
     padding-top:clamp(2.4rem,4.5vw,4.5rem);
@@ -90,11 +93,9 @@
 }
 
 @media (min-width:1600px){
-  .pet-hero__brand-scene{width:1672px;max-width:calc(100vw - 8rem)}
   .pet-hero--brand-scene .pet-hero__inner{width:min(100% - 8rem,1520px)}
 }
 
 @media (min-width:1920px){
-  .pet-hero__brand-scene{max-width:1672px}
   .pet-hero__title{font-size:4.55rem}
 }
