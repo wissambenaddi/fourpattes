@@ -60,7 +60,17 @@
 /* Desktop: preserve the native 1672×941 artwork ratio instead of stretching it. */
 @media (min-width:1200px){
   .pet-header__logo-image{width:clamp(155px,11vw,var(--pet-logo-desktop,210px))}
-  .pet-hero--brand-scene{min-height:0}
+  .pet-hero--brand-scene{
+    min-height:0;
+    /* Continue the artwork colours into the safe gutters: blue above, cream below. */
+    background:linear-gradient(
+      to bottom,
+      var(--hero-bg) 0,
+      var(--hero-bg) 76%,
+      var(--pet-cream) 76%,
+      var(--pet-cream) 100%
+    );
+  }
   .pet-hero__brand-scene{
     width:min(100%,1672px);
     max-width:1672px;
@@ -80,7 +90,6 @@
 }
 
 @media (min-width:1600px){
-  .pet-hero{background:var(--hero-bg)}
   .pet-hero__brand-scene{width:1672px;max-width:calc(100vw - 8rem)}
   .pet-hero--brand-scene .pet-hero__inner{width:min(100% - 8rem,1520px)}
 }
