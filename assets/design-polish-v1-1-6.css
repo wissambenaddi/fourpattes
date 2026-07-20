@@ -1,0 +1,91 @@
+/* Fourpattes design polish — v1.1.6 */
+
+/* Header and logo: preserve the original proportions and avoid oversized raster rendering. */
+.pet-header__logo-image{
+  width:clamp(var(--pet-logo-mobile,120px),10vw,var(--pet-logo-desktop,190px));
+  height:auto;
+  max-height:none;
+  object-fit:contain;
+}
+
+/* Global type hierarchy: use the typography tokens already defined by typography-system.liquid. */
+.pet-button{font-size:var(--text-button);font-weight:var(--font-weight-semibold)}
+.pet-product-card__title{font-size:clamp(1rem,.94rem + .22vw,1.2rem);line-height:1.14;text-wrap:balance}
+.pet-product-card__price{font-size:clamp(.95rem,.9rem + .18vw,1.1rem)}
+.pet-badge{font-size:clamp(.625rem,.59rem + .1vw,.72rem)}
+.pet-section-heading h2{font-size:calc(var(--text-h2) * var(--pet-heading-scale,1));line-height:1.03}
+
+/* Hero: mobile-first composition with a clean transition between copy and animals. */
+.pet-hero{
+  min-height:max(var(--hero-min-mobile),560px);
+  background:var(--hero-bg);
+}
+.pet-hero::after{height:1px;background:var(--pet-cream)}
+.pet-hero__inner{padding:1.65rem 0 18.5rem}
+.pet-hero__content{width:min(100%,35rem);padding-inline:.25rem}
+.pet-hero__title{
+  max-width:16ch;
+  margin-bottom:.65rem;
+  font-size:calc(var(--text-hero) * var(--pet-heading-scale,1));
+  line-height:.98;
+  letter-spacing:-.025em;
+}
+.pet-hero__subtitle{font-size:clamp(.75rem,.71rem + .18vw,.9rem)}
+.pet-hero__text{font-size:clamp(.9rem,.86rem + .15vw,1rem);line-height:1.5}
+.pet-hero .pet-button{min-height:2.9rem;padding:.75rem 1.05rem;font-size:clamp(.72rem,.68rem + .12vw,.84rem)}
+.pet-hero__mobile-scene{height:56%;background-size:auto 128%}
+
+@media (max-width:749px){
+  .pet-shell{width:min(100% - 1.5rem,var(--pet-page-width))}
+  .pet-header__inner{min-height:4.55rem}
+  .pet-header__logo-image{width:clamp(118px,34vw,150px)}
+  .pet-hero{min-height:clamp(560px,145vw,720px)}
+  .pet-hero__inner{padding-top:1.7rem;padding-bottom:20rem}
+  .pet-hero__content{max-width:32rem}
+  .pet-hero__title{font-size:clamp(2.2rem,9.7vw,3.2rem)}
+  .pet-hero__mobile-scene{width:58%;height:54%;background-size:auto 124%}
+  .pet-hero__mobile-scene--dog{background-position:4% bottom}
+  .pet-hero__mobile-scene--cat{background-position:96% bottom}
+  .pet-button-row{gap:.6rem}
+  .pet-product-carousel{grid-auto-columns:min(72%,17rem)}
+}
+
+@media (min-width:750px) and (max-width:1199px){
+  .pet-hero{min-height:clamp(620px,72vw,760px)}
+  .pet-hero__inner{padding-top:2.4rem;padding-bottom:22rem}
+  .pet-hero__title{font-size:clamp(2.65rem,5.6vw,3.7rem)}
+  .pet-hero__mobile-scene{width:53%;height:55%;background-size:auto 126%}
+}
+
+/* Desktop: preserve the native 1672×941 artwork ratio instead of stretching it. */
+@media (min-width:1200px){
+  .pet-header__logo-image{width:clamp(155px,11vw,var(--pet-logo-desktop,210px))}
+  .pet-hero--brand-scene{min-height:0}
+  .pet-hero__brand-scene{
+    width:min(100%,1672px);
+    max-width:1672px;
+    aspect-ratio:1672/941;
+    margin-inline:auto;
+  }
+  .pet-hero__brand-image{width:100%;height:100%;object-fit:contain;object-position:center}
+  .pet-hero--brand-scene .pet-hero__inner{
+    width:min(100% - 3rem,1520px);
+    padding-top:clamp(2.4rem,4.5vw,4.5rem);
+    padding-bottom:4rem;
+  }
+  .pet-hero__content{width:min(36vw,38rem)}
+  .pet-hero__title{font-size:clamp(3rem,3.3vw,4.55rem)}
+  .pet-hero__text{font-size:clamp(.95rem,.88rem + .2vw,1.08rem)}
+  .pet-product-carousel{grid-auto-columns:calc((100% - 4rem)/5)}
+}
+
+@media (min-width:1600px){
+  .pet-hero{background:var(--hero-bg)}
+  .pet-hero__brand-scene{width:1672px;max-width:calc(100vw - 8rem)}
+  .pet-hero--brand-scene .pet-hero__inner{width:min(100% - 8rem,1520px)}
+}
+
+@media (min-width:1920px){
+  .pet-hero__brand-scene{max-width:1672px}
+  .pet-hero__title{font-size:4.55rem}
+}
