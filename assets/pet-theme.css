@@ -604,3 +604,26 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 @media (min-width:990px){
   .pet-product-card__title{-webkit-line-clamp:2}
 }
+
+/* Hero dialogue v1.1.8 — dedicated desktop and mobile compositions. */
+.pet-hero.pet-hero--brand-scene .pet-hero__brand-scene--dialogue{display:none}
+.pet-hero__mobile-dialogue-scene{position:absolute;z-index:0;inset:0;display:block;overflow:hidden;background:var(--hero-bg);pointer-events:none}
+.pet-hero__mobile-dialogue-slice{position:absolute;right:0;left:0;display:block;background-image:var(--pet-hero-mobile-image);background-repeat:no-repeat;background-size:100% auto}
+.pet-hero__mobile-dialogue-slice--top{top:0;height:38vw;background-position:center top;-webkit-mask-image:linear-gradient(to bottom,#000 0 88%,transparent);mask-image:linear-gradient(to bottom,#000 0 88%,transparent)}
+.pet-hero__mobile-dialogue-slice--bottom{bottom:-1px;height:74vw;background-position:center bottom;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 12% 100%);mask-image:linear-gradient(to bottom,transparent,#000 12% 100%)}
+.pet-hero.pet-hero--brand-scene{min-height:clamp(max(680px,var(--hero-min-mobile)),175vw,820px);background:var(--hero-bg)}
+.pet-hero.pet-hero--brand-scene .pet-hero__inner{position:absolute;z-index:4;inset:0;align-items:center;width:min(100% - 2rem,var(--pet-page-width));height:100%;min-height:0;margin-inline:auto;padding:calc(38vw + .75rem) 0 calc(74vw + .75rem)}
+.pet-hero.pet-hero--brand-scene .pet-hero__content{width:min(100%,34rem)}
+.pet-hero.pet-hero--brand-scene .pet-hero__title{max-width:13ch;font-size:calc(clamp(1.75rem,8vw,2.4rem) * var(--pet-heading-scale));line-height:.95}
+.pet-hero.pet-hero--brand-scene .pet-hero__text{max-width:29rem;margin-bottom:.75rem;font-size:clamp(.9375rem,3.8vw,1rem);line-height:1.45}
+
+@media (min-width:750px){
+  .pet-hero.pet-hero--brand-scene{min-height:0;aspect-ratio:16/9}
+  .pet-hero.pet-hero--brand-scene .pet-hero__brand-scene--dialogue{position:absolute;z-index:0;inset:0;display:block;width:100%;max-width:none;aspect-ratio:16/9;margin:0;overflow:hidden}
+  .pet-hero.pet-hero--brand-scene .pet-hero__brand-image{display:block;width:100%;max-width:none;height:100%;object-fit:contain;object-position:center}
+  .pet-hero__mobile-dialogue-scene{display:none}
+  .pet-hero.pet-hero--brand-scene .pet-hero__inner{align-items:flex-start;width:min(100% - 2rem,1520px);padding:clamp(1.4rem,4vw,4rem) 0 2rem}
+  .pet-hero.pet-hero--brand-scene .pet-hero__content{width:min(39vw,42rem)}
+  .pet-hero.pet-hero--brand-scene .pet-hero__title{max-width:13ch;font-size:calc(clamp(2rem,4vw,4.75rem) * var(--pet-heading-scale))}
+  .pet-hero.pet-hero--brand-scene .pet-hero__text{font-size:clamp(.9375rem,1.05vw,1.125rem)}
+}
