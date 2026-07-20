@@ -40,8 +40,9 @@
   {
     "name": "Typographie",
     "settings": [
-      { "type": "font_picker", "id": "type_heading_font", "label": "Police des titres", "default": "assistant_n7" },
-      { "type": "font_picker", "id": "type_body_font", "label": "Police du texte", "default": "assistant_n4" },
+      { "type": "paragraph", "content": "Fredoka et Caveat sont hébergées localement. Montserrat reste gérée par la bibliothèque de polices Shopify." },
+      { "type": "font_picker", "id": "type_heading_font", "label": "Police de secours des titres", "default": "montserrat_n7" },
+      { "type": "font_picker", "id": "type_body_font", "label": "Police des textes et interfaces", "default": "montserrat_n4" },
       { "type": "range", "id": "heading_scale", "min": 80, "max": 140, "step": 5, "unit": "%", "label": "Échelle des titres", "default": 100 },
       { "type": "range", "id": "body_scale", "min": 90, "max": 120, "step": 5, "unit": "%", "label": "Échelle du texte", "default": 100 }
     ]
