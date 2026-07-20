@@ -490,11 +490,11 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   .pet-hero__brand-scene{width:100%}
 }
 
-/* Wide desktop: cap the artwork at its native width and center it in matching color. */
+/* Wide desktop: preserve the balanced 14-inch composition and center it. */
 @media (min-width:1600px){
-  .pet-hero__brand-scene{width:min(100%,1672px)}
-  .pet-hero__scribble--one{left:max(6%,calc(50% - 47rem))}
-  .pet-hero__scribble--two{right:max(7%,calc(50% - 47rem))}
+  .pet-hero__brand-scene{width:min(100%,1440px);max-width:1440px}
+  .pet-hero__scribble--one{left:calc(50% - 41rem)}
+  .pet-hero__scribble--two{right:calc(50% - 41rem)}
 }
 
 @media (max-width:374px){.pet-hero .pet-button{padding-inline:.65rem;font-size:.58rem}.pet-product-carousel{grid-auto-columns:52%}.pet-bowl__fact{max-width:8.4rem;font-size:.58rem}.pet-newsletter__card{padding-inline:1rem}}
