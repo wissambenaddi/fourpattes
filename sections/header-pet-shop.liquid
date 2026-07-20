@@ -17,9 +17,10 @@
 
     <a class="pet-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
       {%- if settings.logo != blank -%}
-        {{ settings.logo | image_url: width: 520 | image_tag: widths: '100, 150, 200, 300, 400, 520', sizes: '(max-width: 749px) var(--pet-logo-mobile), var(--pet-logo-desktop)', loading: 'eager', alt: settings.logo.alt | default: shop.name }}
+        {%- capture logo_sizes -%}(max-width: 749px) {{ settings.logo_width_mobile }}px, (max-width: 1199px) {{ settings.logo_width }}px, {{ settings.logo_width }}px{%- endcapture -%}
+        {{ settings.logo | image_url: width: 520 | image_tag: class: 'pet-header__logo-image', widths: '100, 120, 180, 240, 340, 400, 520', sizes: logo_sizes, loading: 'eager', alt: settings.logo.alt | default: shop.name }}
       {%- else -%}
-        <img src="{{ 'fourpattes-logo.webp' | asset_url }}" width="720" height="195" loading="eager" alt="{{ shop.name | default: 'FourPattes' | escape }}">
+        <img class="pet-header__logo-image" src="{{ 'fourpattes-logo.webp' | asset_url }}" width="720" height="195" loading="eager" alt="{{ shop.name | default: 'FourPattes' | escape }}">
       {%- endif -%}
     </a>
 
