@@ -34,15 +34,26 @@
         {%- if section.settings.image != blank -%}
           {% render 'responsive-image', image: section.settings.image, alt: section.settings.image_alt, class: 'pet-bowl__image', sizes: '(max-width: 749px) 58vw, 440px' %}
         {%- else -%}
-          <div class="pet-bowl__placeholder" role="img" aria-label="{{ section.settings.image_alt | escape }}">
-            <svg viewBox="0 0 420 260" aria-hidden="true">
-              <ellipse cx="210" cy="225" rx="135" ry="18" fill="currentColor" opacity=".18"/>
-              <path d="M58 86h304l-32 111c-8 27-31 43-59 43H149c-28 0-51-16-59-43L58 86Z" fill="#fff"/>
-              <ellipse cx="210" cy="86" rx="152" ry="52" fill="#e8f1d0" stroke="currentColor" stroke-width="10"/>
-              <ellipse cx="210" cy="85" rx="124" ry="32" fill="#9b6b3e"/>
-              <path d="M100 122h44v103h-44zm88 1h44v117h-44zm88-1h44v103h-44z" fill="currentColor" opacity=".52"/>
-            </svg>
-          </div>
+          {%- liquid
+            assign fallback_asset = 'gamelle-antiderapante-fourpattes.webp'
+            assign fallback_alt = 'Gamelle crème et verte avec base antidérapante'
+            assign fallback_width = 1419
+            assign fallback_height = 538
+            if section.settings.variant == 'lime'
+              assign fallback_asset = 'kit-promenade-fourpattes.webp'
+              assign fallback_alt = 'Harnais turquoise, laisse violette et accessoires de promenade'
+              assign fallback_width = 1286
+              assign fallback_height = 876
+            endif
+          -%}
+          <img
+            class="pet-bowl__image pet-bowl__image--fallback"
+            src="{{ fallback_asset | asset_url }}"
+            width="{{ fallback_width }}"
+            height="{{ fallback_height }}"
+            loading="lazy"
+            alt="{{ fallback_alt | escape }}"
+          >
         {%- endif -%}
       </div>
       {%- if section.settings.annotation != blank -%}<p class="pet-bowl__annotation">{{ section.settings.annotation | escape | newline_to_br }}</p>{%- endif -%}

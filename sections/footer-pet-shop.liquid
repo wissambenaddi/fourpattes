@@ -33,9 +33,9 @@
     </div>
 
     <div class="pet-footer__trust" aria-label="Nos garanties">
-      <div class="pet-footer__trust-item"><span aria-hidden="true">{% render 'icon-paw' %}</span><p><strong>{{ section.settings.trust_shipping | escape }}</strong><small>{{ section.settings.trust_shipping_text | escape }}</small></p></div>
-      <div class="pet-footer__trust-item"><span aria-hidden="true">✓</span><p><strong>{{ section.settings.trust_payment | escape }}</strong><small>{{ section.settings.trust_payment_text | escape }}</small></p></div>
-      <div class="pet-footer__trust-item"><span aria-hidden="true">♡</span><p><strong>{{ section.settings.support_title | escape }}</strong><small>{{ section.settings.support_text | escape }}</small></p></div>
+      <div class="pet-footer__trust-item"><span aria-hidden="true">{% render 'pet-icon', name: 'shipping' %}</span><p><strong>{{ section.settings.trust_shipping | escape }}</strong><small>{{ section.settings.trust_shipping_text | escape }}</small></p></div>
+      <div class="pet-footer__trust-item"><span aria-hidden="true">{% render 'pet-icon', name: 'payment' %}</span><p><strong>{{ section.settings.trust_payment | escape }}</strong><small>{{ section.settings.trust_payment_text | escape }}</small></p></div>
+      <div class="pet-footer__trust-item"><span aria-hidden="true">{% render 'pet-icon', name: 'support' %}</span><p><strong>{{ section.settings.support_title | escape }}</strong><small>{{ section.settings.support_text | escape }}</small></p></div>
     </div>
 
     <div class="pet-footer__localization">

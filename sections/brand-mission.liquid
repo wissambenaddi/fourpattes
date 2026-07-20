@@ -23,11 +23,19 @@
       </div>
       <div class="pet-mission__photos">
         <figure class="pet-polaroid pet-polaroid--one">
-          {% render 'responsive-image', image: section.settings.image_one, alt: section.settings.image_one_alt, class: 'pet-polaroid__image', sizes: '(max-width: 749px) 42vw, 260px', placeholder: 'lifestyle-1' %}
+          {%- if section.settings.image_one != blank -%}
+            {% render 'responsive-image', image: section.settings.image_one, alt: section.settings.image_one_alt, class: 'pet-polaroid__image', sizes: '(max-width: 749px) 42vw, 260px' %}
+          {%- else -%}
+            <img class="pet-polaroid__image" src="{{ 'engagement-preparation-fourpattes.webp' | asset_url }}" width="1448" height="1086" loading="lazy" alt="Préparation soignée d’une commande d’accessoires pour animaux">
+          {%- endif -%}
           <figcaption>{{ section.settings.image_one_caption | escape }}</figcaption>
         </figure>
         <figure class="pet-polaroid pet-polaroid--two">
-          {% render 'responsive-image', image: section.settings.image_two, alt: section.settings.image_two_alt, class: 'pet-polaroid__image', sizes: '(max-width: 749px) 42vw, 260px', placeholder: 'lifestyle-2' %}
+          {%- if section.settings.image_two != blank -%}
+            {% render 'responsive-image', image: section.settings.image_two, alt: section.settings.image_two_alt, class: 'pet-polaroid__image', sizes: '(max-width: 749px) 42vw, 260px' %}
+          {%- else -%}
+            <img class="pet-polaroid__image" src="{{ 'engagement-accessoires-fourpattes.webp' | asset_url }}" width="1448" height="1086" loading="lazy" alt="Collier, harnais, gamelle et accessoires colorés sélectionnés avec soin">
+          {%- endif -%}
           <figcaption>{{ section.settings.image_two_caption | escape }}</figcaption>
         </figure>
       </div>

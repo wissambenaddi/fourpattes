@@ -24,13 +24,14 @@
       {%- if section.settings.mascot != blank -%}
         {% render 'responsive-image', image: section.settings.mascot, alt: section.settings.mascot_alt, class: 'pet-playful__mascot-image', sizes: '(max-width: 749px) 66vw, 520px' %}
       {%- else -%}
-        <svg class="pet-playful__mascot-placeholder" viewBox="0 0 580 620" role="img" aria-label="{{ section.settings.mascot_alt | escape }}">
-          <path d="M395 559c-51 36-137 20-191-18-58-41-86-109-72-174 13-63 66-92 93-143 26-49 4-94 31-135 39-58 126-50 166-1 36 45 10 97 40 134 25 30 77 32 91 73 18 54-43 84-67 116-33 43-35 108-91 148Z" fill="currentColor"/>
-          <path d="M285 91 244 12l-35 113m176-30 68-63-15 116" fill="currentColor"/>
-          <circle cx="304" cy="176" r="13" fill="var(--pet-deep-purple)"/><circle cx="391" cy="166" r="13" fill="var(--pet-deep-purple)"/>
-          <path d="M334 211c19 18 42 16 58-4" fill="none" stroke="var(--pet-deep-purple)" stroke-width="13" stroke-linecap="round"/>
-          <path d="M470 350c68-55 98-7 73 24-20 25-55 4-35-16" fill="none" stroke="currentColor" stroke-width="33" stroke-linecap="round"/>
-        </svg>
+        <img
+          class="pet-playful__mascot-image pet-playful__mascot-image--fallback"
+          src="{{ 'mascotte-fourpattes-bandana.webp' | asset_url }}"
+          width="863"
+          height="1027"
+          loading="lazy"
+          alt="Chat mascotte orange avec bandana violet, médaille turquoise et balle jaune"
+        >
       {%- endif -%}
     </div>
   </div>

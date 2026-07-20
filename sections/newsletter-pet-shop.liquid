@@ -6,8 +6,20 @@
   <div class="pet-shell">
     <div class="pet-newsletter__card">
       {%- if section.settings.show_animals -%}
-        <span class="pet-newsletter__animal pet-newsletter__animal--dog" aria-hidden="true">{% render 'icon-dog' %}</span>
-        <span class="pet-newsletter__animal pet-newsletter__animal--cat" aria-hidden="true">{% render 'icon-cat' %}</span>
+        <span class="pet-newsletter__visual pet-newsletter__visual--left" aria-hidden="true">
+          {%- if section.settings.decoration_left != blank -%}
+            {{ section.settings.decoration_left | image_url: width: 600 | image_tag: widths: '180, 280, 420, 600', sizes: '(max-width: 749px) 86px, 150px', class: 'pet-newsletter__visual-image', loading: 'lazy', alt: '' }}
+          {%- else -%}
+            <img class="pet-newsletter__visual-image" src="{{ 'mascotte-fourpattes-bandana.webp' | asset_url }}" width="863" height="1027" loading="lazy" alt="">
+          {%- endif -%}
+        </span>
+        <span class="pet-newsletter__visual pet-newsletter__visual--right" aria-hidden="true">
+          {%- if section.settings.decoration_right != blank -%}
+            {{ section.settings.decoration_right | image_url: width: 700 | image_tag: widths: '180, 280, 420, 600, 700', sizes: '(max-width: 749px) 104px, 180px', class: 'pet-newsletter__visual-image', loading: 'lazy', alt: '' }}
+          {%- else -%}
+            <img class="pet-newsletter__visual-image" src="{{ 'accessoires-newsletter-fourpattes.webp' | asset_url }}" width="1050" height="982" loading="lazy" alt="">
+          {%- endif -%}
+        </span>
       {%- endif -%}
       {%- if section.settings.eyebrow != blank -%}<p class="pet-newsletter__eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
       <h2>{{ section.settings.title | escape }}</h2>
@@ -53,7 +65,9 @@
     { "type": "text", "id": "reassurance", "label": "Réassurance", "default": "Conseils utiles, nouveautés et offres — jamais de spam" },
     { "type": "text", "id": "placeholder", "label": "Texte du champ", "default": "Votre adresse e-mail" },
     { "type": "text", "id": "button_label", "label": "Libellé du bouton", "default": "Je m’inscris" },
-    { "type": "checkbox", "id": "show_animals", "label": "Afficher les animaux décoratifs", "default": true },
+    { "type": "checkbox", "id": "show_animals", "label": "Afficher les décorations", "default": true },
+    { "type": "image_picker", "id": "decoration_left", "label": "Décoration gauche" },
+    { "type": "image_picker", "id": "decoration_right", "label": "Décoration droite" },
     { "type": "color", "id": "background", "label": "Fond de section", "default": "#F9F0EB" },
     { "type": "color", "id": "card_background", "label": "Fond de la carte", "default": "#E9D9F7" },
     { "type": "color", "id": "text_color", "label": "Texte", "default": "#2D1C63" }
