@@ -1,7 +1,4 @@
 <section class="pet-main-product pet-shell" data-pet-product>
-  {% comment %} BEGIN FOURPATTES SEO — native Shopify product structured data {% endcomment %}
-  {{ product | structured_data }}
-  {% comment %} END FOURPATTES SEO {% endcomment %}
   <div class="pet-main-product__gallery">
     {%- for media in product.media -%}
       <div class="pet-main-product__media{% if forloop.first %} is-active{% endif %}" data-media-id="{{ media.id }}">

@@ -3,50 +3,48 @@
     "hero": {
       "type": "hero-pet-shop",
       "settings": {
-        "image_alt": "Golden retriever et chat gris présentant les accessoires Fourpattes",
-        "image_fit": "contain",
-        "height_desktop": 720,
-        "height_mobile": 220,
-        "show_content": false,
-        "decorative_text": "HEY COUCOU !",
-        "title": "Des accessoires qu’ils vont adorer",
-        "accent_text": "",
-        "subtitle": "<p>Des accessoires joyeux pour les chiens, les chats et leurs humains.</p>",
-        "show_buttons": false,
-        "button_1_label": "Découvrir les chiens",
-        "button_2_label": "Découvrir les chats",
-        "content_width": 520,
-        "text_color": "#332266",
-        "overlay_color": "#000000",
-        "overlay_opacity": 0,
-        "horizontal_position": 0,
-        "vertical_position": 0,
-        "alignment": "center",
-        "margin_top": 0,
-        "margin_bottom": 0
+        "eyebrow": "HEY COUCOU !",
+        "title": "LE BONHEUR COMMENCE À QUATRE PATTES",
+        "subtitle": "ACCESSOIRES JOYEUX POUR CHIENS ET CHATS",
+        "text": "<p>Des accessoires joyeux pour prendre soin de vos compagnons.</p>",
+        "button_dog_label": "Accessoires chien",
+        "button_cat_label": "Accessoires chat",
+        "dog_alt": "Chien heureux",
+        "dog_width": 54,
+        "dog_x": -5,
+        "dog_y": 4,
+        "cat_alt": "Chat curieux",
+        "cat_width": 50,
+        "cat_x": -4,
+        "cat_y": 5,
+        "background": "#91CDEB",
+        "text_color": "#2D1C63",
+        "height_mobile": 560,
+        "height_desktop": 620,
+        "decorations": true
       }
     },
     "favorites": {
       "type": "favorite-products",
-      "settings": { "title": "NOS GRANDS FAVORIS", "tab_label": "Choisir un animal", "dog_label": "Chien", "cat_label": "Chat", "product_count": 5, "show_quick_add": true, "show_arrows": true, "button_label": "Tous les produits", "background": "#F9F0EB", "text_color": "#332266" }
+      "settings": { "title": "NOS GRANDS FAVORIS", "tab_label": "Choisir un animal", "dog_label": "Chien", "cat_label": "Chat", "product_count": 5, "show_quick_add": true, "show_arrows": true, "button_label": "Tous les produits", "background": "#F9F0EB", "text_color": "#2D1C63" }
     },
     "bowl_in": {
       "type": "pet-bowl-feature",
-      "settings": { "variant": "teal", "title": "CE QUI RENTRE AVEC\nFOURPATTES", "subtitle": "DU BON, DU BEAU, DU JOYEUX", "image_alt": "Gamelle Fourpattes", "annotation": "Une gamelle pensée\npour les petits bonheurs", "image_size": 58, "image_x": -6, "image_y": 6, "height_mobile": 960, "height_desktop": 760, "background": "#00656C", "text_color": "#F7C84B", "accent_color": "#65B2B2", "decorations": true, "flip_top_wave": false, "show_bottom_wave": false, "bottom_color": "#B1CD71", "flip_bottom_wave": true }
+      "settings": { "variant": "teal", "title": "CE QUI RENTRE AVEC\nFOURPATTES", "subtitle": "DU BON, DU BEAU, DU JOYEUX", "image_alt": "Gamelle Fourpattes", "annotation": "Une gamelle pensée\npour les petits bonheurs", "fact_one": "Pensé pour leur bien-être", "fact_two": "Des moments de complicité", "fact_three": "Sélectionné avec attention", "image_size": 72, "image_x": -6, "image_y": 6, "height_mobile": 780, "height_desktop": 660, "background": "#005E66", "text_color": "#F7C84B", "accent_color": "#65B2B2", "decorations": true, "flip_top_wave": false, "show_bottom_wave": false, "bottom_color": "#B1CD71", "flip_bottom_wave": true }
     },
     "bowl_out": {
       "type": "pet-bowl-feature",
-      "settings": { "variant": "lime", "title": "CE QUI SORT AVEC\nFOURPATTES", "subtitle": "DES MOMENTS QUI FONT REMUER LA QUEUE", "image_alt": "Gamelle remplie de croquettes", "annotation": "Une digestion toute douce,\nça mérite une petite danse !", "image_size": 58, "image_x": 7, "image_y": 4, "height_mobile": 940, "height_desktop": 720, "background": "#B1CD71", "text_color": "#00656C", "accent_color": "#82B45F", "decorations": true, "flip_top_wave": true, "show_bottom_wave": true, "bottom_color": "#F9F0EB", "flip_bottom_wave": false }
+      "settings": { "variant": "lime", "title": "CE QUI SORT AVEC\nFOURPATTES", "subtitle": "DES MOMENTS QUI FONT REMUER LA QUEUE", "image_alt": "Gamelle remplie de croquettes", "annotation": "Une digestion toute douce,\nça mérite une petite danse !", "fact_one": "Confort au quotidien", "fact_two": "Plus de jeux partagés", "fact_three": "Des compagnons épanouis", "image_size": 72, "image_x": 7, "image_y": 4, "height_mobile": 780, "height_desktop": 660, "background": "#B1CD71", "text_color": "#005E66", "accent_color": "#82B45F", "decorations": true, "flip_top_wave": true, "show_bottom_wave": true, "bottom_color": "#F9F0EB", "flip_bottom_wave": false }
     },
     "reviews": {
       "type": "customer-counter-reviews",
       "blocks": {
-        "review_1": { "type": "review", "settings": { "image_alt": "Client avec son chien", "quote": "Avis de démonstration — à remplacer par un avis client vérifié.", "name": "Prénom du client", "rating": 5, "rotation": -3 } },
+        "review_1": { "type": "review", "settings": { "image_alt": "Client avec son chien", "quote": "Avis de démonstration — à remplacer par un avis client vérifié.", "name": "Prénom du client", "rating": 5, "rotation": -2 } },
         "review_2": { "type": "review", "settings": { "image_alt": "Cliente avec son chat", "quote": "Avis de démonstration — à remplacer par un avis client vérifié.", "name": "Prénom du client", "rating": 5, "rotation": 2 } },
         "review_3": { "type": "review", "settings": { "image_alt": "Animal heureux", "quote": "Avis de démonstration — à remplacer par un avis client vérifié.", "name": "Prénom du client", "rating": 5, "rotation": -1 } }
       },
       "block_order": ["review_1", "review_2", "review_3"],
-      "settings": { "eyebrow": "DÉJÀ", "counter": "2963057", "counter_label": "CHIENS ET CHATS HEUREUX", "background": "#F9F0EB", "text_color": "#332266" }
+      "settings": { "eyebrow": "DÉJÀ", "counter": "2963057", "counter_label": "CHIENS ET CHATS HEUREUX", "reassurance": "Des produits choisis avec soin pour leur bien-être", "background": "#F9F0EB", "text_color": "#2D1C63" }
     },
     "mission": {
       "type": "brand-mission",
@@ -56,7 +54,7 @@
         "note_3": { "type": "commitment", "settings": { "title": "BIEN-ÊTRE", "text": "Expliquez vos choix responsables et respectueux.", "color": "lime", "icon": "cat", "rotation": -2 } }
       },
       "block_order": ["note_1", "note_2", "note_3"],
-      "settings": { "title": "ON VIENT POUR LE REPAS,\nON RESTE POUR LES VALEURS", "image_one_alt": "Coulisses de Fourpattes", "image_one_caption": "Notre équipe", "image_two_alt": "Action solidaire Fourpattes", "image_two_caption": "Nos engagements", "background": "#792E5F", "text_color": "#FFFFFF" }
+      "settings": { "title": "ON VIENT POUR LE REPAS,\nON RESTE POUR LES VALEURS", "image_one_alt": "Coulisses de Fourpattes", "image_one_caption": "Notre équipe", "image_two_alt": "Action solidaire Fourpattes", "image_two_caption": "Nos engagements", "background": "#702758", "text_color": "#FFFFFF" }
     },
     "playful": {
       "type": "playful-call-to-action",
@@ -64,7 +62,7 @@
     },
     "newsletter": {
       "type": "newsletter-pet-shop",
-      "settings": { "title": "REJOIGNEZ LA MEUTE", "text": "<p>Des nouveautés, des conseils et un peu de joie dans votre boîte mail.</p>", "placeholder": "Votre adresse e-mail", "button_label": "Je m’inscris", "show_animals": true, "background": "#F9F0EB", "card_background": "#E9D9F7", "text_color": "#332266" }
+      "settings": { "title": "REJOIGNEZ LA MEUTE", "eyebrow": "DES NOUVELLES QUI FONT REMUER LA QUEUE", "text": "<p>Des nouveautés, des conseils et un peu de joie dans votre boîte mail.</p>", "reassurance": "Conseils utiles, nouveautés et offres — jamais de spam", "placeholder": "Votre adresse e-mail", "button_label": "Je m’inscris", "show_animals": true, "background": "#F9F0EB", "card_background": "#E9D9F7", "text_color": "#2D1C63" }
     }
   },
   "order": ["hero", "favorites", "bowl_in", "bowl_out", "reviews", "mission", "playful", "newsletter"]

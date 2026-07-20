@@ -4,6 +4,12 @@
   data-pet-reveal
 >
   <div class="pet-shell pet-playful__inner">
+    <div class="pet-playful__decor" aria-hidden="true">
+      <span class="pet-playful__decor-star">✦</span>
+      <span class="pet-playful__decor-bubble">HEY !</span>
+      <span class="pet-playful__decor-lines">)))</span>
+      <span class="pet-playful__decor-paw">{% render 'icon-paw' %}</span>
+    </div>
     <div class="pet-playful__content">
       <h2>{{ section.settings.title | escape | newline_to_br }}</h2>
       <div class="pet-playful__card">

@@ -1,7 +1,4 @@
 <article class="pet-article pet-shell">
-  {% comment %} BEGIN FOURPATTES SEO — native Shopify article structured data {% endcomment %}
-  {{ article | structured_data }}
-  {% comment %} END FOURPATTES SEO {% endcomment %}
   <header class="pet-page-heading"><p class="pet-eyebrow">{{ article.published_at | date: '%d/%m/%Y' }}</p><h1>{{ article.title }}</h1></header>
   {%- if article.image -%}{{ article.image | image_url: width: 1800 | image_tag: widths: '640, 900, 1200, 1600, 1800', sizes: '(min-width: 990px) 900px, 100vw', loading: 'eager', fetchpriority: 'high', alt: article.image.alt | default: article.title }}{%- endif -%}
   <div class="pet-rte">{{ article.content }}</div>

@@ -9,8 +9,10 @@
         <span class="pet-newsletter__animal pet-newsletter__animal--dog" aria-hidden="true">{% render 'icon-dog' %}</span>
         <span class="pet-newsletter__animal pet-newsletter__animal--cat" aria-hidden="true">{% render 'icon-cat' %}</span>
       {%- endif -%}
+      {%- if section.settings.eyebrow != blank -%}<p class="pet-newsletter__eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
       <h2>{{ section.settings.title | escape }}</h2>
       <div class="pet-newsletter__text">{{ section.settings.text }}</div>
+      {%- if section.settings.reassurance != blank -%}<p class="pet-newsletter__reassurance"><span aria-hidden="true">✓</span> {{ section.settings.reassurance | escape }}</p>{%- endif -%}
 
       {%- form 'customer', class: 'pet-newsletter__form' -%}
         <input type="hidden" name="contact[tags]" value="newsletter">
@@ -46,13 +48,15 @@
   "name": "Newsletter Fourpattes",
   "settings": [
     { "type": "text", "id": "title", "label": "Titre", "default": "REJOIGNEZ LA MEUTE" },
+    { "type": "text", "id": "eyebrow", "label": "Petit texte", "default": "DES NOUVELLES QUI FONT REMUER LA QUEUE" },
     { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Des nouveautés, des conseils et un peu de joie dans votre boîte mail.</p>" },
+    { "type": "text", "id": "reassurance", "label": "Réassurance", "default": "Conseils utiles, nouveautés et offres — jamais de spam" },
     { "type": "text", "id": "placeholder", "label": "Texte du champ", "default": "Votre adresse e-mail" },
     { "type": "text", "id": "button_label", "label": "Libellé du bouton", "default": "Je m’inscris" },
     { "type": "checkbox", "id": "show_animals", "label": "Afficher les animaux décoratifs", "default": true },
     { "type": "color", "id": "background", "label": "Fond de section", "default": "#F9F0EB" },
     { "type": "color", "id": "card_background", "label": "Fond de la carte", "default": "#E9D9F7" },
-    { "type": "color", "id": "text_color", "label": "Texte", "default": "#332266" }
+    { "type": "color", "id": "text_color", "label": "Texte", "default": "#2D1C63" }
   ],
   "presets": [{ "name": "Newsletter Fourpattes" }]
 }

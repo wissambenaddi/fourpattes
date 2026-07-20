@@ -4,12 +4,16 @@
   data-pet-reveal
 >
   {% render 'wave-divider', color: section.settings.background, position: 'top' %}
+  <span class="pet-mission__doodle pet-mission__doodle--star" aria-hidden="true">✦</span>
+  <span class="pet-mission__doodle pet-mission__doodle--line" aria-hidden="true">⌁⌁⌁</span>
+  <span class="pet-mission__doodle pet-mission__doodle--bubble" aria-hidden="true">♡</span>
   <div class="pet-shell">
     <header class="pet-mission__heading"><h2>{{ section.settings.title | escape | newline_to_br }}</h2></header>
     <div class="pet-mission__collage">
       <div class="pet-mission__notes">
         {%- for block in section.blocks -%}
-          <article class="pet-note pet-note--{{ block.settings.color }}" style="--note-rotation: {{ block.settings.rotation }}deg" {{ block.shopify_attributes }}>
+          <article class="pet-note pet-note--{{ block.settings.color }} pet-note--position-{{ forloop.index }}" style="--note-rotation: {{ block.settings.rotation }}deg" {{ block.shopify_attributes }}>
+            <span class="pet-note__pin" aria-hidden="true"></span>
             {%- if block.settings.icon == 'paw' -%}{% render 'icon-paw' %}{%- elsif block.settings.icon == 'dog' -%}{% render 'icon-dog' %}{%- else -%}{% render 'icon-cat' %}{%- endif -%}
             <h3>{{ block.settings.title | escape }}</h3>
             <p>{{ block.settings.text | escape }}</p>
@@ -28,6 +32,7 @@
         </figure>
       </div>
       <span class="pet-mission__paw" aria-hidden="true">{% render 'icon-paw' %}</span>
+      <span class="pet-mission__paw pet-mission__paw--small" aria-hidden="true">{% render 'icon-paw' %}</span>
     </div>
   </div>
 </section>
@@ -43,7 +48,7 @@
     { "type": "image_picker", "id": "image_two", "label": "Photo 2" },
     { "type": "text", "id": "image_two_alt", "label": "Texte alternatif photo 2", "default": "Action solidaire Fourpattes" },
     { "type": "text", "id": "image_two_caption", "label": "Légende photo 2", "default": "Nos engagements" },
-    { "type": "color", "id": "background", "label": "Fond", "default": "#792E5F" },
+    { "type": "color", "id": "background", "label": "Fond", "default": "#702758" },
     { "type": "color", "id": "text_color", "label": "Texte", "default": "#FFFFFF" }
   ],
   "blocks": [

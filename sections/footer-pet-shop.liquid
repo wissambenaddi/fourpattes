@@ -9,15 +9,15 @@
         {%- if settings.logo != blank -%}
           {{ settings.logo | image_url: width: 360 | image_tag: widths: '120, 180, 240, 360', sizes: '180px', loading: 'lazy', alt: settings.logo.alt | default: shop.name }}
         {%- else -%}
-          <span class="pet-footer__wordmark">FOURPATTES</span>
+          <img src="{{ 'fourpattes-logo.webp' | asset_url }}" width="720" height="195" loading="lazy" alt="{{ shop.name | default: 'FourPattes' | escape }}">
         {%- endif -%}
       </a>
       {%- if section.settings.tagline != blank -%}<p>{{ section.settings.tagline | escape }}</p>{%- endif -%}
       <ul class="pet-socials" role="list">
-        {%- if settings.social_instagram_link != blank -%}<li><a href="{{ settings.social_instagram_link }}" aria-label="Instagram" rel="noopener">IG</a></li>{%- endif -%}
-        {%- if settings.social_tiktok_link != blank -%}<li><a href="{{ settings.social_tiktok_link }}" aria-label="TikTok" rel="noopener">TT</a></li>{%- endif -%}
-        {%- if settings.social_facebook_link != blank -%}<li><a href="{{ settings.social_facebook_link }}" aria-label="Facebook" rel="noopener">FB</a></li>{%- endif -%}
-        {%- if settings.social_pinterest_link != blank -%}<li><a href="{{ settings.social_pinterest_link }}" aria-label="Pinterest" rel="noopener">PT</a></li>{%- endif -%}
+        {%- if settings.social_instagram_link != blank -%}<li><a href="{{ settings.social_instagram_link }}" aria-label="Instagram" rel="noopener">{% render 'social-icon', name: 'instagram' %}</a></li>{%- endif -%}
+        {%- if settings.social_tiktok_link != blank -%}<li><a href="{{ settings.social_tiktok_link }}" aria-label="TikTok" rel="noopener">{% render 'social-icon', name: 'tiktok' %}</a></li>{%- endif -%}
+        {%- if settings.social_facebook_link != blank -%}<li><a href="{{ settings.social_facebook_link }}" aria-label="Facebook" rel="noopener">{% render 'social-icon', name: 'facebook' %}</a></li>{%- endif -%}
+        {%- if settings.social_pinterest_link != blank -%}<li><a href="{{ settings.social_pinterest_link }}" aria-label="Pinterest" rel="noopener">{% render 'social-icon', name: 'pinterest' %}</a></li>{%- endif -%}
       </ul>
     </div>
 
@@ -30,6 +30,12 @@
           </ul>
         </details>
       {%- endfor -%}
+    </div>
+
+    <div class="pet-footer__trust" aria-label="Nos garanties">
+      <div class="pet-footer__trust-item"><span aria-hidden="true">{% render 'icon-paw' %}</span><p><strong>{{ section.settings.trust_shipping | escape }}</strong><small>{{ section.settings.trust_shipping_text | escape }}</small></p></div>
+      <div class="pet-footer__trust-item"><span aria-hidden="true">✓</span><p><strong>{{ section.settings.trust_payment | escape }}</strong><small>{{ section.settings.trust_payment_text | escape }}</small></p></div>
+      <div class="pet-footer__trust-item"><span aria-hidden="true">♡</span><p><strong>{{ section.settings.support_title | escape }}</strong><small>{{ section.settings.support_text | escape }}</small></p></div>
     </div>
 
     <div class="pet-footer__localization">
@@ -69,6 +75,12 @@
   "class": "pet-footer-section",
   "settings": [
     { "type": "text", "id": "tagline", "label": "Signature", "default": "Le bonheur a quatre pattes." },
+    { "type": "text", "id": "trust_shipping", "label": "Badge livraison", "default": "Livraison suivie" },
+    { "type": "text", "id": "trust_shipping_text", "label": "Détail livraison", "default": "Suivez votre colis simplement" },
+    { "type": "text", "id": "trust_payment", "label": "Badge paiement", "default": "Paiement sécurisé" },
+    { "type": "text", "id": "trust_payment_text", "label": "Détail paiement", "default": "Transactions protégées" },
+    { "type": "text", "id": "support_title", "label": "Titre SAV", "default": "Une question ?" },
+    { "type": "text", "id": "support_text", "label": "Information SAV", "default": "Notre meute vous répond" },
     { "type": "text", "id": "legal_text", "label": "Mention personnalisée", "default": "Tous droits réservés." },
     { "type": "checkbox", "id": "show_policies", "label": "Afficher les politiques", "default": true },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Afficher les moyens de paiement", "default": true },

@@ -11,8 +11,8 @@
     "name": "Identité visuelle",
     "settings": [
       { "type": "image_picker", "id": "logo", "label": "Logo" },
-      { "type": "range", "id": "logo_width", "min": 60, "max": 260, "step": 10, "unit": "px", "label": "Largeur du logo sur ordinateur", "default": 150 },
-      { "type": "range", "id": "logo_width_mobile", "min": 50, "max": 180, "step": 10, "unit": "px", "label": "Largeur du logo sur mobile", "default": 100 },
+      { "type": "range", "id": "logo_width", "min": 60, "max": 260, "step": 10, "unit": "px", "label": "Largeur du logo sur ordinateur", "default": 170 },
+      { "type": "range", "id": "logo_width_mobile", "min": 50, "max": 180, "step": 10, "unit": "px", "label": "Largeur du logo sur mobile", "default": 120 },
       { "type": "image_picker", "id": "favicon", "label": "Favicon" },
       { "type": "range", "id": "page_width", "min": 1000, "max": 1600, "step": 50, "unit": "px", "label": "Largeur maximale", "default": 1300 }
     ]
@@ -22,13 +22,13 @@
     "settings": [
       { "type": "color", "id": "pet_cream", "label": "Crème", "default": "#F9F0EB" },
       { "type": "color", "id": "pet_white", "label": "Blanc", "default": "#FFFFFF" },
-      { "type": "color", "id": "pet_sky_blue", "label": "Bleu ciel", "default": "#9FCEEA" },
+      { "type": "color", "id": "pet_sky_blue", "label": "Bleu ciel", "default": "#91CDEB" },
       { "type": "color", "id": "pet_yellow", "label": "Jaune", "default": "#F7C84B" },
-      { "type": "color", "id": "pet_deep_teal", "label": "Bleu-vert foncé", "default": "#00656C" },
+      { "type": "color", "id": "pet_deep_teal", "label": "Bleu-vert foncé", "default": "#005E66" },
       { "type": "color", "id": "pet_turquoise", "label": "Turquoise", "default": "#007C7A" },
       { "type": "color", "id": "pet_lime", "label": "Vert citron", "default": "#B1CD71" },
-      { "type": "color", "id": "pet_deep_purple", "label": "Violet foncé", "default": "#332266" },
-      { "type": "color", "id": "pet_plum", "label": "Prune", "default": "#792E5F" },
+      { "type": "color", "id": "pet_deep_purple", "label": "Violet foncé", "default": "#2D1C63" },
+      { "type": "color", "id": "pet_plum", "label": "Prune", "default": "#702758" },
       { "type": "color", "id": "pet_red_pink", "label": "Rose rouge", "default": "#C82552" },
       { "type": "color", "id": "pet_orange", "label": "Orange", "default": "#FFBE58" },
       { "type": "color", "id": "pet_light_lavender", "label": "Lavande", "default": "#E9D9F7" },

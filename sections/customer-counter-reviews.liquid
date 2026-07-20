@@ -8,6 +8,7 @@
       {%- if section.settings.eyebrow != blank -%}<span class="pet-counter__eyebrow">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
       <strong class="pet-counter__number" data-pet-counter="{{ section.settings.counter | escape }}">{{ section.settings.counter | escape }}</strong>
       <h2>{{ section.settings.counter_label | escape }}</h2>
+      {%- if section.settings.reassurance != blank -%}<p class="pet-counter__reassurance"><span aria-hidden="true">♥</span> {{ section.settings.reassurance | escape }}</p>{%- endif -%}
     </header>
 
     <div class="pet-review-carousel" data-pet-carousel>
@@ -51,8 +52,9 @@
     { "type": "text", "id": "eyebrow", "label": "Petit texte", "default": "DÉJÀ" },
     { "type": "text", "id": "counter", "label": "Compteur", "default": "2963057" },
     { "type": "text", "id": "counter_label", "label": "Libellé", "default": "CHIENS ET CHATS HEUREUX" },
+    { "type": "text", "id": "reassurance", "label": "Phrase de réassurance", "default": "Des produits choisis avec soin pour leur bien-être" },
     { "type": "color", "id": "background", "label": "Fond", "default": "#F9F0EB" },
-    { "type": "color", "id": "text_color", "label": "Texte", "default": "#332266" }
+    { "type": "color", "id": "text_color", "label": "Texte", "default": "#2D1C63" }
   ],
   "blocks": [
     {

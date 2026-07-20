@@ -12,6 +12,12 @@
       "block_order": ["shop", "discover", "service"],
       "settings": {
         "tagline": "Le bonheur a quatre pattes.",
+        "trust_shipping": "Livraison suivie",
+        "trust_shipping_text": "Suivez votre colis simplement",
+        "trust_payment": "Paiement sécurisé",
+        "trust_payment_text": "Transactions protégées",
+        "support_title": "Une question ?",
+        "support_text": "Notre meute vous répond",
         "legal_text": "Tous droits réservés.",
         "show_policies": true,
         "show_payment_icons": true,

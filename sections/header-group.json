@@ -8,7 +8,7 @@
         "text": "Livraison offerte dès 49 €",
         "accessibility_label": "Annonce",
         "background": "#F7C84B",
-        "text_color": "#332266",
+        "text_color": "#2D1C63",
         "sticky": false
       }
     },
@@ -21,7 +21,7 @@
         "show_search": true,
         "show_account": true,
         "background": "#FFFFFF",
-        "text_color": "#332266"
+        "text_color": "#2D1C63"
       }
     }
   },

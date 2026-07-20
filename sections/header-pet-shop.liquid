@@ -19,7 +19,7 @@
       {%- if settings.logo != blank -%}
         {{ settings.logo | image_url: width: 520 | image_tag: widths: '100, 150, 200, 300, 400, 520', sizes: '(max-width: 749px) var(--pet-logo-mobile), var(--pet-logo-desktop)', loading: 'eager', alt: settings.logo.alt | default: shop.name }}
       {%- else -%}
-        <span class="pet-header__wordmark">FOUR<span>PATTES</span></span>
+        <img src="{{ 'fourpattes-logo.webp' | asset_url }}" width="720" height="195" loading="eager" alt="{{ shop.name | default: 'FourPattes' | escape }}">
       {%- endif -%}
     </a>
 
@@ -108,7 +108,7 @@
     { "type": "checkbox", "id": "show_search", "label": "Afficher la recherche", "default": true },
     { "type": "checkbox", "id": "show_account", "label": "Afficher le compte", "default": true },
     { "type": "color", "id": "background", "label": "Fond", "default": "#FFFFFF" },
-    { "type": "color", "id": "text_color", "label": "Texte et icônes", "default": "#332266" }
+    { "type": "color", "id": "text_color", "label": "Texte et icônes", "default": "#2D1C63" }
   ]
 }
 {% endschema %}

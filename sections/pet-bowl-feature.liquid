@@ -25,6 +25,9 @@
         <span class="pet-bowl__star pet-bowl__star--two" aria-hidden="true">✧</span>
         <span class="pet-bowl__star pet-bowl__star--three" aria-hidden="true">✦</span>
         <span class="pet-bowl__halo" aria-hidden="true"></span>
+        <span class="pet-bowl__paw" aria-hidden="true">{% render 'icon-paw' %}</span>
+        <span class="pet-bowl__leaf pet-bowl__leaf--one" aria-hidden="true">❧</span>
+        <span class="pet-bowl__leaf pet-bowl__leaf--two" aria-hidden="true">❧</span>
       {%- endif -%}
 
       <div class="pet-bowl__image-wrap">
@@ -43,6 +46,11 @@
         {%- endif -%}
       </div>
       {%- if section.settings.annotation != blank -%}<p class="pet-bowl__annotation">{{ section.settings.annotation | escape | newline_to_br }}</p>{%- endif -%}
+      <div class="pet-bowl__facts" aria-label="Points forts">
+        {%- if section.settings.fact_one != blank -%}<p class="pet-bowl__fact pet-bowl__fact--one"><span aria-hidden="true">✦</span>{{ section.settings.fact_one | escape }}</p>{%- endif -%}
+        {%- if section.settings.fact_two != blank -%}<p class="pet-bowl__fact pet-bowl__fact--two"><span aria-hidden="true">♡</span>{{ section.settings.fact_two | escape }}</p>{%- endif -%}
+        {%- if section.settings.fact_three != blank -%}<p class="pet-bowl__fact pet-bowl__fact--three"><span aria-hidden="true">✓</span>{{ section.settings.fact_three | escape }}</p>{%- endif -%}
+      </div>
     </div>
   </div>
 
@@ -61,12 +69,15 @@
     { "type": "image_picker", "id": "image", "label": "Image de la gamelle" },
     { "type": "text", "id": "image_alt", "label": "Texte alternatif", "default": "Gamelle Fourpattes" },
     { "type": "textarea", "id": "annotation", "label": "Annotation", "default": "Une gamelle pensée\npour les petits bonheurs" },
-    { "type": "range", "id": "image_size", "min": 35, "max": 85, "step": 1, "unit": "%", "label": "Taille de l’image", "default": 58 },
+    { "type": "text", "id": "fact_one", "label": "Point fort 1", "default": "Pensé pour leur bien-être" },
+    { "type": "text", "id": "fact_two", "label": "Point fort 2", "default": "Des moments de complicité" },
+    { "type": "text", "id": "fact_three", "label": "Point fort 3", "default": "Sélectionné avec attention" },
+    { "type": "range", "id": "image_size", "min": 35, "max": 85, "step": 1, "unit": "%", "label": "Taille de l’image", "default": 72 },
     { "type": "range", "id": "image_x", "min": -25, "max": 25, "step": 1, "unit": "%", "label": "Décalage horizontal", "default": -6 },
     { "type": "range", "id": "image_y", "min": -10, "max": 35, "step": 1, "unit": "%", "label": "Décalage vertical", "default": 6 },
-    { "type": "range", "id": "height_mobile", "min": 620, "max": 1300, "step": 20, "unit": "px", "label": "Hauteur mobile", "default": 960 },
-    { "type": "range", "id": "height_desktop", "min": 580, "max": 1000, "step": 20, "unit": "px", "label": "Hauteur ordinateur", "default": 760 },
-    { "type": "color", "id": "background", "label": "Fond", "default": "#00656C" },
+    { "type": "range", "id": "height_mobile", "min": 620, "max": 1300, "step": 20, "unit": "px", "label": "Hauteur mobile", "default": 780 },
+    { "type": "range", "id": "height_desktop", "min": 580, "max": 1000, "step": 20, "unit": "px", "label": "Hauteur ordinateur", "default": 660 },
+    { "type": "color", "id": "background", "label": "Fond", "default": "#005E66" },
     { "type": "color", "id": "text_color", "label": "Texte", "default": "#F7C84B" },
     { "type": "color", "id": "accent_color", "label": "Décorations", "default": "#65B2B2" },
     { "type": "checkbox", "id": "decorations", "label": "Afficher les décorations", "default": true },
@@ -77,7 +88,7 @@
   ],
   "presets": [
     { "name": "Gamelle bleu-vert" },
-    { "name": "Gamelle verte", "settings": { "variant": "lime", "title": "CE QUI SORT AVEC\nFOURPATTES", "background": "#B1CD71", "text_color": "#00656C", "accent_color": "#82B45F" } }
+    { "name": "Gamelle verte", "settings": { "variant": "lime", "title": "CE QUI SORT AVEC\nFOURPATTES", "background": "#B1CD71", "text_color": "#005E66", "accent_color": "#82B45F" } }
   ]
 }
 {% endschema %}
