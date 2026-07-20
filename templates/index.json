@@ -3,12 +3,14 @@
     "hero": {
       "type": "hero-pet-shop",
       "settings": {
-        "eyebrow": "HEY COUCOU !",
-        "title": "LE BONHEUR COMMENCE À QUATRE PATTES",
-        "subtitle": "ACCESSOIRES JOYEUX POUR CHIENS ET CHATS",
-        "text": "<p>Des accessoires joyeux pour prendre soin de vos compagnons.</p>",
+        "eyebrow": "",
+        "title": "À CHACUN SON ACCESSOIRE PRÉFÉRÉ",
+        "subtitle": "",
+        "text": "<p>Des accessoires joyeux, pratiques et confortables pour chiens et chats pleins de personnalité.</p>",
         "button_dog_label": "Accessoires chien",
         "button_cat_label": "Accessoires chat",
+        "hero_scene_style": "dialogue",
+        "hero_image_alt": "Golden retriever disant « Je prends la laisse ! » et chat gris répondant « Moi, je prends le coussin. »",
         "dog_alt": "Chien heureux",
         "dog_width": 54,
         "dog_x": -5,
@@ -21,7 +23,7 @@
         "text_color": "#2D1C63",
         "height_mobile": 560,
         "height_desktop": 620,
-        "decorations": true
+        "decorations": false
       }
     },
     "favorites": {
