@@ -1,5 +1,5 @@
 <section
-  class="pet-bowl pet-bowl--{{ section.settings.variant }}"
+  class="pet-bowl pet-bowl--{{ section.settings.variant }}{% if section.settings.variant == 'teal' %} pet-bowl--gift-box{% endif %}"
   style="
     --bowl-bg: {{ section.settings.background }};
     --bowl-color: {{ section.settings.text_color }};
@@ -19,6 +19,65 @@
       {%- if section.settings.subtitle != blank -%}<p>{{ section.settings.subtitle | escape }}</p>{%- endif -%}
     </header>
 
+    {%- if section.settings.variant == 'teal' -%}
+      <div class="pet-gift-story">
+        {%- if section.settings.decorations -%}
+          <div class="pet-gift-story__decor" aria-hidden="true">
+            <span class="pet-gift-story__spark pet-gift-story__spark--one">✦</span>
+            <span class="pet-gift-story__spark pet-gift-story__spark--two">✧</span>
+            <span class="pet-gift-story__spark pet-gift-story__spark--three">♡</span>
+            <span class="pet-gift-story__paw">{% render 'icon-paw' %}</span>
+          </div>
+        {%- endif -%}
+
+        <div class="pet-gift-story__cards pet-gift-story__cards--left">
+          <article class="pet-gift-card pet-gift-card--one">
+            <span class="pet-gift-card__icon" aria-hidden="true">{% render 'pet-icon', name: 'payment' %}</span>
+            <div><h3>{{ section.settings.quality_title | escape }}</h3><p>{{ section.settings.quality_text | escape }}</p></div>
+          </article>
+          <article class="pet-gift-card pet-gift-card--two">
+            <span class="pet-gift-card__icon" aria-hidden="true">{% render 'icon-paw' %}</span>
+            <div><h3>{{ section.settings.comfort_title | escape }}</h3><p>{{ section.settings.comfort_text | escape }}</p></div>
+          </article>
+        </div>
+
+        <figure class="pet-gift-box" role="img" aria-label="{{ section.settings.gift_box_alt | escape }}">
+          <span class="pet-gift-box__halo" aria-hidden="true"></span>
+          <span class="pet-gift-box__light" aria-hidden="true"></span>
+          <div class="pet-gift-box__accessories" aria-hidden="true">
+            {%- if section.settings.gift_accessories_image != blank -%}
+              {{ section.settings.gift_accessories_image | image_url: width: 900 | image_tag: class: 'pet-gift-box__accessories-image', widths: '320, 480, 700, 900', sizes: '(max-width: 749px) 76vw, 500px', loading: 'lazy', alt: '' }}
+            {%- else -%}
+              <img class="pet-gift-box__accessories-image" src="{{ 'kit-promenade-fourpattes.webp' | asset_url }}" width="1286" height="876" loading="lazy" alt="">
+            {%- endif -%}
+            <span class="pet-gift-box__ball"></span>
+            <span class="pet-gift-box__mouse"></span>
+          </div>
+          <div class="pet-gift-box__lid pet-gift-box__lid--back" aria-hidden="true"></div>
+          <div class="pet-gift-box__flap pet-gift-box__flap--left" aria-hidden="true"></div>
+          <div class="pet-gift-box__flap pet-gift-box__flap--right" aria-hidden="true"></div>
+          <div class="pet-gift-box__body" aria-hidden="true">
+            <span class="pet-gift-box__tape"></span>
+            <img class="pet-gift-box__logo" src="{{ 'fourpattes-logo.webp' | asset_url }}" width="720" height="195" loading="lazy" alt="">
+          </div>
+        </figure>
+
+        <div class="pet-gift-story__cards pet-gift-story__cards--right">
+          <article class="pet-gift-card pet-gift-card--three">
+            <span class="pet-gift-card__icon pet-gift-card__icon--spark" aria-hidden="true">✦</span>
+            <div><h3>{{ section.settings.style_title | escape }}</h3><p>{{ section.settings.style_text | escape }}</p></div>
+          </article>
+          <article class="pet-gift-card pet-gift-card--four">
+            <span class="pet-gift-card__icon" aria-hidden="true">{% render 'pet-icon', name: 'shipping' %}</span>
+            <div><h3>{{ section.settings.originality_title | escape }}</h3><p>{{ section.settings.originality_text | escape }}</p></div>
+          </article>
+          <article class="pet-gift-card pet-gift-card--five">
+            <span class="pet-gift-card__icon" aria-hidden="true">{% render 'pet-icon', name: 'support' %}</span>
+            <div><h3>{{ section.settings.durability_title | escape }}</h3><p>{{ section.settings.durability_text | escape }}</p></div>
+          </article>
+        </div>
+      </div>
+    {%- else -%}
     <div class="pet-bowl__composition">
       {%- if section.settings.decorations -%}
         <span class="pet-bowl__star pet-bowl__star--one" aria-hidden="true">✦</span>
@@ -63,12 +122,16 @@
         {%- if section.settings.fact_three != blank -%}<p class="pet-bowl__fact pet-bowl__fact--three"><span aria-hidden="true">✓</span>{{ section.settings.fact_three | escape }}</p>{%- endif -%}
       </div>
     </div>
+
+    {%- endif -%}
   </div>
 
   {%- if section.settings.show_bottom_wave -%}
     {% render 'wave-divider', color: section.settings.bottom_color, position: 'bottom', flip: section.settings.flip_bottom_wave %}
   {%- endif -%}
 </section>
+
+{{ 'gift-box-story.css' | asset_url | stylesheet_tag }}
 
 {% schema %}
 {
@@ -77,6 +140,19 @@
     { "type": "select", "id": "variant", "label": "Variante", "options": [{ "value": "teal", "label": "Bleu-vert" }, { "value": "lime", "label": "Verte" }], "default": "teal" },
     { "type": "textarea", "id": "title", "label": "Titre", "default": "CE QUI RENTRE AVEC\nFOURPATTES" },
     { "type": "text", "id": "subtitle", "label": "Sous-titre", "default": "DU BON, DU BEAU, DU JOYEUX" },
+    { "type": "header", "content": "Colis cadeau — variante bleu-vert" },
+    { "type": "image_picker", "id": "gift_accessories_image", "label": "Accessoires dépassant du colis" },
+    { "type": "text", "id": "gift_box_alt", "label": "Texte alternatif du colis", "default": "Boîte cadeau Fourpattes ouverte remplie d’accessoires pour chiens et chats" },
+    { "type": "text", "id": "quality_title", "label": "Carte 1 — titre", "default": "QUALITÉ" },
+    { "type": "text", "id": "quality_text", "label": "Carte 1 — texte", "default": "Des matériaux sélectionnés avec soin." },
+    { "type": "text", "id": "comfort_title", "label": "Carte 2 — titre", "default": "CONFORT" },
+    { "type": "text", "id": "comfort_text", "label": "Carte 2 — texte", "default": "Pensé pour leur bien-être." },
+    { "type": "text", "id": "style_title", "label": "Carte 3 — titre", "default": "STYLE" },
+    { "type": "text", "id": "style_text", "label": "Carte 3 — texte", "default": "Des accessoires pleins de personnalité." },
+    { "type": "text", "id": "originality_title", "label": "Carte 4 — titre", "default": "ORIGINALITÉ" },
+    { "type": "text", "id": "originality_text", "label": "Carte 4 — texte", "default": "Des créations qui sortent de l’ordinaire." },
+    { "type": "text", "id": "durability_title", "label": "Carte 5 — titre", "default": "DURABILITÉ" },
+    { "type": "text", "id": "durability_text", "label": "Carte 5 — texte", "default": "Des produits faits pour durer." },
     { "type": "image_picker", "id": "image", "label": "Image de la gamelle" },
     { "type": "text", "id": "image_alt", "label": "Texte alternatif", "default": "Gamelle Fourpattes" },
     { "type": "textarea", "id": "annotation", "label": "Annotation", "default": "Une gamelle pensée\npour les petits bonheurs" },
