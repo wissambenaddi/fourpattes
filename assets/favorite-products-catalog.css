@@ -25,6 +25,7 @@
 }
 
 .pet-favorites__pattern{
+  display:none;
   position:absolute;
   z-index:0;
   inset:0;
@@ -33,6 +34,10 @@
   background-size:150px 150px;
   transform:rotate(-7deg) scale(1.08);
   pointer-events:none;
+}
+
+.pet-favorites--decorated .pet-favorites__pattern{
+  display:block;
 }
 
 .pet-favorites__shell{
