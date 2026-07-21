@@ -6,9 +6,6 @@
 
   assign brand_desktop_asset = 'fourpattes-hero-conversation-desktop.webp'
   assign brand_mobile_asset = 'fourpattes-hero-conversation-mobile.webp'
-  assign dog_reaction_delay = section.settings.dog_dialogue_delay | plus: 300
-  assign cat_reaction_delay = section.settings.cat_dialogue_delay | plus: 300
-
 -%}
 
 <section
@@ -24,11 +21,6 @@
     --cat-width: {{ section.settings.cat_width }}%;
     --cat-x: {{ section.settings.cat_x }}%;
     --cat-y: {{ section.settings.cat_y }}%;
-    --dialogue-dog-delay: {{ section.settings.dog_dialogue_delay }}ms;
-    --dialogue-dog-reaction-delay: {{ dog_reaction_delay }}ms;
-    --dialogue-cat-delay: {{ section.settings.cat_dialogue_delay }}ms;
-    --dialogue-cat-reaction-delay: {{ cat_reaction_delay }}ms;
-    --dialogue-duration: {{ section.settings.dialogue_animation_speed }}ms;
     --dialogue-dog-x: {{ section.settings.dog_dialogue_x }}%;
     --dialogue-dog-y: {{ section.settings.dog_dialogue_y }}%;
     --dialogue-cat-x: {{ section.settings.cat_dialogue_x }}%;
@@ -40,7 +32,6 @@
   data-pet-reveal
   {% if section.settings.enable_animated_dialogue %}
     data-animated-dialogue
-    data-dialogue-play-once="{{ section.settings.dialogue_play_once }}"
   {% endif %}
 >
   {%- if use_brand_scene -%}
@@ -100,10 +91,8 @@
 
   <div class="pet-shell pet-hero__inner">
     <div class="pet-hero__content">
-      {%- if section.settings.eyebrow != blank -%}<p class="pet-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <p class="pet-hero__yooo">YOOO !</p>
       <h1 class="pet-hero__title">{{ section.settings.title | escape | newline_to_br }}</h1>
-      {%- if section.settings.subtitle != blank -%}<p class="pet-hero__subtitle">{{ section.settings.subtitle | escape }}</p>{%- endif -%}
-      {%- if section.settings.text != blank -%}<div class="pet-hero__text">{{ section.settings.text }}</div>{%- endif -%}
       <div class="pet-button-row">
         {%- if section.settings.button_dog_label != blank -%}<a class="pet-button" href="{{ section.settings.button_dog_link | default: routes.all_products_collection_url }}">{{ section.settings.button_dog_label | escape }}</a>{%- endif -%}
         {%- if section.settings.button_cat_label != blank -%}<a class="pet-button" href="{{ section.settings.button_cat_link | default: routes.all_products_collection_url }}">{{ section.settings.button_cat_label | escape }}</a>{%- endif -%}
@@ -122,16 +111,15 @@
   {%- endunless -%}
 </section>
 
+{{ 'hero-fourpattes-loop.css' | asset_url | stylesheet_tag }}
+
 {% schema %}
 {
   "name": "Hero animaux",
   "tag": "section",
   "class": "pet-hero-section",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Petit texte", "default": "BIENVENUE CHEZ FOURPATTES !" },
     { "type": "textarea", "id": "title", "label": "Titre", "default": "À CHACUN SON ACCESSOIRE PRÉFÉRÉ" },
-    { "type": "text", "id": "subtitle", "label": "Sous-titre" },
-    { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Des accessoires joyeux, pratiques et confortables pour chiens et chats pleins de personnalité.</p>" },
     { "type": "text", "id": "button_dog_label", "label": "Bouton chiens", "default": "Accessoires chien" },
     { "type": "url", "id": "button_dog_link", "label": "Lien chiens" },
     { "type": "text", "id": "button_cat_label", "label": "Bouton chats", "default": "Accessoires chat" },
@@ -146,10 +134,6 @@
     { "type": "text", "id": "dog_reaction", "label": "Réaction du chien", "default": "🐾 Prêt en 2 secondes" },
     { "type": "text", "id": "cat_dialogue", "label": "Dialogue du chat", "default": "MOI, JE PRENDS LE COUSSIN." },
     { "type": "text", "id": "cat_reaction", "label": "Réaction du chat", "default": "♡ Priorité au confort" },
-    { "type": "range", "id": "dog_dialogue_delay", "min": 0, "max": 2000, "step": 100, "unit": "ms", "label": "Délai avant le chien", "default": 600 },
-    { "type": "range", "id": "cat_dialogue_delay", "min": 500, "max": 4000, "step": 100, "unit": "ms", "label": "Délai avant le chat", "default": 1900 },
-    { "type": "range", "id": "dialogue_animation_speed", "min": 200, "max": 1000, "step": 50, "unit": "ms", "label": "Vitesse de l’animation", "default": 500 },
-    { "type": "checkbox", "id": "dialogue_play_once", "label": "Jouer une seule fois", "default": true },
     { "type": "color", "id": "dialogue_bubble_background", "label": "Fond des bulles", "default": "#FFF9F4" },
     { "type": "color", "id": "dialogue_bubble_border", "label": "Contour des bulles", "default": "#2D1C63" },
     { "type": "color", "id": "dialogue_bubble_text", "label": "Texte des bulles", "default": "#2D1C63" },
