@@ -373,6 +373,202 @@
   to{opacity:1;transform:translateX(-50%) scale(1.04)}
 }
 
+/* Stronger box-first composition: 38% larger kraft parcel with visible depth. */
+.pet-gift-story{
+  grid-template-columns:minmax(12rem,15.5rem) minmax(25rem,40rem) minmax(12rem,15.5rem);
+}
+
+.pet-gift-box{
+  max-width:40rem;
+  min-height:32rem;
+}
+
+.pet-gift-box__halo{
+  bottom:.25rem;
+  width:108%;
+  height:42%;
+  background:radial-gradient(ellipse,rgba(101,178,178,.38) 0,rgba(101,178,178,.17) 42%,rgba(45,28,99,.06) 58%,transparent 75%);
+  filter:blur(12px);
+}
+
+.pet-gift-box__interior{
+  position:absolute;
+  z-index:1;
+  top:37%;
+  right:4%;
+  left:4%;
+  height:25%;
+  border:3px solid rgba(45,28,99,.15);
+  border-radius:1.4rem 1.4rem .55rem .55rem;
+  background:
+    linear-gradient(180deg,rgba(45,28,99,.22),rgba(91,52,24,.28)),
+    #9d6237;
+  box-shadow:inset 0 18px 24px rgba(55,25,10,.34),0 8px 12px rgba(0,0,0,.1);
+  clip-path:polygon(7% 0,93% 0,100% 100%,0 100%);
+}
+
+.pet-gift-box__tape-top{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:50%;
+  width:15%;
+  background-color:var(--pet-deep-purple);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cg fill='%23FFF9F4' opacity='.66'%3E%3Cellipse cx='14' cy='17' rx='4.5' ry='3.8'/%3E%3Cellipse cx='8.5' cy='11' rx='1.8' ry='2.3'/%3E%3Cellipse cx='12.3' cy='8.7' rx='1.8' ry='2.3'/%3E%3Cellipse cx='16.2' cy='8.7' rx='1.8' ry='2.3'/%3E%3Cellipse cx='20' cy='11' rx='1.8' ry='2.3'/%3E%3C/g%3E%3C/svg%3E");
+  transform:translateX(-50%) perspective(16rem) rotateX(18deg);
+  transform-origin:center bottom;
+}
+
+.pet-gift-box__accessories{
+  top:5%;
+  width:72%;
+  height:55%;
+}
+
+.pet-gift-box__accessories-image{
+  object-position:center 68%;
+  transform:scale(.94) rotate(-2deg);
+}
+
+.pet-gift-box__tissue{
+  bottom:-5%;
+  width:58%;
+  height:76%;
+}
+
+.pet-gift-box__tissue--left{left:-8%}
+.pet-gift-box__tissue--center{left:23%;width:56%;height:82%}
+.pet-gift-box__tissue--right{right:-8%}
+
+.pet-gift-box__lid{
+  top:14%;
+  width:90%;
+  height:31%;
+  border-width:4px;
+  background:
+    linear-gradient(15deg,rgba(255,255,255,.1),transparent 45%),
+    #d99b5f;
+  box-shadow:inset 0 12px 0 rgba(255,255,255,.15),0 18px 26px rgba(0,0,0,.17);
+  transform:translateX(-50%) perspective(31rem) rotateX(44deg) rotate(-2.5deg);
+}
+
+.pet-gift-box__flap{
+  top:41%;
+  width:48%;
+  height:21%;
+  border-width:3px;
+  background:
+    linear-gradient(110deg,rgba(255,255,255,.12),transparent 55%),
+    #efbd7d;
+  box-shadow:0 12px 18px rgba(0,0,0,.14);
+}
+
+.pet-gift-box__flap--left{
+  left:2%;
+  transform:perspective(20rem) rotateY(-18deg) skewY(7deg) rotate(-10deg);
+}
+
+.pet-gift-box__flap--right{
+  right:2%;
+  transform:perspective(20rem) rotateY(18deg) skewY(-7deg) rotate(9deg);
+}
+
+.pet-gift-box__flap--front{
+  z-index:5;
+  top:46%;
+  left:50%;
+  width:72%;
+  height:18%;
+  border-radius:.4rem .4rem 1.2rem 1rem;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.17),transparent),
+    #e5aa69;
+  transform:translateX(-50%) perspective(22rem) rotateX(-54deg) rotate(1.2deg);
+  transform-origin:center top;
+}
+
+.pet-gift-box__side{
+  position:absolute;
+  z-index:4;
+  bottom:5%;
+  width:12%;
+  height:48%;
+  border:3px solid rgba(45,28,99,.12);
+  background:#bd7540;
+  box-shadow:inset 8px 0 12px rgba(71,35,12,.12),0 13px 18px rgba(0,0,0,.13);
+}
+
+.pet-gift-box__side--left{
+  left:0;
+  clip-path:polygon(100% 0,100% 100%,26% 93%,0 12%);
+  transform:skewY(5deg);
+}
+
+.pet-gift-box__side--right{
+  right:0;
+  clip-path:polygon(0 0,100% 12%,74% 93%,0 100%);
+  transform:skewY(-5deg);
+}
+
+.pet-gift-box__body{
+  z-index:6;
+  right:3%;
+  bottom:5%;
+  left:3%;
+  height:48%;
+  border-width:4px;
+  box-shadow:inset 0 10px 0 rgba(255,255,255,.14),inset 0 22px 26px rgba(91,45,16,.08),0 28px 30px rgba(0,0,0,.21);
+}
+
+.pet-gift-box__logo{
+  width:min(62%,15.5rem);
+}
+
+.pet-gift-box__string{
+  position:absolute;
+  z-index:8;
+  right:11%;
+  bottom:23%;
+  width:5.5rem;
+  height:4.2rem;
+  border-top:2px solid rgba(86,48,21,.72);
+  border-right:2px solid rgba(86,48,21,.72);
+  border-radius:0 65% 0 0;
+  transform:rotate(9deg);
+}
+
+.pet-gift-box__tag{
+  position:absolute;
+  z-index:9;
+  right:2%;
+  bottom:12%;
+  max-width:7.5rem;
+  padding:.62rem .78rem;
+  border:2px solid rgba(86,48,21,.2);
+  border-radius:.5rem .75rem .6rem .7rem;
+  background:#d9a46b;
+  color:var(--pet-deep-purple);
+  box-shadow:0 8px 13px rgba(0,0,0,.15);
+  font-family:var(--font-handwritten-family);
+  font-size:clamp(.72rem,.85vw,.9rem);
+  font-weight:700;
+  line-height:1.05;
+  text-align:center;
+  transform:rotate(5deg);
+}
+
+.pet-gift-box__tag::before{
+  content:"";
+  position:absolute;
+  top:.28rem;
+  left:.45rem;
+  width:.38rem;
+  aspect-ratio:1;
+  border:2px solid rgba(86,48,21,.45);
+  border-radius:50%;
+  background:var(--bowl-bg);
+}
+
 @media (min-width:750px) and (max-width:989px){
   .pet-gift-story{
     grid-template-columns:repeat(2,minmax(0,1fr));
