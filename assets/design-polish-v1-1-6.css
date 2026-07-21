@@ -99,3 +99,13 @@
 @media (min-width:1920px){
   .pet-hero__title{font-size:4.55rem}
 }
+
+/* Final vector logo: keep the footer palette instead of applying the legacy white raster filter. */
+.pet-footer__logo-image{
+  display:block;
+  width:min(11rem,50vw);
+  height:auto;
+  max-height:4.5rem;
+  object-fit:contain;
+  filter:none;
+}
