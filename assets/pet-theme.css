@@ -226,7 +226,7 @@ h6{font-size:calc(var(--text-h6) * var(--pet-heading-scale,1))}
 .pet-footer__inner{display:grid;gap:2rem}
 .pet-footer__brand{text-align:center}
 .pet-footer__logo{display:inline-block;text-decoration:none}
-.pet-footer__logo img{width:min(11rem,50vw);max-height:4.5rem;object-fit:contain;filter:brightness(0) invert(1)}
+.pet-footer__logo img{display:block;width:min(11rem,50vw);max-height:4.5rem;height:auto;object-fit:contain}
 .pet-footer__wordmark{font-size:1.7rem}
 .pet-footer__brand p{font-size:.8rem;opacity:.8}
 .pet-socials{display:flex;justify-content:center;gap:.5rem;padding:0;margin:1rem 0 0;list-style:none}
