@@ -36,7 +36,7 @@
     },
     "favorites": {
       "type": "favorite-products",
-      "settings": { "title": "NOS GRANDS FAVORIS", "tab_label": "Choisir un animal", "dog_label": "Chien", "cat_label": "Chat", "product_count": 5, "show_quick_add": true, "show_arrows": true, "button_label": "Tous les produits", "background": "#F9F0EB", "text_color": "#2D1C63" }
+      "settings": { "title": "NOS GRANDS FAVORIS", "subtitle": "Leurs coups de cœur, réunis juste ici.", "show_filters": true, "tab_label": "Choisir un animal", "dog_label": "Chien", "cat_label": "Chat", "product_count": 4, "show_quick_add": true, "show_arrows": true, "button_label": "DÉCOUVRIR TOUS LES ACCESSOIRES", "show_decorations": true, "enable_animations": true, "background": "#F9F0EB", "text_color": "#2D1C63" }
     },
     "bowl_in": {
       "type": "pet-bowl-feature",
