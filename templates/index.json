@@ -3,7 +3,7 @@
     "hero": {
       "type": "hero-pet-shop",
       "settings": {
-        "title": "À CHACUN SON ACCESSOIRE PRÉFÉRÉ",
+        "title": "ILS ONT CHACUN\nLEUR PETITE\nPRÉFÉRENCE...",
         "button_dog_label": "ACCESSOIRES CHIEN",
         "button_cat_label": "ACCESSOIRES CHAT",
         "hero_image_alt": "Golden retriever et chat gris entourés d’accessoires joyeux Fourpattes",
