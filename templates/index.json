@@ -3,10 +3,7 @@
     "hero": {
       "type": "hero-pet-shop",
       "settings": {
-        "eyebrow": "BIENVENUE CHEZ FOURPATTES !",
         "title": "À CHACUN SON ACCESSOIRE PRÉFÉRÉ",
-        "subtitle": "",
-        "text": "<p>Des accessoires joyeux, pratiques et confortables pour chiens et chats pleins de personnalité.</p>",
         "button_dog_label": "ACCESSOIRES CHIEN",
         "button_cat_label": "ACCESSOIRES CHAT",
         "hero_image_alt": "Golden retriever et chat gris entourés d’accessoires joyeux Fourpattes",
@@ -15,10 +12,6 @@
         "dog_reaction": "🐾 Prêt en 2 secondes",
         "cat_dialogue": "MOI, JE PRENDS LE COUSSIN.",
         "cat_reaction": "♡ Priorité au confort",
-        "dog_dialogue_delay": 600,
-        "cat_dialogue_delay": 1900,
-        "dialogue_animation_speed": 500,
-        "dialogue_play_once": true,
         "dialogue_bubble_background": "#FFF9F4",
         "dialogue_bubble_border": "#2D1C63",
         "dialogue_bubble_text": "#2D1C63",
