@@ -2,6 +2,62 @@
   const qs = (selector, scope = document) => scope.querySelector(selector);
   const qsa = (selector, scope = document) => [...scope.querySelectorAll(selector)];
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const dialogueObservers = new WeakMap();
+
+  function getAnimatedDialogues(scope = document) {
+    const dialogues = qsa('[data-animated-dialogue]', scope);
+    if (scope instanceof Element && scope.matches('[data-animated-dialogue]')) dialogues.unshift(scope);
+    return dialogues;
+  }
+
+  function playAnimatedDialogue(hero) {
+    if (!hero || (hero.dataset.dialoguePlayOnce === 'true' && hero.dataset.dialoguePlayed === 'true')) return;
+    hero.classList.remove('is-dialogue-playing');
+    void hero.offsetWidth;
+    hero.classList.add('is-dialogue-playing');
+    hero.dataset.dialoguePlayed = 'true';
+  }
+
+  function initAnimatedDialogues(scope = document) {
+    getAnimatedDialogues(scope).forEach((hero) => {
+      if (hero.dataset.dialogueInitialized === 'true') return;
+      hero.dataset.dialogueInitialized = 'true';
+      hero.classList.add('is-dialogue-ready');
+
+      if (reducedMotion.matches || !('IntersectionObserver' in window)) {
+        hero.classList.add('is-dialogue-playing');
+        hero.dataset.dialoguePlayed = 'true';
+        return;
+      }
+
+      const playOnce = hero.dataset.dialoguePlayOnce !== 'false';
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            playAnimatedDialogue(hero);
+            if (playOnce) {
+              observer.unobserve(hero);
+              dialogueObservers.delete(hero);
+            }
+          } else if (!playOnce && hero.dataset.dialoguePlayed === 'true') {
+            hero.classList.remove('is-dialogue-playing');
+            delete hero.dataset.dialoguePlayed;
+          }
+        });
+      }, { threshold: 0.3 });
+
+      dialogueObservers.set(hero, observer);
+      observer.observe(hero);
+    });
+  }
+
+  function destroyAnimatedDialogues(scope = document) {
+    getAnimatedDialogues(scope).forEach((hero) => {
+      dialogueObservers.get(hero)?.disconnect();
+      dialogueObservers.delete(hero);
+      delete hero.dataset.dialogueInitialized;
+    });
+  }
 
   function announce(message) {
     const region = qs('[data-pet-live-region]');
@@ -228,6 +284,7 @@
 
   function init(scope = document) {
     initHeader(scope);
+    initAnimatedDialogues(scope);
     initTabs(scope);
     initCarousels(scope);
     initQuickAdd(scope);
@@ -241,4 +298,12 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => init());
   else init();
   document.addEventListener('shopify:section:load', (event) => init(event.target));
+  document.addEventListener('shopify:section:unload', (event) => destroyAnimatedDialogues(event.target));
+  document.addEventListener('shopify:section:select', (event) => {
+    getAnimatedDialogues(event.target).forEach((hero) => {
+      hero.classList.remove('is-dialogue-playing');
+      delete hero.dataset.dialoguePlayed;
+      window.requestAnimationFrame(() => playAnimatedDialogue(hero));
+    });
+  });
 })();
