@@ -3,52 +3,80 @@
   assign cat_collection = section.settings.cat_collection
 -%}
 <section
-  class="pet-favorites"
+  class="pet-favorites pet-favorites--catalog{% if section.settings.show_decorations %} pet-favorites--decorated{% endif %}{% if section.settings.enable_animations %} pet-favorites--animate{% endif %}"
   style="--favorites-bg: {{ section.settings.background }}; --favorites-color: {{ section.settings.text_color }};"
   data-pet-tabs
   data-pet-reveal
 >
-  <div class="pet-shell">
-    <header class="pet-section-heading">
-      <h2>{{ section.settings.title | escape }}</h2>
-      <div class="pet-tabs" role="tablist" aria-label="{{ section.settings.tab_label | escape }}">
-        <button class="pet-tab is-active" id="DogTab-{{ section.id }}" type="button" role="tab" aria-selected="true" aria-controls="DogPanel-{{ section.id }}" data-pet-tab="dog">
-          {% render 'icon-dog' %} {{ section.settings.dog_label | escape }}
-        </button>
-        <button class="pet-tab" id="CatTab-{{ section.id }}" type="button" role="tab" aria-selected="false" aria-controls="CatPanel-{{ section.id }}" data-pet-tab="cat" tabindex="-1">
-          {% render 'icon-cat' %} {{ section.settings.cat_label | escape }}
-        </button>
+  <div class="pet-favorites__pattern" aria-hidden="true"></div>
+  <div class="pet-shell pet-favorites__shell">
+    <header class="pet-section-heading pet-favorites__heading">
+      <div class="pet-favorites__paw-intro" aria-hidden="true">
+        <span>{% render 'icon-paw' %}</span>
+        <span>{% render 'icon-paw' %}</span>
+        <span>{% render 'icon-paw' %}</span>
       </div>
+      <h2 class="pet-favorites__title">{{ section.settings.title | escape }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="pet-favorites__subtitle">{{ section.settings.subtitle | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.show_filters -%}
+        <div class="pet-tabs pet-favorites__tabs" role="tablist" aria-label="{{ section.settings.tab_label | escape }}">
+          <button class="pet-tab pet-favorites__tab is-active" id="DogTab-{{ section.id }}" type="button" role="tab" aria-selected="true" aria-controls="DogPanel-{{ section.id }}" data-pet-tab="dog">
+            <span class="pet-favorites__tab-icon" aria-hidden="true">{% render 'icon-dog' %}</span>
+            <span>{{ section.settings.dog_label | escape }}</span>
+          </button>
+          <button class="pet-tab pet-favorites__tab" id="CatTab-{{ section.id }}" type="button" role="tab" aria-selected="false" aria-controls="CatPanel-{{ section.id }}" data-pet-tab="cat" tabindex="-1">
+            <span class="pet-favorites__tab-icon" aria-hidden="true">{% render 'icon-cat' %}</span>
+            <span>{{ section.settings.cat_label | escape }}</span>
+          </button>
+        </div>
+      {%- endif -%}
     </header>
 
-    <div class="pet-tab-panel" id="DogPanel-{{ section.id }}" role="tabpanel" aria-labelledby="DogTab-{{ section.id }}" data-pet-panel="dog">
-      <div class="pet-product-carousel" data-pet-carousel>
+    <div class="pet-tab-panel pet-favorites__panel" id="DogPanel-{{ section.id }}" role="tabpanel"{% if section.settings.show_filters %} aria-labelledby="DogTab-{{ section.id }}"{% else %} aria-label="{{ section.settings.dog_label | escape }}"{% endif %} data-pet-panel="dog">
+      {%- if section.settings.show_filters == false -%}<h3 class="pet-favorites__group-title">{{ section.settings.dog_label | escape }}</h3>{%- endif -%}
+      {%- if dog_collection == blank -%}
+        <p class="pet-favorites__empty">Sélectionnez une collection chiens dans l’éditeur Shopify.</p>
+      {%- elsif dog_collection.products_count == 0 -%}
+        <p class="pet-favorites__empty">Cette collection ne contient encore aucun produit.</p>
+      {%- endif -%}
+      <div class="pet-product-carousel pet-favorites__grid" data-pet-carousel>
         {%- if dog_collection != blank and dog_collection.products_count > 0 -%}
           {%- for product in dog_collection.products limit: section.settings.product_count -%}
             {% render 'product-card-pet', product: product, index: forloop.index, show_quick_add: section.settings.show_quick_add %}
           {%- endfor -%}
         {%- else -%}
-          {%- for i in (1..5) -%}
+          {%- for i in (1..section.settings.product_count) -%}
             <article class="pet-product-card pet-product-card--{{ i }} pet-product-card--placeholder">
               <div class="pet-product-card__media">{{ 'product-' | append: i | placeholder_svg_tag }}</div>
-              <h3 class="pet-product-card__title">Produit chien à configurer</h3><p class="pet-product-card__price">19,90 €</p>
+              <h3 class="pet-product-card__title">Produit chien à configurer</h3>
+              <p class="pet-product-card__price">—</p>
             </article>
           {%- endfor -%}
         {%- endif -%}
       </div>
     </div>
 
-    <div class="pet-tab-panel" id="CatPanel-{{ section.id }}" role="tabpanel" aria-labelledby="CatTab-{{ section.id }}" data-pet-panel="cat" hidden>
-      <div class="pet-product-carousel" data-pet-carousel>
+    <div class="pet-tab-panel pet-favorites__panel" id="CatPanel-{{ section.id }}" role="tabpanel"{% if section.settings.show_filters %} aria-labelledby="CatTab-{{ section.id }}"{% else %} aria-label="{{ section.settings.cat_label | escape }}"{% endif %} data-pet-panel="cat"{% if section.settings.show_filters %} hidden{% endif %}>
+      {%- if section.settings.show_filters == false -%}<h3 class="pet-favorites__group-title">{{ section.settings.cat_label | escape }}</h3>{%- endif -%}
+      {%- if cat_collection == blank -%}
+        <p class="pet-favorites__empty">Sélectionnez une collection chats dans l’éditeur Shopify.</p>
+      {%- elsif cat_collection.products_count == 0 -%}
+        <p class="pet-favorites__empty">Cette collection ne contient encore aucun produit.</p>
+      {%- endif -%}
+      <div class="pet-product-carousel pet-favorites__grid" data-pet-carousel>
         {%- if cat_collection != blank and cat_collection.products_count > 0 -%}
           {%- for product in cat_collection.products limit: section.settings.product_count -%}
             {% render 'product-card-pet', product: product, index: forloop.index, show_quick_add: section.settings.show_quick_add %}
           {%- endfor -%}
         {%- else -%}
-          {%- for i in (1..5) -%}
+          {%- for i in (1..section.settings.product_count) -%}
             <article class="pet-product-card pet-product-card--{{ i }} pet-product-card--placeholder">
               <div class="pet-product-card__media">{{ 'product-' | append: i | placeholder_svg_tag }}</div>
-              <h3 class="pet-product-card__title">Produit chat à configurer</h3><p class="pet-product-card__price">16,90 €</p>
+              <h3 class="pet-product-card__title">Produit chat à configurer</h3>
+              <p class="pet-product-card__price">—</p>
             </article>
           {%- endfor -%}
         {%- endif -%}
@@ -56,33 +84,44 @@
     </div>
 
     {%- if section.settings.show_arrows -%}
-      <div class="pet-carousel-controls">
+      <div class="pet-carousel-controls pet-favorites__controls">
         <button class="pet-icon-button" type="button" aria-label="{{ 'accessibility.previous' | t }}" data-pet-carousel-prev>←</button>
         <button class="pet-icon-button" type="button" aria-label="{{ 'accessibility.next' | t }}" data-pet-carousel-next>→</button>
       </div>
     {%- endif -%}
 
     {%- if section.settings.button_label != blank -%}
-      <div class="pet-favorites__button"><a class="pet-button" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label | escape }}</a></div>
+      <div class="pet-favorites__button">
+        <a class="pet-button pet-favorites__catalog-button" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+          <span class="pet-favorites__catalog-icon" aria-hidden="true">{% render 'icon-paw' %}</span>
+          <span>{{ section.settings.button_label | escape }}</span>
+        </a>
+      </div>
     {%- endif -%}
   </div>
 </section>
+
+{{ 'favorite-products-catalog.css' | asset_url | stylesheet_tag }}
 
 {% schema %}
 {
   "name": "Produits favoris",
   "settings": [
     { "type": "text", "id": "title", "label": "Titre", "default": "NOS GRANDS FAVORIS" },
+    { "type": "text", "id": "subtitle", "label": "Phrase d’accroche", "default": "Leurs coups de cœur, réunis juste ici." },
+    { "type": "checkbox", "id": "show_filters", "label": "Afficher les filtres", "default": true },
     { "type": "text", "id": "tab_label", "label": "Libellé des onglets", "default": "Choisir un animal" },
     { "type": "text", "id": "dog_label", "label": "Libellé chiens", "default": "Chien" },
     { "type": "collection", "id": "dog_collection", "label": "Collection chiens" },
     { "type": "text", "id": "cat_label", "label": "Libellé chats", "default": "Chat" },
     { "type": "collection", "id": "cat_collection", "label": "Collection chats" },
-    { "type": "range", "id": "product_count", "min": 3, "max": 8, "step": 1, "label": "Nombre de produits", "default": 5 },
+    { "type": "range", "id": "product_count", "min": 3, "max": 8, "step": 1, "label": "Nombre de produits", "default": 4 },
     { "type": "checkbox", "id": "show_quick_add", "label": "Afficher l’ajout rapide", "default": true },
     { "type": "checkbox", "id": "show_arrows", "label": "Afficher les flèches", "default": true },
-    { "type": "text", "id": "button_label", "label": "Bouton", "default": "Tous les produits" },
+    { "type": "text", "id": "button_label", "label": "Bouton", "default": "DÉCOUVRIR TOUS LES ACCESSOIRES" },
     { "type": "url", "id": "button_link", "label": "Lien du bouton" },
+    { "type": "checkbox", "id": "show_decorations", "label": "Afficher les décorations", "default": true },
+    { "type": "checkbox", "id": "enable_animations", "label": "Activer les animations d’entrée", "default": true },
     { "type": "color", "id": "background", "label": "Fond", "default": "#F9F0EB" },
     { "type": "color", "id": "text_color", "label": "Texte", "default": "#2D1C63" }
   ],
