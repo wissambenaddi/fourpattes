@@ -1,12 +1,18 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
+    "logo": "shopify://shop_images/awal1.png",
     "logo_width": 170,
     "logo_width_mobile": 120,
     "page_width": 1300,
-    "type_heading_font": "montserrat_n7",
-    "type_body_font": "montserrat_n4",
-    "heading_scale": 100,
-    "body_scale": 100,
     "pet_cream": "#F9F0EB",
     "pet_white": "#FFFFFF",
     "pet_sky_blue": "#91CDEB",
@@ -21,7 +27,12 @@
     "pet_light_lavender": "#E9D9F7",
     "pet_light_blue": "#BFE2F3",
     "pet_peach": "#F4C98C",
-    "pet_text_dark": "#2C225D"
+    "pet_text_dark": "#2C225D",
+    "type_heading_font": "montserrat_n7",
+    "type_body_font": "montserrat_n4",
+    "heading_scale": 100,
+    "body_scale": 100,
+    "content_for_index": []
   },
   "presets": {
     "Fourpattes": {
