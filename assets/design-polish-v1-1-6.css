@@ -100,45 +100,62 @@
   .pet-hero__title{font-size:4.55rem}
 }
 
-
-/* Header matched to the footer identity — v1.1.10 */
+/* Header and footer share the same brand resources — v1.1.10 */
 .pet-header{
-  background:#26155F;
-  color:#FFF9F4;
-  box-shadow:0 1px 0 rgba(255,249,244,.14);
+  background:var(--footer-bg);
+  color:var(--footer-color);
+  box-shadow:0 1px 0 rgba(255,255,255,.14);
 }
 .pet-header__logo-image{
-  filter:none;
+  display:block;
+  width:auto;
+  max-width:min(12rem,42vw);
+  height:46px;
+  object-fit:contain;
+  filter:brightness(0) invert(1);
+}
+.pet-footer__menu summary,
+.pet-header__link-item>a{
+  font-family:var(--font-heading-family);
+  font-size:var(--text-lg);
+  font-style:normal;
+  font-weight:var(--font-weight-semibold);
+  line-height:1.15;
+  letter-spacing:0;
+  text-transform:none;
+}
+.pet-header__links{
+  gap:24px;
 }
 .pet-header .pet-icon-button{
-  border:1px solid rgba(255,249,244,.58);
+  border:1px solid rgba(255,255,255,.58);
   background:transparent;
-  color:#FFF9F4;
+  color:var(--footer-color);
   transition:background-color .2s ease,border-color .2s ease,opacity .2s ease;
 }
 .pet-header .pet-icon-button:hover{
-  border-color:#FFF9F4;
-  background:rgba(255,249,244,.12);
+  border-color:var(--footer-color);
+  background:rgba(255,255,255,.12);
 }
 .pet-header .pet-icon-button:focus-visible{
-  outline-color:#FFF9F4;
+  outline-color:var(--footer-color);
 }
 .pet-header__cart-count{
-  border-color:#26155F;
-  background:#FFF9F4;
-  color:#26155F;
+  border-color:var(--footer-bg);
+  background:var(--footer-color);
+  color:var(--footer-bg);
 }
 .pet-menu-drawer__panel{
-  background:#26155F;
-  color:#FFF9F4;
+  background:var(--footer-bg);
+  color:var(--footer-color);
 }
 .pet-menu-drawer__links>li{
-  border-bottom-color:rgba(255,249,244,.18);
+  border-bottom-color:rgba(255,255,255,.18);
 }
 .pet-menu-drawer__links a,
 .pet-menu-drawer summary,
 .pet-menu-drawer__utilities{
-  color:#FFF9F4;
+  color:var(--footer-color);
 }
 .pet-menu-drawer__links a:hover,
 .pet-menu-drawer summary:hover,
@@ -146,18 +163,14 @@
   opacity:.78;
 }
 .pet-menu-drawer summary svg{
-  stroke:#FFF9F4;
+  stroke:currentColor;
 }
 
 @media (min-width:990px){
   .pet-header__link-item>a{
     border:0;
     background:transparent;
-    color:#FFF9F4;
-    font-family:var(--font-heading-family);
-    font-size:clamp(.8125rem,.77rem + .16vw,.9375rem);
-    font-weight:var(--font-weight-semibold);
-    letter-spacing:.035em;
+    color:var(--footer-color);
   }
   .pet-header__link-item>a:hover{
     background:transparent;
@@ -165,14 +178,14 @@
   }
   .pet-header__link-item>a::after{
     height:1px;
-    background:rgba(255,249,244,.88);
+    background:var(--footer-color);
   }
   .pet-header__submenu{
-    border:1px solid rgba(255,249,244,.16);
-    background:#26155F;
-    color:#FFF9F4;
+    border:1px solid rgba(255,255,255,.16);
+    background:var(--footer-bg);
+    color:var(--footer-color);
   }
   .pet-header__submenu a:hover{
-    background:rgba(255,249,244,.1);
+    background:rgba(255,255,255,.1);
   }
 }
