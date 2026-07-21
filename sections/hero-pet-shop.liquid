@@ -91,8 +91,13 @@
 
   <div class="pet-shell pet-hero__inner">
     <div class="pet-hero__content">
-      <p class="pet-hero__yooo">YOOO !</p>
-      <h1 class="pet-hero__title">{{ section.settings.title | escape | newline_to_br }}</h1>
+      <p class="pet-hero__yooo">EH OUI !</p>
+      {%- assign narrator_lines = section.settings.title | newline_to_br | split: '<br />' -%}
+      <h1 class="pet-hero__title">
+        {%- for narrator_line in narrator_lines -%}
+          <span class="pet-hero__title-line{% if forloop.last %} pet-hero__title-line--emphasis{% endif %}">{{ narrator_line | strip | escape }}</span>
+        {%- endfor -%}
+      </h1>
       <div class="pet-button-row">
         {%- if section.settings.button_dog_label != blank -%}<a class="pet-button" href="{{ section.settings.button_dog_link | default: routes.all_products_collection_url }}">{{ section.settings.button_dog_label | escape }}</a>{%- endif -%}
         {%- if section.settings.button_cat_label != blank -%}<a class="pet-button" href="{{ section.settings.button_cat_link | default: routes.all_products_collection_url }}">{{ section.settings.button_cat_label | escape }}</a>{%- endif -%}
@@ -119,7 +124,7 @@
   "tag": "section",
   "class": "pet-hero-section",
   "settings": [
-    { "type": "textarea", "id": "title", "label": "Titre", "default": "À CHACUN SON ACCESSOIRE PRÉFÉRÉ" },
+    { "type": "textarea", "id": "title", "label": "Titre", "default": "ILS ONT CHACUN\nLEUR PETITE\nPRÉFÉRENCE..." },
     { "type": "text", "id": "button_dog_label", "label": "Bouton chiens", "default": "Accessoires chien" },
     { "type": "url", "id": "button_dog_link", "label": "Lien chiens" },
     { "type": "text", "id": "button_cat_label", "label": "Bouton chats", "default": "Accessoires chat" },
