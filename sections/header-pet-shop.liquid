@@ -1,6 +1,6 @@
 <header
   class="pet-header{% if section.settings.sticky %} pet-header--sticky{% endif %}"
-  style="--header-bg: #26155F; --header-color: #FFF9F4;"
+  style="--footer-bg: #26155F; --footer-color: #FFFFFF; --header-bg: var(--footer-bg); --header-color: var(--footer-color);"
   data-pet-header
 >
   <div class="pet-shell pet-header__inner">
@@ -16,14 +16,11 @@
     </button>
 
     <a class="pet-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
-      <img
-        class="pet-header__logo-image"
-        src="{{ 'fourpattes-logo-header-white.svg' | asset_url }}"
-        width="944"
-        height="228"
-        loading="eager"
-        alt="{{ shop.name | default: 'Fourpattes' | escape }}"
-      >
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: width: 360 | image_tag: class: 'pet-header__logo-image', widths: '120, 180, 240, 360', sizes: '190px', loading: 'eager', alt: settings.logo.alt | default: shop.name }}
+      {%- else -%}
+        <img class="pet-header__logo-image" src="{{ 'fourpattes-logo.webp' | asset_url }}" width="720" height="195" loading="eager" alt="{{ shop.name | default: 'FourPattes' | escape }}">
+      {%- endif -%}
     </a>
 
     {%- if section.settings.menu != blank -%}
