@@ -44,6 +44,9 @@
         <figure class="pet-gift-box" role="img" aria-label="{{ section.settings.gift_box_alt | escape }}">
           <span class="pet-gift-box__halo" aria-hidden="true"></span>
           <span class="pet-gift-box__light" aria-hidden="true"></span>
+          <div class="pet-gift-box__interior" aria-hidden="true">
+            <span class="pet-gift-box__tape-top"></span>
+          </div>
           <div class="pet-gift-box__accessories" aria-hidden="true">
             <span class="pet-gift-box__tissue pet-gift-box__tissue--left"></span>
             <span class="pet-gift-box__tissue pet-gift-box__tissue--center"></span>
@@ -59,6 +62,9 @@
           <div class="pet-gift-box__lid pet-gift-box__lid--back" aria-hidden="true"></div>
           <div class="pet-gift-box__flap pet-gift-box__flap--left" aria-hidden="true"></div>
           <div class="pet-gift-box__flap pet-gift-box__flap--right" aria-hidden="true"></div>
+          <div class="pet-gift-box__flap pet-gift-box__flap--front" aria-hidden="true"></div>
+          <span class="pet-gift-box__side pet-gift-box__side--left" aria-hidden="true"></span>
+          <span class="pet-gift-box__side pet-gift-box__side--right" aria-hidden="true"></span>
           <div class="pet-gift-box__body" aria-hidden="true">
             <span class="pet-gift-box__kraft-texture"></span>
             <span class="pet-gift-box__print pet-gift-box__print--paw">{% render 'icon-paw' %}</span>
@@ -69,6 +75,8 @@
             <span class="pet-gift-box__tape-lifted"></span>
             <img class="pet-gift-box__logo" src="{{ 'fourpattes-logo.webp' | asset_url }}" width="720" height="195" loading="lazy" alt="">
           </div>
+          <span class="pet-gift-box__string" aria-hidden="true"></span>
+          <span class="pet-gift-box__tag" aria-hidden="true">Préparé avec soin</span>
         </figure>
 
         <div class="pet-gift-story__cards pet-gift-story__cards--right">
