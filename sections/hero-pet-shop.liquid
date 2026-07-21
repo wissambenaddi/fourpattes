@@ -4,20 +4,11 @@
     assign use_brand_scene = true
   endif
 
-  assign brand_desktop_asset = 'fourpattes-hero-dialogue-desktop.webp'
-  assign brand_mobile_asset = 'fourpattes-hero-dialogue-mobile.webp'
-  if section.settings.hero_scene_style == 'empty_bubbles'
-    assign brand_desktop_asset = 'fourpattes-hero-bulles-vides-desktop.webp'
-    assign brand_mobile_asset = 'fourpattes-hero-bulles-vides-mobile.webp'
-  endif
+  assign brand_desktop_asset = 'fourpattes-hero-conversation-desktop.webp'
+  assign brand_mobile_asset = 'fourpattes-hero-conversation-mobile.webp'
+  assign dog_reaction_delay = section.settings.dog_dialogue_delay | plus: 300
+  assign cat_reaction_delay = section.settings.cat_dialogue_delay | plus: 300
 
-  capture brand_mobile_url
-    if section.settings.hero_mobile_image != blank
-      echo section.settings.hero_mobile_image | image_url: width: 1200
-    else
-      echo brand_mobile_asset | asset_url
-    endif
-  endcapture
 -%}
 
 <section
@@ -33,25 +24,57 @@
     --cat-width: {{ section.settings.cat_width }}%;
     --cat-x: {{ section.settings.cat_x }}%;
     --cat-y: {{ section.settings.cat_y }}%;
+    --dialogue-dog-delay: {{ section.settings.dog_dialogue_delay }}ms;
+    --dialogue-dog-reaction-delay: {{ dog_reaction_delay }}ms;
+    --dialogue-cat-delay: {{ section.settings.cat_dialogue_delay }}ms;
+    --dialogue-cat-reaction-delay: {{ cat_reaction_delay }}ms;
+    --dialogue-duration: {{ section.settings.dialogue_animation_speed }}ms;
+    --dialogue-dog-x: {{ section.settings.dog_dialogue_x }}%;
+    --dialogue-dog-y: {{ section.settings.dog_dialogue_y }}%;
+    --dialogue-cat-x: {{ section.settings.cat_dialogue_x }}%;
+    --dialogue-cat-y: {{ section.settings.cat_dialogue_y }}%;
+    --dialogue-bubble-bg: {{ section.settings.dialogue_bubble_background }};
+    --dialogue-bubble-border: {{ section.settings.dialogue_bubble_border }};
+    --dialogue-bubble-text: {{ section.settings.dialogue_bubble_text }};
   "
   data-pet-reveal
+  {% if section.settings.enable_animated_dialogue %}
+    data-animated-dialogue
+    data-dialogue-play-once="{{ section.settings.dialogue_play_once }}"
+  {% endif %}
 >
   {%- if use_brand_scene -%}
-    <picture class="pet-hero__brand-scene pet-hero__brand-scene--dialogue">
+    <picture class="pet-hero__brand-scene pet-hero__brand-scene--conversation">
+      {%- if section.settings.hero_mobile_image != blank -%}
+        <source media="(max-width: 749px)" srcset="{{ section.settings.hero_mobile_image | image_url: width: 1200 }}">
+      {%- else -%}
+        <source media="(max-width: 749px)" srcset="{{ brand_mobile_asset | asset_url }}">
+      {%- endif -%}
       {%- if section.settings.hero_desktop_image != blank -%}
         {{ section.settings.hero_desktop_image | image_url: width: 2400 | image_tag: class: 'pet-hero__brand-image', widths: '960, 1200, 1600, 1920, 2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: section.settings.hero_image_alt }}
       {%- else -%}
         <img class="pet-hero__brand-image" src="{{ brand_desktop_asset | asset_url }}" width="2400" height="1350" loading="eager" fetchpriority="high" alt="{{ section.settings.hero_image_alt | escape }}">
       {%- endif -%}
     </picture>
-    <div
-      class="pet-hero__mobile-dialogue-scene"
-      style="--pet-hero-mobile-image: url('{{ brand_mobile_url | strip }}')"
-      role="img"
-      aria-label="{{ section.settings.hero_image_alt | escape }}"
-    >
-      <span class="pet-hero__mobile-dialogue-slice pet-hero__mobile-dialogue-slice--top" aria-hidden="true"></span>
-      <span class="pet-hero__mobile-dialogue-slice pet-hero__mobile-dialogue-slice--bottom" aria-hidden="true"></span>
+  {%- endif -%}
+
+  {%- if section.settings.enable_animated_dialogue -%}
+    <div class="pet-hero__dialogues">
+      <div class="pet-hero-dialogue pet-hero-dialogue--dog">
+        <span class="pet-visually-hidden">Le chien dit :</span>
+        <p class="pet-hero-dialogue__text">{{ section.settings.dog_dialogue | escape }}</p>
+        <span class="pet-hero-dialogue__reaction pet-hero-dialogue__reaction--dog">{{ section.settings.dog_reaction | escape }}</span>
+        <span class="pet-hero-dialogue__tail" aria-hidden="true"></span>
+        <span class="pet-hero-dialogue__accent pet-hero-dialogue__accent--dog" aria-hidden="true">〰</span>
+      </div>
+
+      <div class="pet-hero-dialogue pet-hero-dialogue--cat">
+        <span class="pet-visually-hidden">Le chat répond :</span>
+        <p class="pet-hero-dialogue__text">{{ section.settings.cat_dialogue | escape }}</p>
+        <span class="pet-hero-dialogue__reaction pet-hero-dialogue__reaction--cat">{{ section.settings.cat_reaction | escape }}</span>
+        <span class="pet-hero-dialogue__tail" aria-hidden="true"></span>
+        <span class="pet-hero-dialogue__accent pet-hero-dialogue__accent--cat" aria-hidden="true">♡</span>
+      </div>
     </div>
   {%- endif -%}
 
@@ -105,28 +128,35 @@
   "tag": "section",
   "class": "pet-hero-section",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Petit texte", "default": "HEY COUCOU !" },
-    { "type": "textarea", "id": "title", "label": "Titre", "default": "LE BONHEUR COMMENCE À QUATRE PATTES" },
-    { "type": "text", "id": "subtitle", "label": "Sous-titre", "default": "ACCESSOIRES JOYEUX POUR CHIENS ET CHATS" },
-    { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Des accessoires joyeux pour prendre soin de vos compagnons.</p>" },
+    { "type": "text", "id": "eyebrow", "label": "Petit texte", "default": "BIENVENUE CHEZ FOURPATTES !" },
+    { "type": "textarea", "id": "title", "label": "Titre", "default": "À CHACUN SON ACCESSOIRE PRÉFÉRÉ" },
+    { "type": "text", "id": "subtitle", "label": "Sous-titre" },
+    { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Des accessoires joyeux, pratiques et confortables pour chiens et chats pleins de personnalité.</p>" },
     { "type": "text", "id": "button_dog_label", "label": "Bouton chiens", "default": "Accessoires chien" },
     { "type": "url", "id": "button_dog_link", "label": "Lien chiens" },
     { "type": "text", "id": "button_cat_label", "label": "Bouton chats", "default": "Accessoires chat" },
     { "type": "url", "id": "button_cat_link", "label": "Lien chats" },
     { "type": "header", "content": "Bannière Fourpattes" },
-    {
-      "type": "select",
-      "id": "hero_scene_style",
-      "label": "Version du visuel intégré",
-      "options": [
-        { "value": "dialogue", "label": "Bulles avec dialogues" },
-        { "value": "empty_bubbles", "label": "Bulles sans texte" }
-      ],
-      "default": "dialogue"
-    },
     { "type": "image_picker", "id": "hero_desktop_image", "label": "Bannière desktop personnalisée" },
     { "type": "image_picker", "id": "hero_mobile_image", "label": "Bannière mobile personnalisée" },
-    { "type": "text", "id": "hero_image_alt", "label": "Texte alternatif de la bannière", "default": "Golden retriever disant « Je prends la laisse ! » et chat gris répondant « Moi, je prends le coussin. »" },
+    { "type": "text", "id": "hero_image_alt", "label": "Texte alternatif de la bannière", "default": "Golden retriever et chat gris entourés d’accessoires colorés pour chiens et chats" },
+    { "type": "header", "content": "Conversation animée" },
+    { "type": "checkbox", "id": "enable_animated_dialogue", "label": "Activer la conversation", "default": true },
+    { "type": "text", "id": "dog_dialogue", "label": "Dialogue du chien", "default": "JE PRENDS LA LAISSE !" },
+    { "type": "text", "id": "dog_reaction", "label": "Réaction du chien", "default": "🐾 Prêt en 2 secondes" },
+    { "type": "text", "id": "cat_dialogue", "label": "Dialogue du chat", "default": "MOI, JE PRENDS LE COUSSIN." },
+    { "type": "text", "id": "cat_reaction", "label": "Réaction du chat", "default": "♡ Priorité au confort" },
+    { "type": "range", "id": "dog_dialogue_delay", "min": 0, "max": 2000, "step": 100, "unit": "ms", "label": "Délai avant le chien", "default": 600 },
+    { "type": "range", "id": "cat_dialogue_delay", "min": 500, "max": 4000, "step": 100, "unit": "ms", "label": "Délai avant le chat", "default": 1900 },
+    { "type": "range", "id": "dialogue_animation_speed", "min": 200, "max": 1000, "step": 50, "unit": "ms", "label": "Vitesse de l’animation", "default": 500 },
+    { "type": "checkbox", "id": "dialogue_play_once", "label": "Jouer une seule fois", "default": true },
+    { "type": "color", "id": "dialogue_bubble_background", "label": "Fond des bulles", "default": "#FFF9F4" },
+    { "type": "color", "id": "dialogue_bubble_border", "label": "Contour des bulles", "default": "#2D1C63" },
+    { "type": "color", "id": "dialogue_bubble_text", "label": "Texte des bulles", "default": "#2D1C63" },
+    { "type": "range", "id": "dog_dialogue_x", "min": 0, "max": 25, "step": 1, "unit": "%", "label": "Position horizontale — chien", "default": 4 },
+    { "type": "range", "id": "dog_dialogue_y", "min": 0, "max": 35, "step": 1, "unit": "%", "label": "Position verticale — chien", "default": 4 },
+    { "type": "range", "id": "cat_dialogue_x", "min": 0, "max": 25, "step": 1, "unit": "%", "label": "Position horizontale — chat", "default": 4 },
+    { "type": "range", "id": "cat_dialogue_y", "min": 0, "max": 35, "step": 1, "unit": "%", "label": "Position verticale — chat", "default": 4 },
     { "type": "image_picker", "id": "dog_image", "label": "Image du chien détourée" },
     { "type": "text", "id": "dog_alt", "label": "Texte alternatif du chien", "default": "Chien heureux" },
     { "type": "range", "id": "dog_width", "min": 25, "max": 65, "step": 1, "unit": "%", "label": "Taille du chien", "default": 54 },
