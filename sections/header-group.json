@@ -20,8 +20,8 @@
         "sticky": true,
         "show_search": true,
         "show_account": true,
-        "background": "#FFFFFF",
-        "text_color": "#2D1C63"
+        "background": "#26155F",
+        "text_color": "#FFF9F4"
       }
     }
   },
