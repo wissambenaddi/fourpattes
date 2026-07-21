@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Permanent+Marker&display=swap');
+
+/* Fourpattes Hero only — looping comic dialogue. */
+.pet-hero{
+  --bubble-cycle-duration:7s;
+}
+
+.pet-hero__yooo{
+  margin:0 auto clamp(.2rem,.6vw,.45rem);
+  color:var(--pet-deep-purple);
+  font-family:"Permanent Marker",cursive;
+  font-size:clamp(1.5rem,2.5vw,2.5rem);
+  font-weight:400;
+  line-height:1;
+  letter-spacing:.015em;
+  text-align:center;
+}
+
+.pet-hero .pet-hero__title{
+  font-family:"Luckiest Guy",cursive;
+  font-size:calc(clamp(2rem,4vw,4.5rem) * var(--pet-heading-scale));
+  font-weight:400;
+  line-height:.98;
+  letter-spacing:.01em;
+  text-wrap:balance;
+}
+
+.pet-hero-dialogue{
+  padding:clamp(.8rem,1.5vw,1.35rem);
+  border:clamp(3px,.35vw,5px) solid var(--dialogue-bubble-border);
+  border-radius:2.6rem 3.15rem 2.35rem 2.95rem / 2.25rem 2.8rem 2.5rem 3rem;
+  background:var(--dialogue-bubble-bg);
+  box-shadow:0 8px 0 color-mix(in srgb,var(--dialogue-bubble-border) 22%,transparent),0 16px 28px rgba(45,28,99,.16);
+  will-change:auto;
+}
+
+.pet-hero-dialogue--dog{
+  transform-origin:72% 100%;
+}
+
+.pet-hero-dialogue--cat{
+  border-radius:3.05rem 2.45rem 3rem 2.3rem / 2.7rem 2.2rem 3rem 2.45rem;
+  transform-origin:28% 100%;
+}
+
+.pet-hero-dialogue__tail{
+  bottom:-.9rem;
+  width:1.5rem;
+  height:1.8rem;
+  border-radius:0 0 .35rem 0;
+}
+
+.pet-hero-dialogue--dog .pet-hero-dialogue__tail{
+  left:68%;
+  transform:skew(-20deg) rotate(42deg);
+}
+
+.pet-hero-dialogue--cat .pet-hero-dialogue__tail{
+  right:68%;
+  transform:skew(20deg) rotate(48deg);
+}
+
+.pet-hero.is-dialogue-ready .pet-hero-dialogue .pet-hero-dialogue__reaction,
+.pet-hero.is-dialogue-ready .pet-hero-dialogue .pet-hero-dialogue__accent{
+  visibility:inherit;
+  opacity:1;
+  animation:none;
+}
+
+.pet-hero.is-dialogue-ready.is-dialogue-playing .pet-hero-dialogue--dog{
+  animation:hero-fourpattes-bubble-dog var(--bubble-cycle-duration) ease-in-out infinite both;
+}
+
+.pet-hero.is-dialogue-ready.is-dialogue-playing .pet-hero-dialogue--cat{
+  animation:hero-fourpattes-bubble-cat var(--bubble-cycle-duration) ease-in-out infinite both;
+}
+
+@keyframes hero-fourpattes-bubble-dog{
+  0%,5.714%{
+    visibility:hidden;
+    opacity:0;
+    transform:translateY(8px) scale(.94) rotate(-2deg);
+  }
+  11.429%,72.857%{
+    visibility:visible;
+    opacity:1;
+    transform:translateY(0) scale(1) rotate(-2deg);
+  }
+  78.571%,100%{
+    visibility:hidden;
+    opacity:0;
+    transform:translateY(4px) scale(.97) rotate(-2deg);
+  }
+}
+
+@keyframes hero-fourpattes-bubble-cat{
+  0%,25.714%{
+    visibility:hidden;
+    opacity:0;
+    transform:translateY(8px) scale(.94) rotate(2deg);
+  }
+  31.429%,72.857%{
+    visibility:visible;
+    opacity:1;
+    transform:translateY(0) scale(1) rotate(2deg);
+  }
+  78.571%,100%{
+    visibility:hidden;
+    opacity:0;
+    transform:translateY(4px) scale(.97) rotate(2deg);
+  }
+}
+
+@media (max-width:749px){
+  .pet-hero .pet-hero__title{
+    max-width:13ch;
+    font-size:clamp(2rem,8.8vw,2.75rem);
+  }
+
+  .pet-hero__yooo{
+    font-size:clamp(1.4rem,6.2vw,2rem);
+  }
+
+  .pet-hero-dialogue{
+    width:clamp(132px,43vw,188px);
+    padding:clamp(.68rem,2.5vw,.9rem);
+    border-width:3px;
+    border-radius:1.75rem 2.2rem 1.6rem 2rem / 1.6rem 2rem 1.75rem 2.15rem;
+  }
+
+  .pet-hero-dialogue--cat{
+    border-radius:2.15rem 1.7rem 2.05rem 1.55rem / 1.9rem 1.55rem 2.1rem 1.7rem;
+  }
+}
+
+@media (min-width:750px) and (max-width:1199px){
+  .pet-hero-dialogue{
+    width:clamp(190px,26vw,285px);
+  }
+
+  .pet-hero .pet-hero__title{
+    font-size:clamp(2.5rem,4.8vw,3.65rem);
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .pet-hero.is-dialogue-ready .pet-hero-dialogue,
+  .pet-hero.is-dialogue-ready.is-dialogue-playing .pet-hero-dialogue{
+    visibility:visible;
+    opacity:1;
+    animation:none;
+  }
+
+  .pet-hero.is-dialogue-ready .pet-hero-dialogue--dog{
+    transform:rotate(-2deg);
+  }
+
+  .pet-hero.is-dialogue-ready .pet-hero-dialogue--cat{
+    transform:rotate(2deg);
+  }
+}
