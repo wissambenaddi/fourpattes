@@ -421,24 +421,24 @@
 
 .pet-gift-box__accessories{
   top:5%;
-  width:72%;
+  width:66%;
   height:55%;
 }
 
 .pet-gift-box__accessories-image{
   object-position:center 68%;
-  transform:scale(.94) rotate(-2deg);
+  transform:scale(.88) rotate(-2deg);
 }
 
 .pet-gift-box__tissue{
   bottom:-5%;
-  width:58%;
-  height:76%;
+  width:68%;
+  height:80%;
 }
 
-.pet-gift-box__tissue--left{left:-8%}
-.pet-gift-box__tissue--center{left:23%;width:56%;height:82%}
-.pet-gift-box__tissue--right{right:-8%}
+.pet-gift-box__tissue--left{left:-15%}
+.pet-gift-box__tissue--center{left:18%;width:65%;height:86%}
+.pet-gift-box__tissue--right{right:-15%}
 
 .pet-gift-box__lid{
   top:14%;
