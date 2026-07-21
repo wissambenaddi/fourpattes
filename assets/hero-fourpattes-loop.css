@@ -6,23 +6,42 @@
 }
 
 .pet-hero__yooo{
-  margin:0 auto clamp(.2rem,.6vw,.45rem);
-  color:var(--pet-deep-purple);
+  width:max-content;
+  max-width:100%;
+  margin:0 auto clamp(.3rem,.65vw,.55rem);
+  color:var(--pet-turquoise);
   font-family:"Permanent Marker",cursive;
-  font-size:clamp(1.5rem,2.5vw,2.5rem);
+  font-size:clamp(1.35rem,2.15vw,2.2rem);
   font-weight:400;
   line-height:1;
-  letter-spacing:.015em;
+  letter-spacing:.02em;
   text-align:center;
+  text-shadow:0 2px 3px rgba(45,28,99,.16);
+  transform:translateX(clamp(-1.1rem,-1.2vw,-.35rem)) rotate(-5deg);
+  transform-origin:center;
 }
 
 .pet-hero .pet-hero__title{
+  margin:0 auto;
   font-family:"Luckiest Guy",cursive;
-  font-size:calc(clamp(2rem,4vw,4.5rem) * var(--pet-heading-scale));
+  font-size:calc(clamp(1.85rem,3.55vw,4rem) * var(--pet-heading-scale));
   font-weight:400;
-  line-height:.98;
-  letter-spacing:.01em;
+  line-height:.93;
+  letter-spacing:.015em;
+  text-align:center;
   text-wrap:balance;
+  -webkit-text-stroke:clamp(1px,.1vw,2px) rgba(255,249,244,.92);
+  paint-order:stroke fill;
+  text-shadow:0 3px 0 rgba(255,249,244,.7),0 7px 14px rgba(45,28,99,.18);
+}
+
+.pet-hero__title-line{
+  display:block;
+}
+
+.pet-hero__title-line--emphasis{
+  font-size:1.12em;
+  letter-spacing:.02em;
 }
 
 .pet-hero-dialogue{
@@ -118,7 +137,12 @@
   }
 
   .pet-hero__yooo{
-    font-size:clamp(1.4rem,6.2vw,2rem);
+    font-size:clamp(1.25rem,5.7vw,1.85rem);
+    transform:translateX(clamp(-.7rem,-2.5vw,-.25rem)) rotate(-5deg);
+  }
+
+  .pet-hero__title-line--emphasis{
+    font-size:1.1em;
   }
 
   .pet-hero-dialogue{
