@@ -7,17 +7,26 @@
     "next": "Suivant"
   },
   "general": {
-    "meta": { "tags": "Étiquettes : {{ tags }}", "page": "Page {{ page }}" },
+    "meta": {
+      "tags": "Étiquettes : {{ tags }}",
+      "page": "Page {{ page }}"
+    },
     "search": "Rechercher",
-    "account": "Compte",
+    "account": "Mon compte",
     "cart": "Panier",
+    "cart_empty_label": "Panier, aucun article",
+    "cart_one_label": "Panier, 1 article",
+    "cart_many_label": "Panier, {{ count }} articles",
     "menu": "Menu",
     "close": "Fermer",
+    "contact": "Contact",
+    "useful_links": "Liens utiles",
     "choose_options": "Choisir les options",
     "add_to_cart": "Ajouter au panier",
     "sold_out": "Épuisé",
     "added_to_cart": "Produit ajouté au panier",
-    "view_all": "Tout voir"
+    "view_all": "Voir tout",
+    "primary_navigation": "Navigation principale"
   },
   "newsletter": {
     "email": "Votre adresse e-mail",
