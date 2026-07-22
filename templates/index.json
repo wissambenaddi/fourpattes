@@ -51,40 +51,31 @@
     "thread_hero_favorites": {
       "type": "fourpattes-story-thread",
       "blocks": {
-        "hero_ball": { "type": "decoration", "settings": { "object_type": "ball", "color": "#F7C84B", "secondary_color": "#2D1C63", "position_x": 12, "position_y": 22, "size": 58, "mobile_size": 38, "rotation": -10, "opacity": 100, "animation": "float", "animation_delay": 100, "hide_mobile": false } },
-        "hero_paw_1": { "type": "decoration", "settings": { "object_type": "paw", "color": "#0B7C82", "secondary_color": "#F7C84B", "position_x": 51, "position_y": 53, "size": 36, "mobile_size": 26, "rotation": 13, "opacity": 75, "animation": "rise", "animation_delay": 300, "hide_mobile": false } },
-        "hero_paw_2": { "type": "decoration", "settings": { "object_type": "paw", "color": "#0B7C82", "secondary_color": "#F7C84B", "position_x": 82, "position_y": 73, "size": 32, "mobile_size": 24, "rotation": -9, "opacity": 60, "animation": "rise", "animation_delay": 500, "hide_mobile": true } }
+        "hero_ball": { "type": "decoration", "settings": { "object_type": "ball", "color": "#F7C84B", "secondary_color": "#2D1C63", "position_x": 14, "position_y": 28, "size": 38, "mobile_size": 26, "rotation": -6, "opacity": 95, "animation": "float", "animation_delay": 100, "hide_mobile": false } },
+        "hero_paw": { "type": "decoration", "settings": { "object_type": "paw", "color": "#0B7C82", "secondary_color": "#F7C84B", "position_x": 78, "position_y": 70, "size": 22, "mobile_size": 18, "rotation": 10, "opacity": 55, "animation": "rise", "animation_delay": 300, "hide_mobile": false } }
       },
-      "block_order": ["hero_ball", "hero_paw_1", "hero_paw_2"],
+      "block_order": ["hero_ball", "hero_paw"],
       "settings": {
         "enabled": true,
         "show_line": true,
-        "curve_style": "s_curve",
+        "curve_style": "gentle",
         "line_color": "#0B7C82",
-        "opacity": 55,
-        "stroke_width": 3,
-        "alignment": "center",
-        "width": 640,
-        "height": 210,
-        "offset_x": 0,
+        "opacity": 45,
+        "stroke_width": 2,
+        "alignment": "left",
+        "width": 180,
+        "height": 120,
+        "offset_x": 160,
         "offset_y": 0,
         "flip_horizontal": false,
-        "enable_animations": true
+        "enable_animations": true,
+        "hide_on_tablet": false,
+        "hide_on_mobile": true
       }
     },
     "favorites": {
       "type": "favorite-products",
       "settings": { "title": "NOS GRANDS FAVORIS", "subtitle": "Leurs coups de cœur, réunis juste ici.", "show_filters": true, "tab_label": "Choisir un animal", "dog_label": "Chien", "cat_label": "Chat", "product_count": 4, "show_quick_add": true, "show_arrows": true, "button_label": "DÉCOUVRIR TOUS LES ACCESSOIRES", "show_decorations": true, "enable_animations": true, "background": "#F9F0EB", "text_color": "#2D1C63" }
-    },
-    "thread_favorites_box": {
-      "type": "fourpattes-story-thread",
-      "blocks": {
-        "favorite_leash": { "type": "decoration", "settings": { "object_type": "leash", "color": "#2D1C63", "secondary_color": "#F7C84B", "position_x": 13, "position_y": 26, "size": 66, "mobile_size": 42, "rotation": -8, "opacity": 100, "animation": "float", "animation_delay": 100, "hide_mobile": false } },
-        "favorite_bone": { "type": "decoration", "settings": { "object_type": "bone", "color": "#F7C84B", "secondary_color": "#FFF9F4", "position_x": 57, "position_y": 54, "size": 42, "mobile_size": 30, "rotation": 12, "opacity": 85, "animation": "rise", "animation_delay": 300, "hide_mobile": true } },
-        "favorite_paw": { "type": "decoration", "settings": { "object_type": "paw", "color": "#65B2B2", "secondary_color": "#F7C84B", "position_x": 86, "position_y": 76, "size": 32, "mobile_size": 24, "rotation": -14, "opacity": 70, "animation": "rise", "animation_delay": 500, "hide_mobile": false } }
-      },
-      "block_order": ["favorite_leash", "favorite_bone", "favorite_paw"],
-      "settings": { "enabled": true, "show_line": true, "curve_style": "arc", "line_color": "#65B2B2", "opacity": 60, "stroke_width": 3, "alignment": "right", "width": 660, "height": 220, "offset_x": -40, "offset_y": 0, "flip_horizontal": false, "enable_animations": true }
     },
     "bowl_in": {
       "type": "pet-bowl-feature",
@@ -93,12 +84,11 @@
     "thread_box_life": {
       "type": "fourpattes-story-thread",
       "blocks": {
-        "box_leash": { "type": "decoration", "settings": { "object_type": "leash", "color": "#2D1C63", "secondary_color": "#F7C84B", "position_x": 14, "position_y": 24, "size": 72, "mobile_size": 44, "rotation": -11, "opacity": 100, "animation": "float", "animation_delay": 100, "hide_mobile": false } },
-        "box_paw": { "type": "decoration", "settings": { "object_type": "paw", "color": "#BFE2F3", "secondary_color": "#F7C84B", "position_x": 53, "position_y": 53, "size": 38, "mobile_size": 28, "rotation": 15, "opacity": 85, "animation": "rise", "animation_delay": 300, "hide_mobile": true } },
-        "box_mouse": { "type": "decoration", "settings": { "object_type": "mouse", "color": "#B79ADE", "secondary_color": "#F29FBB", "position_x": 85, "position_y": 76, "size": 50, "mobile_size": 34, "rotation": 8, "opacity": 100, "animation": "float", "animation_delay": 500, "hide_mobile": false } }
+        "box_ball_start": { "type": "decoration", "settings": { "object_type": "ball", "color": "#F4B63F", "secondary_color": "#2D1C63", "position_x": 30, "position_y": 28, "size": 36, "mobile_size": 26, "rotation": -7, "opacity": 100, "animation": "float", "animation_delay": 100, "hide_mobile": false } },
+        "box_ball_end": { "type": "decoration", "settings": { "object_type": "ball", "color": "#F4B63F", "secondary_color": "#2D1C63", "position_x": 72, "position_y": 74, "size": 36, "mobile_size": 26, "rotation": 6, "opacity": 95, "animation": "float", "animation_delay": 400, "hide_mobile": false } }
       },
-      "block_order": ["box_leash", "box_paw", "box_mouse"],
-      "settings": { "enabled": true, "show_line": true, "curve_style": "loop", "line_color": "#BFE2F3", "opacity": 60, "stroke_width": 3.5, "alignment": "center", "width": 720, "height": 230, "offset_x": 0, "offset_y": 0, "flip_horizontal": false, "enable_animations": true }
+      "block_order": ["box_ball_start", "box_ball_end"],
+      "settings": { "enabled": true, "show_line": true, "curve_style": "loop", "line_color": "#BFE2F3", "opacity": 50, "stroke_width": 2.5, "alignment": "center", "width": 480, "height": 200, "offset_x": 0, "offset_y": 0, "flip_horizontal": false, "enable_animations": true, "hide_on_tablet": false, "hide_on_mobile": false }
     },
     "bowl_out": {
       "type": "pet-bowl-feature",
@@ -115,12 +105,10 @@
     "thread_life_reviews": {
       "type": "fourpattes-story-thread",
       "blocks": {
-        "life_heart": { "type": "decoration", "settings": { "object_type": "heart", "color": "#C82552", "secondary_color": "#F7C84B", "position_x": 17, "position_y": 30, "size": 48, "mobile_size": 32, "rotation": -8, "opacity": 90, "animation": "rise", "animation_delay": 100, "hide_mobile": false } },
-        "life_star_1": { "type": "decoration", "settings": { "object_type": "star", "color": "#F7C84B", "secondary_color": "#FFF9F4", "position_x": 56, "position_y": 53, "size": 36, "mobile_size": 26, "rotation": 9, "opacity": 85, "animation": "sparkle", "animation_delay": 300, "hide_mobile": false } },
-        "life_star_2": { "type": "decoration", "settings": { "object_type": "star", "color": "#F7C84B", "secondary_color": "#FFF9F4", "position_x": 84, "position_y": 72, "size": 28, "mobile_size": 22, "rotation": -6, "opacity": 60, "animation": "sparkle", "animation_delay": 500, "hide_mobile": true } }
+        "life_heart": { "type": "decoration", "settings": { "object_type": "heart", "color": "#C82552", "secondary_color": "#F7C84B", "position_x": 68, "position_y": 62, "size": 26, "mobile_size": 18, "rotation": -5, "opacity": 80, "animation": "rise", "animation_delay": 200, "hide_mobile": false } }
       },
-      "block_order": ["life_heart", "life_star_1", "life_star_2"],
-      "settings": { "enabled": true, "show_line": true, "curve_style": "gentle", "line_color": "#0B7C82", "opacity": 45, "stroke_width": 2.5, "alignment": "left", "width": 600, "height": 190, "offset_x": 40, "offset_y": 0, "flip_horizontal": false, "enable_animations": true }
+      "block_order": ["life_heart"],
+      "settings": { "enabled": true, "show_line": true, "curve_style": "gentle", "line_color": "#0B7C82", "opacity": 35, "stroke_width": 2, "alignment": "right", "width": 200, "height": 120, "offset_x": -160, "offset_y": 0, "flip_horizontal": false, "enable_animations": true, "hide_on_tablet": true, "hide_on_mobile": true }
     },
     "reviews": {
       "type": "fourpattes-community-gallery",
@@ -158,16 +146,6 @@
         "bottom_color": "#702758",
         "flip_bottom_wave": false
       }
-    },
-    "thread_reviews_mission": {
-      "type": "fourpattes-story-thread",
-      "blocks": {
-        "reviews_camera": { "type": "decoration", "settings": { "object_type": "camera", "color": "#2D1C63", "secondary_color": "#5BC4C6", "position_x": 14, "position_y": 26, "size": 58, "mobile_size": 38, "rotation": -7, "opacity": 100, "animation": "float", "animation_delay": 100, "hide_mobile": false } },
-        "reviews_photo": { "type": "decoration", "settings": { "object_type": "photo", "color": "#FFF9F4", "secondary_color": "#BFE2F3", "position_x": 53, "position_y": 53, "size": 50, "mobile_size": 34, "rotation": 10, "opacity": 95, "animation": "float", "animation_delay": 300, "hide_mobile": false } },
-        "reviews_heart": { "type": "decoration", "settings": { "object_type": "heart", "color": "#C82552", "secondary_color": "#F7C84B", "position_x": 85, "position_y": 75, "size": 34, "mobile_size": 24, "rotation": -10, "opacity": 75, "animation": "rise", "animation_delay": 500, "hide_mobile": true } }
-      },
-      "block_order": ["reviews_camera", "reviews_photo", "reviews_heart"],
-      "settings": { "enabled": true, "show_line": true, "curve_style": "s_curve", "line_color": "#0B7C82", "opacity": 50, "stroke_width": 3, "alignment": "right", "width": 660, "height": 210, "offset_x": -30, "offset_y": 0, "flip_horizontal": false, "enable_animations": true }
     },
     "mission": {
       "type": "fourpattes-mission",
@@ -271,16 +249,6 @@
         "flip_bottom_wave": true
       }
     },
-    "thread_mission_newsletter": {
-      "type": "fourpattes-story-thread",
-      "blocks": {
-        "mission_box": { "type": "decoration", "settings": { "object_type": "box", "color": "#D89A4A", "secondary_color": "#F7C84B", "position_x": 15, "position_y": 24, "size": 64, "mobile_size": 42, "rotation": -7, "opacity": 100, "animation": "float", "animation_delay": 100, "hide_mobile": false } },
-        "mission_paw": { "type": "decoration", "settings": { "object_type": "paw", "color": "#0B7C82", "secondary_color": "#F7C84B", "position_x": 54, "position_y": 53, "size": 36, "mobile_size": 26, "rotation": 13, "opacity": 70, "animation": "rise", "animation_delay": 300, "hide_mobile": true } },
-        "mission_medal": { "type": "decoration", "settings": { "object_type": "medal", "color": "#0B7C82", "secondary_color": "#7E4BC2", "position_x": 84, "position_y": 74, "size": 48, "mobile_size": 32, "rotation": 8, "opacity": 100, "animation": "float", "animation_delay": 500, "hide_mobile": false } }
-      },
-      "block_order": ["mission_box", "mission_paw", "mission_medal"],
-      "settings": { "enabled": true, "show_line": true, "curve_style": "loop", "line_color": "#0B7C82", "opacity": 55, "stroke_width": 3, "alignment": "left", "width": 680, "height": 220, "offset_x": 30, "offset_y": 0, "flip_horizontal": false, "enable_animations": true }
-    },
     "newsletter": {
       "type": "fourpattes-newsletter-with-patous",
       "settings": {
@@ -318,13 +286,11 @@
     "thread_newsletter_footer": {
       "type": "fourpattes-story-thread",
       "blocks": {
-        "newsletter_medal": { "type": "decoration", "settings": { "object_type": "medal", "color": "#0B7C82", "secondary_color": "#7E4BC2", "position_x": 16, "position_y": 27, "size": 48, "mobile_size": 32, "rotation": -7, "opacity": 90, "animation": "float", "animation_delay": 100, "hide_mobile": false } },
-        "newsletter_paw_1": { "type": "decoration", "settings": { "object_type": "paw", "color": "#BFE2F3", "secondary_color": "#F7C84B", "position_x": 54, "position_y": 54, "size": 34, "mobile_size": 26, "rotation": 12, "opacity": 75, "animation": "rise", "animation_delay": 300, "hide_mobile": true } },
-        "newsletter_paw_2": { "type": "decoration", "settings": { "object_type": "paw", "color": "#F7C84B", "secondary_color": "#FFF9F4", "position_x": 84, "position_y": 76, "size": 32, "mobile_size": 24, "rotation": -12, "opacity": 85, "animation": "rise", "animation_delay": 500, "hide_mobile": false } }
+        "newsletter_medal": { "type": "decoration", "settings": { "object_type": "medal", "color": "#0B7C82", "secondary_color": "#7E4BC2", "position_x": 76, "position_y": 30, "size": 30, "mobile_size": 22, "rotation": -4, "opacity": 85, "animation": "float", "animation_delay": 100, "hide_mobile": false } }
       },
-      "block_order": ["newsletter_medal", "newsletter_paw_1", "newsletter_paw_2"],
-      "settings": { "enabled": true, "show_line": true, "curve_style": "gentle", "line_color": "#BFE2F3", "opacity": 55, "stroke_width": 2.5, "alignment": "center", "width": 560, "height": 180, "offset_x": 0, "offset_y": 0, "flip_horizontal": false, "enable_animations": true }
+      "block_order": ["newsletter_medal"],
+      "settings": { "enabled": true, "show_line": true, "curve_style": "gentle", "line_color": "#BFE2F3", "opacity": 40, "stroke_width": 2, "alignment": "left", "width": 220, "height": 100, "offset_x": 20, "offset_y": 0, "flip_horizontal": true, "enable_animations": true, "hide_on_tablet": false, "hide_on_mobile": false }
     }
   },
-  "order": ["hero", "thread_hero_favorites", "favorites", "thread_favorites_box", "bowl_in", "thread_box_life", "bowl_out", "thread_life_reviews", "reviews", "thread_reviews_mission", "mission", "thread_mission_newsletter", "newsletter", "thread_newsletter_footer"]
+  "order": ["hero", "thread_hero_favorites", "favorites", "bowl_in", "thread_box_life", "bowl_out", "thread_life_reviews", "reviews", "mission", "newsletter", "thread_newsletter_footer"]
 }
