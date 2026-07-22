@@ -31,6 +31,9 @@
     "consent_help": "Add real content, then confirm that display permission has been obtained.",
     "editor_preview": "Preview of hidden community content"
   },
+  "mission": {
+    "step": "Step {{ index }} of {{ total }}"
+  },
   "products": {
     "price_from": "From {{ price }}",
     "quantity": "Quantity",
