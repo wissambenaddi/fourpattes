@@ -1,0 +1,317 @@
+{%- liquid
+  assign heading_id = 'CommunityGalleryHeading-' | append: section.id
+  assign empty_heading_id = 'CommunityGalleryEmptyHeading-' | append: section.id
+  assign visible_content_count = 0
+
+  for block in section.blocks
+    if block.type == '@app'
+      assign visible_content_count = visible_content_count | plus: 1
+    elsif block.settings.consent
+      case block.type
+        when 'featured_photo', 'photo'
+          if block.settings.image != blank
+            assign visible_content_count = visible_content_count | plus: 1
+          endif
+        when 'quote'
+          if block.settings.quote != blank
+            assign visible_content_count = visible_content_count | plus: 1
+          endif
+        when 'community_card'
+          if block.settings.title != blank or block.settings.text != blank
+            assign visible_content_count = visible_content_count | plus: 1
+          endif
+        when 'video'
+          if block.settings.video != blank or block.settings.external_video != blank
+            assign visible_content_count = visible_content_count | plus: 1
+          endif
+      endcase
+    endif
+  endfor
+
+  assign show_editor_gallery = false
+  if request.design_mode and section.blocks.size > 0
+    assign show_editor_gallery = true
+  endif
+-%}
+
+{%- if section.settings.enabled -%}
+  <section
+    class="pet-community pet-reviews pet-community--desktop-{{ section.settings.desktop_layout }} pet-community--mobile-{{ section.settings.mobile_layout }}{% unless section.settings.enable_animations %} pet-community--static{% endunless %}"
+    style="--community-bg: {{ section.settings.background }}; --community-text: {{ section.settings.text_color }}; --community-accent: {{ section.settings.accent_color }}; --community-card: {{ section.settings.card_color }}; --community-soft: {{ section.settings.soft_color }}; --community-max-width: {{ section.settings.max_width }}px; --community-padding-top: {{ section.settings.padding_top }}px; --community-padding-bottom: {{ section.settings.padding_bottom }}px;"
+    {% if visible_content_count > 0 %}aria-labelledby="{{ heading_id }}"{% else %}aria-labelledby="{{ empty_heading_id }}"{% endif %}
+    data-pet-reveal
+  >
+    {%- if section.settings.show_top_wave -%}
+      {% render 'wave-divider', color: section.settings.background, position: 'top', flip: section.settings.flip_top_wave %}
+    {%- endif -%}
+
+    {%- if request.page_type == 'index' -%}
+      {% render 'homepage-flow-link', kind: 'life-reviews' %}
+    {%- endif -%}
+
+    {%- if section.settings.show_decorations -%}
+      <div class="pet-community__decor" aria-hidden="true">
+        <span class="pet-community__decor-paw pet-community__decor-paw--one">{% render 'icon-paw' %}</span>
+        <span class="pet-community__decor-paw pet-community__decor-paw--two">{% render 'icon-paw' %}</span>
+        <span class="pet-community__decor-heart">♡</span>
+        <span class="pet-community__decor-star pet-community__decor-star--one">✦</span>
+        <span class="pet-community__decor-star pet-community__decor-star--two">✧</span>
+        <svg class="pet-community__decor-camera" viewBox="0 0 64 52" focusable="false">
+          <path d="M7 14h12l5-7h17l5 7h11v32H7z"/>
+          <circle cx="32" cy="30" r="11"/>
+          <path d="M50 20h2"/>
+        </svg>
+      </div>
+    {%- endif -%}
+
+    <div class="pet-shell pet-community__shell">
+      {%- if visible_content_count > 0 -%}
+        <header class="pet-community__header">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="pet-community__eyebrow"><span aria-hidden="true">🐾</span>{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.title != blank -%}<h2 id="{{ heading_id }}">{{ section.settings.title | escape | newline_to_br }}</h2>{%- endif -%}
+          {%- if section.settings.subtitle != blank -%}<p class="pet-community__subtitle">{{ section.settings.subtitle | escape }}</p>{%- endif -%}
+        </header>
+
+        <div class="pet-community__gallery" role="region" aria-label="{{ section.settings.gallery_label | escape }}">
+          {%- for mobile_position in (1..12) -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type != '@app' and block.settings.mobile_order == mobile_position -%}
+                {% render 'community-gallery-item', block: block %}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+
+          {%- for block in section.blocks -%}
+            {%- if block.type == '@app' -%}
+              <div class="pet-community-item pet-community-item--app" {{ block.shopify_attributes }}>
+                {% render block %}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.show_participation -%}
+          <aside class="pet-community__participation">
+            <span class="pet-community__participation-icon" aria-hidden="true">♡</span>
+            <div>
+              {%- if section.settings.participation_title != blank -%}<h3>{{ section.settings.participation_title | escape }}</h3>{%- endif -%}
+              {%- if section.settings.participation_text != blank -%}<p>{{ section.settings.participation_text | escape }}</p>{%- endif -%}
+            </div>
+            <div class="pet-community__actions">
+              {%- if section.settings.button_label != blank -%}
+                <a class="pet-button{% if section.settings.button_style == 'outline' %} pet-button--outline{% endif %}" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label | escape }}</a>
+              {%- endif -%}
+              {%- if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank -%}
+                <a class="pet-community__secondary-link" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_link_label | escape }} <span aria-hidden="true">→</span></a>
+              {%- endif -%}
+            </div>
+          </aside>
+        {%- endif -%}
+      {%- else -%}
+        <div class="pet-community__empty">
+          <span class="pet-community__empty-illustration" aria-hidden="true">
+            <span>🐶</span><span>📷</span><span>🐱</span>
+          </span>
+          {%- if section.settings.empty_eyebrow != blank -%}<p class="pet-community__eyebrow">{{ section.settings.empty_eyebrow | escape }}</p>{%- endif -%}
+          <h2 id="{{ empty_heading_id }}">{{ section.settings.empty_title | escape }}</h2>
+          {%- if section.settings.empty_text != blank -%}<p>{{ section.settings.empty_text | escape }}</p>{%- endif -%}
+          {%- if section.settings.empty_button_label != blank -%}
+            <a class="pet-button" href="{{ section.settings.empty_button_link | default: routes.all_products_collection_url }}">{{ section.settings.empty_button_label | escape }}</a>
+          {%- endif -%}
+        </div>
+
+        {%- if show_editor_gallery -%}
+          <div class="pet-community__editor-preview" aria-label="{{ 'community.editor_preview' | t }}">
+            {%- for mobile_position in (1..12) -%}
+              {%- for block in section.blocks -%}
+                {%- if block.type != '@app' and block.settings.mobile_order == mobile_position -%}
+                  {% render 'community-gallery-item', block: block %}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_bottom_wave -%}
+      {% render 'wave-divider', color: section.settings.bottom_color, position: 'bottom', flip: section.settings.flip_bottom_wave %}
+    {%- endif -%}
+  </section>
+
+  {{ 'fourpattes-community-gallery.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Galerie de la meute",
+  "tag": "section",
+  "class": "pet-community-section",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Afficher la section", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Petit badge", "default": "LA COMMUNAUTÉ FOURPATTES" },
+    { "type": "textarea", "id": "title", "label": "Titre", "default": "ILS FONT DÉJÀ PARTIE DE LA MEUTE" },
+    { "type": "textarea", "id": "subtitle", "label": "Sous-titre", "default": "Des moments de jeu, de surprise et de complicité partagés par notre communauté." },
+    { "type": "text", "id": "gallery_label", "label": "Libellé accessible de la galerie", "default": "Photos et histoires de la communauté FourPattes" },
+
+    { "type": "header", "content": "Composition" },
+    { "type": "select", "id": "desktop_layout", "label": "Disposition ordinateur", "options": [{ "value": "mosaic", "label": "Mosaïque organique" }, { "value": "editorial", "label": "Grille éditoriale" }], "default": "mosaic" },
+    { "type": "select", "id": "mobile_layout", "label": "Disposition mobile", "options": [{ "value": "carousel", "label": "Défilement horizontal" }, { "value": "grid", "label": "Grille deux colonnes" }], "default": "carousel" },
+    { "type": "range", "id": "max_width", "min": 1000, "max": 1300, "step": 20, "unit": "px", "label": "Largeur maximale", "default": 1160 },
+    { "type": "range", "id": "padding_top", "min": 40, "max": 120, "step": 4, "unit": "px", "label": "Espace supérieur", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "min": 40, "max": 120, "step": 4, "unit": "px", "label": "Espace inférieur", "default": 84 },
+    { "type": "checkbox", "id": "enable_animations", "label": "Activer les animations", "default": true },
+    { "type": "checkbox", "id": "show_decorations", "label": "Afficher les décorations", "default": true },
+
+    { "type": "header", "content": "Appel à participation" },
+    { "type": "checkbox", "id": "show_participation", "label": "Afficher l’appel", "default": true },
+    { "type": "text", "id": "participation_title", "label": "Titre de l’appel", "default": "Votre compagnon pourrait être le prochain" },
+    { "type": "textarea", "id": "participation_text", "label": "Texte de l’appel", "default": "Envoyez-nous une photo de votre compagnon avec sa box et rejoignez la galerie de la meute." },
+    { "type": "text", "id": "button_label", "label": "Texte du bouton", "default": "Partager une photo" },
+    { "type": "url", "id": "button_link", "label": "Lien du bouton" },
+    { "type": "select", "id": "button_style", "label": "Style du bouton", "options": [{ "value": "solid", "label": "Plein" }, { "value": "outline", "label": "Contour" }], "default": "solid" },
+    { "type": "text", "id": "secondary_link_label", "label": "Texte du lien secondaire", "default": "Voir tous les avis" },
+    { "type": "url", "id": "secondary_link", "label": "Lien secondaire" },
+
+    { "type": "header", "content": "État sans contenu réel" },
+    { "type": "text", "id": "empty_eyebrow", "label": "Petit badge vide", "default": "LA MEUTE COMMENCE ICI" },
+    { "type": "text", "id": "empty_title", "label": "Titre vide", "default": "Votre compagnon pourrait être le premier" },
+    { "type": "textarea", "id": "empty_text", "label": "Texte vide", "default": "Partagez son expérience FourPattes après votre commande et rejoignez bientôt notre galerie." },
+    { "type": "text", "id": "empty_button_label", "label": "Bouton vide", "default": "Découvrir FourPattes" },
+    { "type": "url", "id": "empty_button_link", "label": "Lien du bouton vide" },
+
+    { "type": "header", "content": "Couleurs" },
+    { "type": "color", "id": "background", "label": "Fond", "default": "#F9F0EB" },
+    { "type": "color", "id": "text_color", "label": "Texte", "default": "#2D1C63" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#C82552" },
+    { "type": "color", "id": "card_color", "label": "Cartes", "default": "#FFF9F4" },
+    { "type": "color", "id": "soft_color", "label": "Décor doux", "default": "#BFE2F3" },
+
+    { "type": "header", "content": "Vagues" },
+    { "type": "checkbox", "id": "show_top_wave", "label": "Afficher la vague supérieure", "default": false },
+    { "type": "checkbox", "id": "flip_top_wave", "label": "Inverser la vague supérieure", "default": false },
+    { "type": "checkbox", "id": "show_bottom_wave", "label": "Afficher la vague inférieure", "default": false },
+    { "type": "color", "id": "bottom_color", "label": "Couleur après la vague", "default": "#702758" },
+    { "type": "checkbox", "id": "flip_bottom_wave", "label": "Inverser la vague inférieure", "default": false }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "featured_photo",
+      "name": "Photo principale",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo client" },
+        { "type": "text", "id": "image_alt", "label": "Texte alternatif" },
+        { "type": "text", "id": "animal_name", "label": "Nom de l’animal" },
+        { "type": "text", "id": "client_name", "label": "Prénom du client" },
+        { "type": "textarea", "id": "caption", "label": "Légende" },
+        { "type": "select", "id": "animal_type", "label": "Type d’animal", "options": [{ "value": "dog", "label": "Chien" }, { "value": "cat", "label": "Chat" }, { "value": "duo", "label": "Duo" }, { "value": "other", "label": "Autre" }], "default": "dog" },
+        { "type": "url", "id": "link", "label": "Lien de la photo" },
+        { "type": "text", "id": "badge", "label": "Badge facultatif", "default": "Photo client" },
+        { "type": "checkbox", "id": "consent", "label": "Autorisation d’affichage obtenue", "default": false, "info": "Le contenu reste masqué sur la boutique tant que cette case n’est pas cochée." },
+        { "type": "text", "id": "credit", "label": "Crédit facultatif" },
+        { "type": "url", "id": "source_link", "label": "Publication source" },
+        { "type": "url", "id": "review_link", "label": "Avis associé" },
+        { "type": "select", "id": "desktop_position", "label": "Position ordinateur", "options": [{ "value": "main", "label": "Centre principal" }, { "value": "top-left", "label": "Haut gauche" }, { "value": "top-right", "label": "Haut droite" }, { "value": "bottom-left", "label": "Bas gauche" }, { "value": "bottom-center", "label": "Bas centre" }, { "value": "bottom-right", "label": "Bas droite" }, { "value": "auto", "label": "Automatique" }], "default": "main" },
+        { "type": "select", "id": "desktop_size", "label": "Taille ordinateur", "options": [{ "value": "small", "label": "Petite" }, { "value": "medium", "label": "Moyenne" }, { "value": "large", "label": "Grande" }, { "value": "wide", "label": "Horizontale" }], "default": "large" },
+        { "type": "range", "id": "rotation", "min": -3, "max": 3, "step": 1, "unit": "°", "label": "Rotation ordinateur", "default": -1 },
+        { "type": "range", "id": "mobile_order", "min": 1, "max": 12, "step": 1, "label": "Ordre mobile", "default": 1 },
+        { "type": "checkbox", "id": "show_caption", "label": "Afficher la légende", "default": true }
+      ]
+    },
+    {
+      "type": "photo",
+      "name": "Photo secondaire",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo client" },
+        { "type": "text", "id": "image_alt", "label": "Texte alternatif" },
+        { "type": "text", "id": "animal_name", "label": "Nom de l’animal" },
+        { "type": "text", "id": "client_name", "label": "Prénom du client" },
+        { "type": "textarea", "id": "caption", "label": "Légende" },
+        { "type": "select", "id": "animal_type", "label": "Type d’animal", "options": [{ "value": "dog", "label": "Chien" }, { "value": "cat", "label": "Chat" }, { "value": "duo", "label": "Duo" }, { "value": "other", "label": "Autre" }], "default": "dog" },
+        { "type": "url", "id": "link", "label": "Lien de la photo" },
+        { "type": "text", "id": "badge", "label": "Badge facultatif", "default": "Photo client" },
+        { "type": "checkbox", "id": "consent", "label": "Autorisation d’affichage obtenue", "default": false, "info": "Le contenu reste masqué sur la boutique tant que cette case n’est pas cochée." },
+        { "type": "text", "id": "credit", "label": "Crédit facultatif" },
+        { "type": "url", "id": "source_link", "label": "Publication source" },
+        { "type": "url", "id": "review_link", "label": "Avis associé" },
+        { "type": "select", "id": "desktop_position", "label": "Position ordinateur", "options": [{ "value": "auto", "label": "Automatique" }, { "value": "top-left", "label": "Haut gauche" }, { "value": "top-right", "label": "Haut droite" }, { "value": "middle-left", "label": "Milieu gauche" }, { "value": "middle-right", "label": "Milieu droite" }, { "value": "bottom-left", "label": "Bas gauche" }, { "value": "bottom-center", "label": "Bas centre" }, { "value": "bottom-right", "label": "Bas droite" }], "default": "auto" },
+        { "type": "select", "id": "desktop_size", "label": "Taille ordinateur", "options": [{ "value": "small", "label": "Petite" }, { "value": "medium", "label": "Moyenne" }, { "value": "large", "label": "Grande" }, { "value": "wide", "label": "Horizontale" }], "default": "medium" },
+        { "type": "range", "id": "rotation", "min": -3, "max": 3, "step": 1, "unit": "°", "label": "Rotation ordinateur", "default": 1 },
+        { "type": "range", "id": "mobile_order", "min": 1, "max": 12, "step": 1, "label": "Ordre mobile", "default": 3 },
+        { "type": "checkbox", "id": "show_caption", "label": "Afficher la légende", "default": true },
+        { "type": "checkbox", "id": "featured", "label": "Mettre en avant", "default": false }
+      ]
+    },
+    {
+      "type": "quote",
+      "name": "Citation courte",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Citation réelle" },
+        { "type": "text", "id": "client_name", "label": "Prénom du client" },
+        { "type": "text", "id": "animal_name", "label": "Nom de l’animal" },
+        { "type": "image_picker", "id": "photo", "label": "Petite photo facultative" },
+        { "type": "text", "id": "photo_alt", "label": "Texte alternatif de la photo" },
+        { "type": "select", "id": "icon", "label": "Icône", "options": [{ "value": "quote", "label": "Guillemets" }, { "value": "heart", "label": "Cœur" }, { "value": "paw", "label": "Patte" }, { "value": "none", "label": "Aucune" }], "default": "quote" },
+        { "type": "color", "id": "background", "label": "Fond", "default": "#E9D9F7" },
+        { "type": "checkbox", "id": "consent", "label": "Autorisation de publication obtenue", "default": false },
+        { "type": "select", "id": "desktop_position", "label": "Position ordinateur", "options": [{ "value": "middle-left", "label": "Milieu gauche" }, { "value": "middle-right", "label": "Milieu droite" }, { "value": "bottom-left", "label": "Bas gauche" }, { "value": "bottom-center", "label": "Bas centre" }, { "value": "bottom-right", "label": "Bas droite" }, { "value": "auto", "label": "Automatique" }], "default": "middle-left" },
+        { "type": "select", "id": "desktop_size", "label": "Taille", "options": [{ "value": "small", "label": "Petite" }, { "value": "medium", "label": "Moyenne" }, { "value": "wide", "label": "Large" }], "default": "medium" },
+        { "type": "range", "id": "rotation", "min": -3, "max": 3, "step": 1, "unit": "°", "label": "Rotation", "default": -2 },
+        { "type": "range", "id": "mobile_order", "min": 1, "max": 12, "step": 1, "label": "Ordre mobile", "default": 2 }
+      ]
+    },
+    {
+      "type": "community_card",
+      "name": "Mini carte communautaire",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre" },
+        { "type": "textarea", "id": "text", "label": "Texte" },
+        { "type": "select", "id": "icon", "label": "Icône", "options": [{ "value": "paw", "label": "Patte" }, { "value": "heart", "label": "Cœur" }, { "value": "camera", "label": "Appareil photo" }, { "value": "star", "label": "Étoile" }], "default": "paw" },
+        { "type": "color", "id": "background", "label": "Fond", "default": "#BFE2F3" },
+        { "type": "url", "id": "link", "label": "Lien facultatif" },
+        { "type": "text", "id": "link_label", "label": "Texte du lien" },
+        { "type": "checkbox", "id": "consent", "label": "Contenu réel et autorisé", "default": false },
+        { "type": "select", "id": "desktop_position", "label": "Position ordinateur", "options": [{ "value": "bottom-center", "label": "Bas centre" }, { "value": "bottom-left", "label": "Bas gauche" }, { "value": "bottom-right", "label": "Bas droite" }, { "value": "auto", "label": "Automatique" }], "default": "bottom-center" },
+        { "type": "select", "id": "desktop_size", "label": "Taille", "options": [{ "value": "small", "label": "Petite" }, { "value": "medium", "label": "Moyenne" }, { "value": "wide", "label": "Large" }], "default": "medium" },
+        { "type": "range", "id": "rotation", "min": -3, "max": 3, "step": 1, "unit": "°", "label": "Rotation", "default": 1 },
+        { "type": "range", "id": "mobile_order", "min": 1, "max": 12, "step": 1, "label": "Ordre mobile", "default": 6 }
+      ]
+    },
+    {
+      "type": "video",
+      "name": "Vidéo communautaire",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Vidéo Shopify" },
+        { "type": "video_url", "id": "external_video", "label": "Vidéo YouTube ou Vimeo", "accept": ["youtube", "vimeo"] },
+        { "type": "image_picker", "id": "cover_image", "label": "Image de couverture" },
+        { "type": "text", "id": "video_alt", "label": "Description accessible" },
+        { "type": "text", "id": "animal_name", "label": "Nom de l’animal" },
+        { "type": "textarea", "id": "caption", "label": "Légende" },
+        { "type": "checkbox", "id": "autoplay", "label": "Lecture automatique", "default": false },
+        { "type": "checkbox", "id": "muted", "label": "Son désactivé", "default": true },
+        { "type": "checkbox", "id": "consent", "label": "Autorisation d’affichage obtenue", "default": false },
+        { "type": "select", "id": "desktop_position", "label": "Position ordinateur", "options": [{ "value": "top-right", "label": "Haut droite" }, { "value": "middle-right", "label": "Milieu droite" }, { "value": "bottom-left", "label": "Bas gauche" }, { "value": "bottom-center", "label": "Bas centre" }, { "value": "bottom-right", "label": "Bas droite" }, { "value": "auto", "label": "Automatique" }], "default": "top-right" },
+        { "type": "select", "id": "desktop_size", "label": "Taille", "options": [{ "value": "medium", "label": "Moyenne" }, { "value": "large", "label": "Grande" }, { "value": "wide", "label": "Horizontale" }], "default": "medium" },
+        { "type": "range", "id": "rotation", "min": -3, "max": 3, "step": 1, "unit": "°", "label": "Rotation", "default": 1 },
+        { "type": "range", "id": "mobile_order", "min": 1, "max": 12, "step": 1, "label": "Ordre mobile", "default": 5 }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Galerie de la meute",
+      "blocks": [
+        { "type": "featured_photo" },
+        { "type": "quote" },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "community_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
