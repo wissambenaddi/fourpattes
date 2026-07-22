@@ -1,0 +1,54 @@
+{% doc %}
+  Renders an original lightweight fallback illustration for a mission card.
+  @param {string} scene - Scene name: select, prepare, discover, remember.
+  @param {string} label - Accessible illustration label.
+  @param {string} [class] - Optional CSS class.
+{% enddoc %}
+
+{%- case scene -%}
+  {%- when 'prepare' -%}
+    <svg class="{{ class }}" viewBox="0 0 320 220" role="img" aria-label="{{ label | escape }}">
+      <path d="M49 126c-8-48 35-91 89-90 61 0 126 21 131 82 5 57-52 83-115 79-58-4-96-17-105-71Z" fill="var(--story-card-soft)"/>
+      <path d="m91 91 48-28 43 29-43 22-48-23Zm91 1 48-26 28 36-48 21-28-31Z" fill="#FFE3A7" stroke="var(--story-ink)" stroke-width="4" stroke-linejoin="round"/>
+      <path d="m75 101 64 13 71 9-13 64-113-19-9-67Z" fill="#DDA15A" stroke="var(--story-ink)" stroke-width="4" stroke-linejoin="round"/>
+      <path d="m139 114 43-22 76 10-48 21-71-9Z" fill="#F1BB70" stroke="var(--story-ink)" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M137 78c-4-18 21-21 23-5 4-15 27-9 22 7-4 12-17 18-25 24-8-7-17-14-20-26Z" fill="var(--story-card-accent)"/>
+      <path d="M129 143c8-8 19 2 13 10-7 9-20 2-13-10Zm21 3c8-8 19 2 13 10-7 9-20 2-13-10Zm-5 18c11-13 30 3 18 16-11 11-29-4-18-16Z" fill="var(--story-ink)" opacity=".72"/>
+      <path d="m49 68 7 15 16 4-16 6-7 15-6-15-16-6 16-4 6-15Zm230 71 4 9 9 4-9 4-4 9-4-9-9-4 9-4 4-9Z" fill="var(--story-card-accent)"/>
+    </svg>
+  {%- when 'discover' -%}
+    <svg class="{{ class }}" viewBox="0 0 320 220" role="img" aria-label="{{ label | escape }}">
+      <path d="M38 127c8-60 52-98 116-94 67 4 126 28 127 91 1 60-62 76-124 74-61-2-127-15-119-71Z" fill="var(--story-card-soft)"/>
+      <path d="M66 98 83 66l26 25c20-12 47-3 57 17 12 24-3 65-41 65-39 0-57-27-59-75Z" fill="#F3A72C" stroke="var(--story-ink)" stroke-width="4" stroke-linejoin="round"/>
+      <path d="m176 93 20-31 22 29 33-18 2 45c3 35-14 57-46 57-37 0-51-35-31-82Z" fill="#8FA6AF" stroke="var(--story-ink)" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="108" cy="120" r="5" fill="var(--story-ink)"/><circle cx="139" cy="120" r="5" fill="var(--story-ink)"/>
+      <circle cx="201" cy="120" r="5" fill="var(--story-ink)"/><circle cx="231" cy="120" r="5" fill="var(--story-ink)"/>
+      <path d="M117 137c6 8 14 8 20 0m72 0c5 7 12 7 17 0" fill="none" stroke="var(--story-ink)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M86 155c18 13 51 19 73 6m34 0c22 15 51 4 62-10" fill="none" stroke="var(--story-card-accent)" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="55" cy="168" r="18" fill="var(--story-card-accent)"/><path d="M42 159c8 6 18 9 28 9M53 151c-3 11-1 21 6 30" fill="none" stroke="#FFF9F4" stroke-width="3"/>
+      <path d="m278 43 5 11 12 5-12 5-5 11-5-11-12-5 12-5 5-11Z" fill="var(--story-card-accent)"/>
+    </svg>
+  {%- when 'remember' -%}
+    <svg class="{{ class }}" viewBox="0 0 320 220" role="img" aria-label="{{ label | escape }}">
+      <path d="M39 116c2-51 46-87 106-90 67-4 132 30 136 86 5 60-48 88-115 87-66 0-129-22-127-83Z" fill="var(--story-card-soft)"/>
+      <g transform="rotate(-5 160 112)">
+        <rect x="76" y="38" width="170" height="145" rx="18" fill="#FFF9F4" stroke="var(--story-ink)" stroke-width="4"/>
+        <rect x="91" y="54" width="140" height="94" rx="12" fill="var(--story-card-accent)" opacity=".2"/>
+        <circle cx="131" cy="95" r="25" fill="#F3A72C"/><path d="m109 79 9-19 17 18m15 15 13-23 18 23" fill="#F3A72C" stroke="var(--story-ink)" stroke-width="4" stroke-linejoin="round"/>
+        <circle cx="124" cy="96" r="4" fill="var(--story-ink)"/><circle cx="142" cy="96" r="4" fill="var(--story-ink)"/>
+        <path d="M127 109c5 6 10 6 15 0" fill="none" stroke="var(--story-ink)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M181 83c-15-17-39 3-24 21l24 23 24-23c15-18-9-38-24-21Z" fill="var(--story-card-accent)"/>
+        <path d="M119 165h84" stroke="var(--story-ink)" stroke-width="5" stroke-linecap="round" opacity=".25"/>
+      </g>
+      <path d="m52 52 6 13 13 6-13 6-6 13-6-13-13-6 13-6 6-13Zm222 96 5 10 10 5-10 5-5 10-5-10-10-5 10-5 5-10Z" fill="var(--story-card-accent)"/>
+    </svg>
+  {%- else -%}
+    <svg class="{{ class }}" viewBox="0 0 320 220" role="img" aria-label="{{ label | escape }}">
+      <path d="M44 113c6-54 48-83 108-86 69-3 125 29 128 87 3 61-54 83-119 82-68-1-124-22-117-83Z" fill="var(--story-card-soft)"/>
+      <circle cx="90" cy="123" r="38" fill="var(--story-card-accent)"/><path d="M62 110c18 14 36 18 64 17M85 88c-6 21-2 42 11 69" fill="none" stroke="#FFF9F4" stroke-width="6" stroke-linecap="round"/>
+      <path d="M149 76c18-15 41-15 56 1 14 16 10 40-8 56l-37 31c-5 4-12 0-11-6l7-38c-17-5-22-30-7-44Z" fill="#B7D76D" stroke="var(--story-ink)" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M188 73c18-13 41 2 33 22m-47 25c11 4 20 4 29-1" fill="none" stroke="var(--story-ink)" stroke-width="5" stroke-linecap="round"/>
+      <path d="M243 124c-8-10-23-5-23 7 0 10 12 17 23 25 11-8 23-15 23-25 0-12-15-17-23-7Z" fill="var(--story-card-accent)"/>
+      <path d="m50 50 5 11 11 5-11 5-5 11-5-11-11-5 11-5 5-11Zm232 35 4 9 9 4-9 4-4 9-4-9-9-4 9-4 4-9Z" fill="var(--story-card-accent)"/>
+    </svg>
+{%- endcase -%}
