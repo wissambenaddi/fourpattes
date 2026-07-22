@@ -1,0 +1,259 @@
+/* Fourpattes — homepage vertical rhythm and section continuity. */
+body.pet-template-index .pet-wave{
+  height:clamp(2.75rem,4.2vw,4.5rem);
+}
+
+/* Hero → favorites: the shared cream floor is the transition. */
+body.pet-template-index .pet-favorites--catalog{
+  padding-block:clamp(3.5rem,4.6vw,4.75rem) clamp(3.75rem,5vw,5rem);
+}
+
+body.pet-template-index .pet-favorites__heading{
+  margin-bottom:clamp(1.75rem,2.8vw,2.6rem);
+}
+
+body.pet-template-index .pet-favorites__paw-intro{
+  margin-bottom:clamp(.5rem,.8vw,.75rem);
+}
+
+body.pet-template-index .pet-favorites__subtitle{
+  margin-top:clamp(.65rem,1vw,.9rem);
+}
+
+body.pet-template-index .pet-favorites__tabs{
+  margin-top:clamp(1.35rem,2vw,1.8rem);
+}
+
+body.pet-template-index .pet-favorites__button{
+  margin-top:clamp(2rem,3.25vw,3rem);
+}
+
+/* Favorites → parcel: keep the strongest wave, but shorten both pauses. */
+body.pet-template-index .pet-bowl--gift-box{
+  padding-block:clamp(3.75rem,5vw,4.75rem) clamp(3.25rem,4.25vw,4rem);
+}
+
+body.pet-template-index .pet-bowl--gift-box > .pet-wave--top{
+  height:clamp(3.25rem,5.2vw,4.75rem);
+}
+
+body.pet-template-index .pet-bowl--gift-box .pet-bowl__heading{
+  margin-bottom:clamp(.65rem,1.1vw,1rem);
+}
+
+body.pet-template-index .pet-gift-story{
+  min-height:clamp(29rem,39vw,35rem);
+  margin-top:-.35rem;
+}
+
+/* Parcel → companion scene: a shorter wave and the existing accessory trail. */
+body.pet-template-index .pet-bowl--life{
+  min-height:0;
+  padding-block:clamp(4rem,5vw,4.75rem) clamp(4.5rem,5.5vw,5.25rem);
+}
+
+body.pet-template-index .pet-bowl--life > .pet-wave--top{
+  height:clamp(3rem,4.4vw,4rem);
+}
+
+body.pet-template-index .pet-bowl--life > .pet-wave--bottom{
+  height:clamp(2.5rem,3.6vw,3.35rem);
+}
+
+body.pet-template-index .pet-bowl--life .pet-bowl__inner{
+  min-height:0;
+}
+
+body.pet-template-index .pet-life{
+  min-height:44rem;
+  margin-top:clamp(1.5rem,2.3vw,2rem);
+}
+
+body.pet-template-index .pet-life__companions{
+  top:calc(4.5rem + var(--companions-y));
+}
+
+/* Companion scene → reviews: proof appears quickly after a calm low wave. */
+body.pet-template-index .pet-reviews{
+  padding-block:clamp(4.25rem,5.2vw,5rem) clamp(3.75rem,4.6vw,4.5rem);
+}
+
+body.pet-template-index .pet-review-carousel{
+  padding-top:clamp(1.75rem,2.5vw,2.15rem);
+}
+
+/* Reviews → values: retain the contrast, reduce the combined exit/entry gap. */
+body.pet-template-index .pet-mission{
+  min-height:0;
+  padding-block:clamp(4rem,5vw,4.75rem) clamp(4.5rem,5.5vw,5.25rem);
+}
+
+body.pet-template-index .pet-mission > .pet-wave--top{
+  height:clamp(3.25rem,5vw,4.5rem);
+}
+
+body.pet-template-index .pet-mission > .pet-wave--bottom{
+  height:clamp(2.5rem,3.6vw,3.25rem);
+}
+
+body.pet-template-index .pet-mission__collage{
+  margin-top:clamp(1.75rem,2.6vw,2.35rem);
+}
+
+body.pet-template-index .pet-mission__photos{
+  margin-top:clamp(1.75rem,2.6vw,2.35rem);
+}
+
+/* Values → mascot: the mascot rises into the shallow lower wave. */
+body.pet-template-index .pet-playful{
+  padding-block:clamp(4rem,4.8vw,4.6rem) clamp(2.5rem,3.25vw,3.25rem);
+  overflow:visible;
+}
+
+body.pet-template-index .pet-playful__inner{
+  min-height:clamp(33rem,42vw,35.5rem);
+}
+
+body.pet-template-index .pet-playful__content{
+  padding-top:clamp(.5rem,1.25vw,1rem);
+}
+
+body.pet-template-index .pet-main .pet-playful__mascot{
+  transform:translateY(-1.35rem);
+}
+
+body.pet-template-index .pet-main .pet-playful:hover .pet-playful__mascot{
+  transform:translateY(-1.7rem) rotate(1deg);
+}
+
+/* Mascot → newsletter: same background, so use a controlled card overlap. */
+body.pet-template-index .pet-newsletter{
+  padding-block:0 clamp(4rem,4.8vw,4.75rem);
+  overflow:visible;
+}
+
+body.pet-template-index .pet-newsletter__card{
+  margin:-1.25rem auto 0;
+  padding:clamp(2.6rem,3.4vw,3rem) clamp(1.45rem,4vw,4.5rem) clamp(2.35rem,3vw,2.75rem);
+}
+
+body.pet-template-index .pet-newsletter__form{
+  margin-top:1rem;
+}
+
+/* Newsletter → footer: a quiet, compact final wave. */
+body.pet-template-index .pet-footer{
+  padding-block:clamp(3.5rem,4.2vw,4rem) 2rem;
+}
+
+body.pet-template-index .pet-footer > .pet-wave--top{
+  height:clamp(2.25rem,3.2vw,2.9rem);
+}
+
+@media (min-width:1400px){
+  body.pet-template-index .pet-favorites--catalog{padding-block:4.25rem 5rem}
+  body.pet-template-index .pet-bowl--gift-box{padding-block:4.5rem 4rem}
+  body.pet-template-index .pet-bowl--life{padding-block:4.5rem 5.25rem}
+  body.pet-template-index .pet-reviews{padding-block:5rem 4.5rem}
+  body.pet-template-index .pet-mission{padding-block:4.75rem 5.25rem}
+  body.pet-template-index .pet-playful{padding-block:4.5rem 3.25rem}
+  body.pet-template-index .pet-newsletter{padding-bottom:4.75rem}
+}
+
+@media (min-width:750px) and (max-width:989px){
+  body.pet-template-index .pet-wave{height:3.25rem}
+  body.pet-template-index .pet-favorites--catalog{padding-block:3.5rem 4rem}
+  body.pet-template-index .pet-bowl--gift-box{padding-block:3.5rem 3.5rem}
+  body.pet-template-index .pet-gift-story{margin-top:0}
+  body.pet-template-index .pet-bowl--life{padding-block:3.75rem 4.25rem}
+  body.pet-template-index .pet-life{min-height:52rem;margin-top:1.75rem}
+  body.pet-template-index .pet-life__companions{top:7rem}
+  body.pet-template-index .pet-reviews{padding-block:4rem 3.75rem}
+  body.pet-template-index .pet-mission{padding-block:3.75rem 4.25rem}
+  body.pet-template-index .pet-playful{padding-block:3.75rem 2.5rem}
+  body.pet-template-index .pet-playful__inner{min-height:33rem}
+  body.pet-template-index .pet-newsletter{padding-bottom:4rem}
+  body.pet-template-index .pet-footer{padding-top:3.5rem}
+}
+
+@media (max-width:749px){
+  body.pet-template-index .pet-wave{height:2.5rem}
+
+  body.pet-template-index .pet-favorites--catalog{
+    padding-block:3.25rem 3.5rem;
+  }
+
+  body.pet-template-index .pet-favorites__heading{margin-bottom:1.5rem}
+  body.pet-template-index .pet-favorites__paw-intro{margin-bottom:.45rem}
+  body.pet-template-index .pet-favorites__subtitle{margin-top:.65rem}
+  body.pet-template-index .pet-favorites__tabs{margin-top:1.25rem}
+  body.pet-template-index .pet-favorites__button{margin-top:1.75rem}
+
+  body.pet-template-index .pet-bowl--gift-box{
+    padding-block:3.25rem 3rem;
+  }
+
+  body.pet-template-index .pet-bowl--gift-box > .pet-wave--top{height:3.25rem}
+  body.pet-template-index .pet-bowl--gift-box .pet-bowl__heading{margin-bottom:.5rem}
+  body.pet-template-index .pet-gift-story{gap:1rem;margin-top:0}
+
+  body.pet-template-index .pet-bowl--life{
+    padding-block:3.5rem 4rem;
+  }
+
+  body.pet-template-index .pet-bowl--life > .pet-wave--top{height:2.75rem}
+  body.pet-template-index .pet-bowl--life > .pet-wave--bottom{height:2.25rem}
+  body.pet-template-index .pet-life{min-height:0;margin-top:1.25rem}
+  body.pet-template-index .pet-life__companions{top:auto}
+  body.pet-template-index .pet-life__items{margin-top:2rem;gap:1.1rem}
+  body.pet-template-index .pet-life-transition{top:-2.75rem}
+
+  body.pet-template-index .pet-reviews{
+    padding-block:3.5rem 3.5rem;
+  }
+
+  body.pet-template-index .pet-review-carousel{padding-top:1.75rem}
+
+  body.pet-template-index .pet-mission{
+    padding-block:3.5rem 4rem;
+  }
+
+  body.pet-template-index .pet-mission > .pet-wave--top{height:3rem}
+  body.pet-template-index .pet-mission > .pet-wave--bottom{height:2.25rem}
+  body.pet-template-index .pet-mission__collage{margin-top:1.75rem}
+  body.pet-template-index .pet-mission__notes{gap:1rem}
+  body.pet-template-index .pet-mission__photos{margin-top:2rem}
+
+  body.pet-template-index .pet-playful{
+    padding-block:3.5rem 2rem;
+  }
+
+  body.pet-template-index .pet-playful__inner{min-height:32rem}
+  body.pet-template-index .pet-playful__content{padding-top:0}
+  body.pet-template-index .pet-main .pet-playful__mascot{transform:translateY(-.75rem)}
+  body.pet-template-index .pet-main .pet-playful:hover .pet-playful__mascot{transform:translateY(-.75rem)}
+
+  body.pet-template-index .pet-newsletter{padding-bottom:3.5rem}
+  body.pet-template-index .pet-newsletter__card{
+    margin:-.75rem auto 0;
+    padding:2.25rem 1.2rem 2rem;
+  }
+  body.pet-template-index .pet-newsletter__form{margin-top:.9rem}
+
+  body.pet-template-index .pet-footer{padding-block:3.25rem 1.5rem}
+  body.pet-template-index .pet-footer > .pet-wave--top{height:2.25rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  body.pet-template-index .pet-main .pet-playful__mascot,
+  body.pet-template-index .pet-main .pet-playful:hover .pet-playful__mascot{
+    transform:translateY(-1.35rem);
+  }
+}
+
+@media (max-width:749px) and (prefers-reduced-motion:reduce){
+  body.pet-template-index .pet-main .pet-playful__mascot,
+  body.pet-template-index .pet-main .pet-playful:hover .pet-playful__mascot{
+    transform:translateY(-.75rem);
+  }
+}
