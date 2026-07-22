@@ -31,6 +31,9 @@
     "consent_help": "Ajoutez un contenu réel puis confirmez que l’autorisation d’affichage a été obtenue.",
     "editor_preview": "Aperçu des contenus communautaires masqués"
   },
+  "mission": {
+    "step": "Étape {{ index }} sur {{ total }}"
+  },
   "products": {
     "price_from": "À partir de {{ price }}",
     "quantity": "Quantité",
