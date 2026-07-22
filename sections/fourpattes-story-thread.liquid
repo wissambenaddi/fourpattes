@@ -12,7 +12,7 @@
 
 {%- if section.settings.enabled -%}
   <div
-    class="pet-story-thread pet-story-thread--{{ section.settings.alignment }}{% if section.settings.flip_horizontal %} pet-story-thread--flipped{% endif %}{{ animation_class }}"
+    class="pet-story-thread pet-story-thread--{{ section.settings.alignment }}{% if section.settings.flip_horizontal %} pet-story-thread--flipped{% endif %}{% if section.settings.hide_on_tablet %} pet-story-thread--hide-tablet{% endif %}{% if section.settings.hide_on_mobile %} pet-story-thread--hide-mobile{% endif %}{{ animation_class }}"
     style="--thread-width: {{ section.settings.width }}px; --thread-height: {{ section.settings.height }}px; --thread-x: {{ section.settings.offset_x }}px; --thread-y: {{ section.settings.offset_y }}px; --thread-color: {{ section.settings.line_color }}; --thread-opacity: {{ thread_opacity }}; --thread-stroke: {{ section.settings.stroke_width }}px;"
     aria-hidden="true"
     {% if section.settings.enable_animations %}data-pet-reveal{% endif %}
@@ -101,12 +101,12 @@
     {
       "type": "range",
       "id": "stroke_width",
-      "min": 2,
-      "max": 4,
+      "min": 1.5,
+      "max": 3,
       "step": 0.5,
       "unit": "px",
       "label": "Épaisseur de la ligne",
-      "default": 3
+      "default": 2.5
     },
     {
       "type": "select",
@@ -122,22 +122,22 @@
     {
       "type": "range",
       "id": "width",
-      "min": 320,
-      "max": 900,
+      "min": 160,
+      "max": 520,
       "step": 20,
       "unit": "px",
       "label": "Largeur sur ordinateur",
-      "default": 640
+      "default": 240
     },
     {
       "type": "range",
       "id": "height",
-      "min": 140,
-      "max": 300,
+      "min": 80,
+      "max": 220,
       "step": 10,
       "unit": "px",
       "label": "Hauteur visuelle",
-      "default": 210
+      "default": 140
     },
     {
       "type": "range",
@@ -170,13 +170,25 @@
       "id": "enable_animations",
       "label": "Activer les micro-animations",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_tablet",
+      "label": "Masquer sur tablette",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Masquer sur mobile",
+      "default": false
     }
   ],
   "blocks": [
     {
       "type": "decoration",
       "name": "Objet narratif",
-      "limit": 6,
+      "limit": 3,
       "settings": [
         {
           "type": "select",
@@ -234,22 +246,22 @@
         {
           "type": "range",
           "id": "size",
-          "min": 24,
-          "max": 92,
+          "min": 16,
+          "max": 64,
           "step": 2,
           "unit": "px",
           "label": "Taille sur ordinateur",
-          "default": 44
+          "default": 34
         },
         {
           "type": "range",
           "id": "mobile_size",
-          "min": 20,
-          "max": 56,
+          "min": 14,
+          "max": 36,
           "step": 2,
           "unit": "px",
           "label": "Taille sur mobile",
-          "default": 32
+          "default": 24
         },
         {
           "type": "range",
@@ -306,9 +318,8 @@
     {
       "name": "Fil conducteur",
       "blocks": [
-        { "type": "decoration", "settings": { "object_type": "ball", "position_x": 18, "position_y": 24, "size": 54, "mobile_size": 38, "rotation": -8 } },
-        { "type": "decoration", "settings": { "object_type": "paw", "position_x": 54, "position_y": 53, "size": 34, "mobile_size": 26, "rotation": 12 } },
-        { "type": "decoration", "settings": { "object_type": "paw", "position_x": 83, "position_y": 74, "size": 30, "mobile_size": 24, "rotation": -10 } }
+        { "type": "decoration", "settings": { "object_type": "ball", "position_x": 20, "position_y": 30, "size": 36, "mobile_size": 26, "rotation": -6 } },
+        { "type": "decoration", "settings": { "object_type": "paw", "position_x": 76, "position_y": 68, "size": 22, "mobile_size": 18, "rotation": 10 } }
       ]
     }
   ]
