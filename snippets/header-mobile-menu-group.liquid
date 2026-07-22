@@ -1,0 +1,51 @@
+{% doc %}
+  Renders one mobile navigation universe.
+
+  @param {linklist} menu - Shopify Navigation menu.
+  @param {string} label - Visible label.
+  @param {string} icon - FourPattes header icon name.
+  @param {string} fallback_link - URL used when no menu is selected.
+{% enddoc %}
+<li class="pet-menu-drawer__item">
+  {%- if menu != blank and menu.links != blank -%}
+    <details class="pet-menu-drawer__details">
+      <summary>
+        <span class="pet-menu-drawer__summary-label">
+          <span class="pet-menu-drawer__universe-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: icon %}</span>
+          <span>{{ label }}</span>
+        </span>
+        <span class="pet-menu-drawer__chevron" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'chevron' %}</span>
+      </summary>
+      <ul class="pet-menu-drawer__sublist" role="list">
+        {%- for link in menu.links -%}
+          <li>
+            {%- if link.links != blank -%}
+              <details class="pet-menu-drawer__nested-details">
+                <summary>
+                  <span>{{ link.title }}</span>
+                  <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'chevron' %}</span>
+                </summary>
+                <ul role="list">
+                  <li><a class="pet-menu-drawer__view-all" href="{{ link.url }}">Voir tout</a></li>
+                  {%- for child_link in link.links -%}
+                    <li><a href="{{ child_link.url }}"{% if child_link.current %} aria-current="page"{% endif %}>{{ child_link.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              </details>
+            {%- else -%}
+              <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </details>
+  {%- else -%}
+    <a class="pet-menu-drawer__direct-link" href="{{ fallback_link }}">
+      <span class="pet-menu-drawer__summary-label">
+        <span class="pet-menu-drawer__universe-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: icon %}</span>
+        <span>{{ label }}</span>
+      </span>
+      <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+    </a>
+  {%- endif -%}
+</li>
