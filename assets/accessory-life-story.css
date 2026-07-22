@@ -24,6 +24,8 @@
 .pet-bowl--life .pet-bowl__heading p{
   max-width:38rem;
   margin-inline:auto;
+  color:var(--bowl-color);
+  color:color-mix(in srgb,var(--bowl-color) 88%,#000);
   font-size:clamp(.9rem,.82rem + .34vw,1.125rem);
   font-weight:600;
   letter-spacing:.005em;
