@@ -45,10 +45,6 @@
       {% render 'wave-divider', color: section.settings.background, position: 'top', flip: section.settings.flip_top_wave %}
     {%- endif -%}
 
-    {%- if request.page_type == 'index' -%}
-      {% render 'homepage-flow-link', kind: 'life-reviews' %}
-    {%- endif -%}
-
     {%- if section.settings.show_decorations -%}
       <div class="pet-community__decor" aria-hidden="true">
         <span class="pet-community__decor-paw pet-community__decor-paw--one">{% render 'icon-paw' %}</span>
