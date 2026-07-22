@@ -62,8 +62,10 @@
     {% endstyle %}
 
     {{ 'pet-theme.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'pet-header.css' | asset_url | stylesheet_tag }}
     <script>document.documentElement.classList.remove('no-js');</script>
     <script src="{{ 'pet-theme.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'pet-header.js' | asset_url }}" defer="defer"></script>
     {{ content_for_header }}
   </head>
 
