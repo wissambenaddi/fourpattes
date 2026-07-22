@@ -4,8 +4,8 @@
   --thread-x:0px;
   --thread-y:0px;
   --thread-color:#0b7c82;
-  --thread-opacity:.58;
-  --thread-stroke:3px;
+  --thread-opacity:.48;
+  --thread-stroke:2.5px;
   position:relative;
   width:100%;
   height:1px;
@@ -79,26 +79,29 @@
 
 .pet-story-thread--motion:not(.is-visible) .pet-story-thread__path path{stroke-dashoffset:1;opacity:0}
 .pet-story-thread--motion:not(.is-visible) .pet-story-thread__item{opacity:0;transform:translate(-50%,-42%) rotate(var(--item-rotation)) scale(.9)}
-.pet-story-thread--motion.is-visible .pet-story-thread__path path{animation:pet-story-thread-draw .9s ease-out both}
+.pet-story-thread--motion.is-visible .pet-story-thread__path path{animation:pet-story-thread-draw .75s ease-out both}
 .pet-story-thread--motion.is-visible .pet-story-thread__item{transition:opacity .48s ease var(--item-delay),transform .55s cubic-bezier(.2,.8,.2,1) var(--item-delay)}
-.pet-story-thread--motion.is-visible .pet-story-thread__item--float .pet-story-object{animation:pet-story-thread-float 3.6s ease-in-out calc(var(--item-delay) + .5s) infinite alternate}
-.pet-story-thread--motion.is-visible .pet-story-thread__item--rise .pet-story-object{animation:pet-story-thread-rise 3.8s ease-in-out calc(var(--item-delay) + .4s) infinite}
-.pet-story-thread--motion.is-visible .pet-story-thread__item--sparkle .pet-story-object{animation:pet-story-thread-sparkle 3.2s ease-in-out calc(var(--item-delay) + .4s) infinite}
+.pet-story-thread--motion.is-visible .pet-story-thread__item--float .pet-story-object{animation:pet-story-thread-float 4.4s ease-in-out calc(var(--item-delay) + .5s) infinite alternate}
+.pet-story-thread--motion.is-visible .pet-story-thread__item--rise .pet-story-object{animation:pet-story-thread-rise 4.2s ease-in-out calc(var(--item-delay) + .4s) infinite}
+.pet-story-thread--motion.is-visible .pet-story-thread__item--sparkle .pet-story-object{animation:pet-story-thread-sparkle 4s ease-in-out calc(var(--item-delay) + .4s) infinite}
 
 @keyframes pet-story-thread-draw{from{stroke-dashoffset:1;opacity:0}to{stroke-dashoffset:0;opacity:1}}
-@keyframes pet-story-thread-float{to{transform:translateY(-5px) rotate(3deg)}}
-@keyframes pet-story-thread-rise{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-@keyframes pet-story-thread-sparkle{0%,100%{transform:scale(1);opacity:.78}50%{transform:scale(1.09);opacity:1}}
+@keyframes pet-story-thread-float{to{transform:translateY(-3px) rotate(2deg)}}
+@keyframes pet-story-thread-rise{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes pet-story-thread-sparkle{0%,100%{transform:scale(1);opacity:.82}50%{transform:scale(1.04);opacity:1}}
 
 @media (max-width:989px){
+  .pet-story-thread--hide-tablet{display:none}
   .pet-story-thread__stage{width:min(calc(var(--thread-width) * .8),90vw);height:calc(var(--thread-height) * .82);top:calc((var(--thread-height) * -.41) + var(--thread-y))}
   .pet-story-thread__item{width:calc(var(--item-size) * .82);height:calc(var(--item-size) * .82)}
 }
 
 @media (max-width:749px){
-  .pet-story-thread__stage{left:50%!important;right:auto!important;width:min(340px,88vw);height:132px;top:calc(-66px + (var(--thread-y) * .45));transform:translateX(-50%)!important;scale:1!important}
+  .pet-story-thread--hide-tablet{display:block}
+  .pet-story-thread--hide-mobile{display:none}
+  .pet-story-thread__stage{left:50%!important;right:auto!important;width:min(var(--thread-width),82vw);height:min(var(--thread-height),120px);top:calc((min(var(--thread-height),120px) * -.5) + (var(--thread-y) * .4));transform:translateX(-50%)!important;scale:1!important}
   .pet-story-thread--flipped .pet-story-thread__stage{scale:-1 1!important}
-  .pet-story-thread__path path{stroke-width:max(2px,calc(var(--thread-stroke) * .75));stroke-dasharray:.016 .038}
+  .pet-story-thread__path path{stroke-width:clamp(1.5px,calc(var(--thread-stroke) * .75),2px);stroke-dasharray:.016 .04}
   .pet-story-thread__item{width:var(--item-size-mobile);height:var(--item-size-mobile);filter:drop-shadow(0 5px 6px rgba(45,28,99,.11))}
   .pet-story-thread__item--hide-mobile{display:none}
 }
