@@ -72,7 +72,7 @@
         "note_3": { "type": "commitment", "settings": { "title": "BIEN-ÊTRE", "text": "Expliquez vos choix responsables et respectueux.", "color": "lime", "icon": "cat", "rotation": -2 } }
       },
       "block_order": ["note_1", "note_2", "note_3"],
-      "settings": { "title": "ON VIENT POUR LE REPAS,\nON RESTE POUR LES VALEURS", "image_one_alt": "Coulisses de Fourpattes", "image_one_caption": "Notre équipe", "image_two_alt": "Action solidaire Fourpattes", "image_two_caption": "Nos engagements", "background": "#702758", "text_color": "#FFFFFF" }
+      "settings": { "title": "ON VIENT POUR LE REPAS,\nON RESTE POUR LES VALEURS", "image_one_alt": "Coulisses de Fourpattes", "image_one_caption": "Notre équipe", "image_two_alt": "Action solidaire Fourpattes", "image_two_caption": "Nos engagements", "background": "#702758", "text_color": "#FFFFFF", "show_bottom_wave": true, "bottom_background": "#F9F0EB", "flip_bottom_wave": true }
     },
     "playful": {
       "type": "playful-call-to-action",
