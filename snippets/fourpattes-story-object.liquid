@@ -1,0 +1,86 @@
+{% doc %}
+  Renders one decorative object for the FourPattes story thread.
+
+  @param {string} object_type - Decorative object identifier.
+  @param {string} [color] - Main object color.
+  @param {string} [secondary_color] - Secondary object color.
+{% enddoc %}
+
+{%- liquid
+  assign object_color = color | default: '#0B7C82'
+  assign object_secondary = secondary_color | default: '#F7C84B'
+-%}
+
+<svg
+  class="pet-story-object pet-story-object--{{ object_type | default: 'paw' | handle }}"
+  viewBox="0 0 64 64"
+  role="presentation"
+  focusable="false"
+  style="--story-object-color: {{ object_color }}; --story-object-secondary: {{ object_secondary }};"
+>
+  {%- case object_type -%}
+    {%- when 'ball' -%}
+      <circle class="pet-story-object__main" cx="32" cy="32" r="22"/>
+      <path class="pet-story-object__line" d="M14 19c13 3 25 14 34 31M12 43c13-6 27-9 41-8"/>
+
+    {%- when 'leash' -%}
+      <path class="pet-story-object__main pet-story-object__stroke" d="M17 16c-8 8-8 21 1 29 7 6 17 4 22-2 5-7 2-15-4-18-5-3-11-1-13 3-3 6 1 13 8 14 8 2 15-4 16-11"/>
+      <path class="pet-story-object__secondary pet-story-object__stroke" d="M50 39l5 8-7 5-6-8zM49 50l-3 7"/>
+
+    {%- when 'bone' -%}
+      <path class="pet-story-object__main" d="M17 16c3 0 5 2 6 5l19 19c3 0 5 1 6 3 3 4 0 10-5 10-3 0-5-2-6-4-2 2-5 2-7 0-3-2-3-6 0-9L20 30c-3 3-7 3-9 0-2-2-2-5 0-7-3-1-4-4-3-7 1-4 6-6 9-4 1 1 2 2 2 4h2z"/>
+
+    {%- when 'mouse' -%}
+      <ellipse class="pet-story-object__main" cx="31" cy="36" rx="20" ry="13"/>
+      <circle class="pet-story-object__secondary" cx="19" cy="21" r="7"/>
+      <circle class="pet-story-object__line-fill" cx="23" cy="34" r="2"/>
+      <path class="pet-story-object__line" d="M50 39c10 1 10 9 4 13-4 3-9 0-7-4"/>
+      <path class="pet-story-object__secondary pet-story-object__stroke" d="M11 34l-6-3m7 7-7 1"/>
+
+    {%- when 'yarn' -%}
+      <circle class="pet-story-object__main" cx="28" cy="31" r="21"/>
+      <path class="pet-story-object__line" d="M12 23c13 10 27 15 35 13M16 44c4-16 13-26 26-30M9 34c13-4 25-2 37 7"/>
+      <path class="pet-story-object__secondary pet-story-object__stroke" d="M46 44c9 0 12 4 9 11"/>
+
+    {%- when 'heart' -%}
+      <path class="pet-story-object__main" d="M32 52S9 40 9 23c0-8 6-13 13-13 5 0 9 3 10 7 2-4 6-7 11-7 7 0 13 5 13 13 0 17-24 29-24 29z"/>
+
+    {%- when 'star' -%}
+      <path class="pet-story-object__main" d="M32 7l7 17 18 2-14 12 4 18-15-10-15 10 4-18L7 26l18-2z"/>
+
+    {%- when 'camera' -%}
+      <path class="pet-story-object__main" d="M8 19h12l5-7h17l5 7h9v33H8z"/>
+      <circle class="pet-story-object__secondary" cx="32" cy="35" r="10"/>
+      <circle class="pet-story-object__line-fill" cx="50" cy="25" r="2"/>
+
+    {%- when 'photo' -%}
+      <path class="pet-story-object__main" d="M12 8h40v48H12z"/>
+      <path class="pet-story-object__secondary" d="M17 14h30v25H17z"/>
+      <circle class="pet-story-object__line-fill" cx="39" cy="21" r="4"/>
+      <path class="pet-story-object__line" d="M19 36l8-9 7 7 5-5 7 7M20 46h23"/>
+
+    {%- when 'box' -%}
+      <path class="pet-story-object__main" d="M10 23h44v32H10z"/>
+      <path class="pet-story-object__secondary" d="M7 18h22l3 5H10zm50 0H35l-3 5h22z"/>
+      <path class="pet-story-object__line" d="M32 23v32M24 38c2-5 6-5 8-1 2-4 6-4 8 1-1 6-8 10-8 10s-7-4-8-10z"/>
+
+    {%- when 'medal' -%}
+      <path class="pet-story-object__secondary" d="M17 7h13l5 20H23zm30 0H34l-5 20h12z"/>
+      <circle class="pet-story-object__main" cx="32" cy="40" r="17"/>
+      <path class="pet-story-object__line" d="M27 41c3-6 7-6 10 0m-13 3c4 6 12 6 16 0"/>
+      <circle class="pet-story-object__line-fill" cx="25" cy="35" r="2"/>
+      <circle class="pet-story-object__line-fill" cx="39" cy="35" r="2"/>
+
+    {%- when 'treat' -%}
+      <path class="pet-story-object__secondary" d="M13 12h38l-4 44H17z"/>
+      <path class="pet-story-object__main" d="M11 12h42l-4 10H15z"/>
+      <path class="pet-story-object__line" d="M24 35c2-5 6-5 8-1 2-4 6-4 8 1-1 6-8 10-8 10s-7-4-8-10z"/>
+
+    {%- else -%}
+      <ellipse class="pet-story-object__main" cx="32" cy="42" rx="14" ry="11"/>
+      <circle class="pet-story-object__main" cx="15" cy="28" r="7"/>
+      <circle class="pet-story-object__main" cx="28" cy="20" r="7"/>
+      <circle class="pet-story-object__main" cx="42" cy="21" r="7"/>
+      <circle class="pet-story-object__main" cx="51" cy="32" r="7"/>
+  {%- endcase -%}
+</svg>
