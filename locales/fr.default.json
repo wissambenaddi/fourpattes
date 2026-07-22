@@ -24,6 +24,13 @@
     "submit": "Je m'inscris",
     "success": "Merci ! Vous faites maintenant partie de la meute."
   },
+  "community": {
+    "source": "Publication source",
+    "related_review": "Voir l’avis associé",
+    "hidden_content": "Contenu masqué sur la boutique",
+    "consent_help": "Ajoutez un contenu réel puis confirmez que l’autorisation d’affichage a été obtenue.",
+    "editor_preview": "Aperçu des contenus communautaires masqués"
+  },
   "products": {
     "price_from": "À partir de {{ price }}",
     "quantity": "Quantité",
