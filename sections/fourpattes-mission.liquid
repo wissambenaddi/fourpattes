@@ -12,8 +12,6 @@
       {% render 'wave-divider', color: section.settings.background, position: 'top', flip: section.settings.flip_top_wave %}
     {%- endif -%}
 
-    {%- if request.page_type == 'index' -%}{% render 'homepage-flow-link', kind: 'reviews-values' %}{%- endif -%}
-
     {%- if section.settings.show_decorations -%}
       <div class="pet-brand-story__decor" aria-hidden="true">
         {% render 'fourpattes-mission-symbol', symbol: 'paw', class: 'pet-brand-story__decor-paw pet-brand-story__decor-paw--one' %}
