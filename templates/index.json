@@ -69,14 +69,41 @@
       "settings": { "variant": "lime", "title": "TOUT CE QUI PART AVEC\nFOURPATTES", "subtitle": "Des essentiels joyeux, pensés pour leur bien-être au quotidien.", "image_alt": "Chien et chat Fourpattes assis ensemble au centre de leurs accessoires", "annotation": "Une attention pour chaque moment partagé.", "fact_one": "Une partie peut commencer partout.", "fact_two": "Prête pour les balades à deux.", "fact_three": "Un coin doux après l’aventure.", "image_size": 56, "image_x": 0, "image_y": 0, "height_mobile": 1120, "height_desktop": 840, "background": "#B1CD71", "text_color": "#005E66", "accent_color": "#82B45F", "decorations": true, "enable_scene_animations": true, "flip_top_wave": true, "show_bottom_wave": true, "bottom_color": "#F9F0EB", "flip_bottom_wave": false }
     },
     "reviews": {
-      "type": "customer-counter-reviews",
-      "blocks": {
-        "review_1": { "type": "review", "settings": { "image_alt": "Client avec son chien", "photo_is_illustrative": true, "quote": "Avis de démonstration — à remplacer par un avis client vérifié.", "name": "Prénom du client", "animal_name": "", "city": "", "review_date": "", "verified": false, "rating": 5, "rotation": -2 } },
-        "review_2": { "type": "review", "settings": { "image_alt": "Cliente avec son chat", "photo_is_illustrative": true, "quote": "Avis de démonstration — à remplacer par un avis client vérifié.", "name": "Prénom du client", "animal_name": "", "city": "", "review_date": "", "verified": false, "rating": 5, "rotation": 2 } },
-        "review_3": { "type": "review", "settings": { "image_alt": "Animal heureux", "photo_is_illustrative": true, "quote": "Avis de démonstration — à remplacer par un avis client vérifié.", "name": "Prénom du client", "animal_name": "", "city": "", "review_date": "", "verified": false, "rating": 5, "rotation": -1 } }
-      },
-      "block_order": ["review_1", "review_2", "review_3"],
-      "settings": { "eyebrow": "LA MEUTE FOURPATTES", "title": "ILS FONT DÉJÀ PARTIE DE LA MEUTE", "subtitle": "Des histoires de complicité partagées par notre communauté.", "counter": "2963057", "counter_label": "CHIENS ET CHATS HEUREUX", "counter_context": "depuis le début de l’aventure", "trust_rating": "", "trust_count": "", "reassurance": "Des témoignages partagés par notre communauté", "trust_accessibility_label": "Preuve de confiance FourPattes", "verified_label": "Client vérifié", "illustrative_label": "Photo illustrative", "carousel_label": "Témoignages de la communauté", "button_label": "REJOINDRE LA MEUTE", "background": "#F9F0EB", "text_color": "#2D1C63", "card_background": "#FFFFFF", "accent_color": "#D51F5C", "highlight_color": "#F3A72C" }
+      "type": "fourpattes-community-gallery",
+      "settings": {
+        "enabled": true,
+        "eyebrow": "LA COMMUNAUTÉ FOURPATTES",
+        "title": "ILS FONT DÉJÀ PARTIE DE LA MEUTE",
+        "subtitle": "Des moments de jeu, de surprise et de complicité partagés par notre communauté.",
+        "gallery_label": "Photos et histoires de la communauté FourPattes",
+        "desktop_layout": "mosaic",
+        "mobile_layout": "carousel",
+        "max_width": 1160,
+        "padding_top": 72,
+        "padding_bottom": 84,
+        "enable_animations": true,
+        "show_decorations": true,
+        "show_participation": true,
+        "participation_title": "Votre compagnon pourrait être le prochain",
+        "participation_text": "Envoyez-nous une photo de votre compagnon avec sa box et rejoignez la galerie de la meute.",
+        "button_label": "Partager une photo",
+        "button_style": "solid",
+        "secondary_link_label": "Voir tous les avis",
+        "empty_eyebrow": "LA MEUTE COMMENCE ICI",
+        "empty_title": "Votre compagnon pourrait être le premier",
+        "empty_text": "Partagez son expérience FourPattes après votre commande et rejoignez bientôt notre galerie.",
+        "empty_button_label": "Découvrir FourPattes",
+        "background": "#F9F0EB",
+        "text_color": "#2D1C63",
+        "accent_color": "#C82552",
+        "card_color": "#FFF9F4",
+        "soft_color": "#BFE2F3",
+        "show_top_wave": false,
+        "flip_top_wave": false,
+        "show_bottom_wave": false,
+        "bottom_color": "#702758",
+        "flip_bottom_wave": false
+      }
     },
     "mission": {
       "type": "brand-mission",
