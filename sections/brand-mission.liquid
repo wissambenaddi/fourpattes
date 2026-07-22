@@ -43,6 +43,9 @@
       <span class="pet-mission__paw pet-mission__paw--small" aria-hidden="true">{% render 'icon-paw' %}</span>
     </div>
   </div>
+  {%- if section.settings.show_bottom_wave -%}
+    {% render 'wave-divider', color: section.settings.bottom_background, position: 'bottom', flip: section.settings.flip_bottom_wave %}
+  {%- endif -%}
 </section>
 
 {% schema %}
@@ -57,7 +60,10 @@
     { "type": "text", "id": "image_two_alt", "label": "Texte alternatif photo 2", "default": "Action solidaire Fourpattes" },
     { "type": "text", "id": "image_two_caption", "label": "Légende photo 2", "default": "Nos engagements" },
     { "type": "color", "id": "background", "label": "Fond", "default": "#702758" },
-    { "type": "color", "id": "text_color", "label": "Texte", "default": "#FFFFFF" }
+    { "type": "color", "id": "text_color", "label": "Texte", "default": "#FFFFFF" },
+    { "type": "checkbox", "id": "show_bottom_wave", "label": "Afficher la vague inférieure", "default": true },
+    { "type": "color", "id": "bottom_background", "label": "Couleur après la vague", "default": "#F9F0EB" },
+    { "type": "checkbox", "id": "flip_bottom_wave", "label": "Inverser la vague inférieure", "default": true }
   ],
   "blocks": [
     {
