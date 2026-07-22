@@ -3,6 +3,7 @@
   style="--reviews-bg: {{ section.settings.background }}; --reviews-color: {{ section.settings.text_color }};"
   data-pet-reveal
 >
+  {%- if request.page_type == 'index' -%}{% render 'homepage-flow-link', kind: 'life-reviews' %}{%- endif -%}
   <div class="pet-shell">
     <header class="pet-counter">
       {%- if section.settings.eyebrow != blank -%}<span class="pet-counter__eyebrow">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
