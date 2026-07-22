@@ -1,0 +1,72 @@
+{% doc %}
+  Renders a decorative, non-interactive story bridge between two homepage sections.
+
+  @param {string} kind - The transition variant to render.
+
+  @example
+  {% render 'homepage-flow-link', kind: 'hero-favorites' %}
+{% enddoc %}
+
+{%- case kind -%}
+  {%- when 'hero-favorites' -%}
+    <div class="pet-flow-link pet-flow-link--hero-favorites" aria-hidden="true">
+      <svg class="pet-flow-link__curve" viewBox="0 0 240 110" preserveAspectRatio="none" focusable="false">
+        <path pathLength="1" d="M20 12C61 8 75 34 111 38c40 5 50 39 97 56"/>
+      </svg>
+      <span class="pet-flow-link__paw pet-flow-link__paw--one">{% render 'icon-paw' %}</span>
+      <span class="pet-flow-link__paw pet-flow-link__paw--two">{% render 'icon-paw' %}</span>
+      <span class="pet-flow-link__paw pet-flow-link__paw--three">{% render 'icon-paw' %}</span>
+      <span class="pet-flow-link__ball"><i></i></span>
+    </div>
+
+  {%- when 'favorites-box' -%}
+    <div class="pet-flow-link pet-flow-link--favorites-box" aria-hidden="true">
+      <svg class="pet-flow-link__curve" viewBox="0 0 280 130" preserveAspectRatio="none" focusable="false">
+        <path pathLength="1" d="M260 9C208 16 235 53 177 59 111 65 112 101 28 119"/>
+      </svg>
+      <svg class="pet-flow-link__leash" viewBox="0 0 150 100" focusable="false">
+        <path d="M25 71c-27-15-5-60 27-48 25 10 20 43-5 42-21-1-21-23-5-27 24-5 49 31 78 38"/>
+        <path d="m117 68 20 12-8 14-20-13z"/>
+      </svg>
+      <span class="pet-flow-link__spark">✦</span>
+    </div>
+
+  {%- when 'life-reviews' -%}
+    <div class="pet-flow-link pet-flow-link--life-reviews" aria-hidden="true">
+      <svg class="pet-flow-link__curve" viewBox="0 0 190 120" preserveAspectRatio="none" focusable="false">
+        <path pathLength="1" d="M21 11c47 14 34 48 83 52 35 3 45 25 67 46"/>
+      </svg>
+      <span class="pet-flow-link__heart">♡</span>
+      <span class="pet-flow-link__star">✦</span>
+      <span class="pet-flow-link__paw pet-flow-link__paw--one">{% render 'icon-paw' %}</span>
+    </div>
+
+  {%- when 'reviews-values' -%}
+    <div class="pet-flow-link pet-flow-link--reviews-values" aria-hidden="true">
+      <svg class="pet-flow-link__curve" viewBox="0 0 220 125" preserveAspectRatio="none" focusable="false">
+        <path pathLength="1" d="M18 16c55-5 56 42 104 43 38 2 44 30 81 49"/>
+      </svg>
+      <span class="pet-flow-link__review-bubble"><b>★</b><i>♡</i></span>
+      <span class="pet-flow-link__star pet-flow-link__star--small">★</span>
+    </div>
+
+  {%- when 'mascot-newsletter' -%}
+    <div class="pet-flow-link pet-flow-link--mascot-newsletter" aria-hidden="true">
+      <svg class="pet-flow-link__curve" viewBox="0 0 180 180" preserveAspectRatio="none" focusable="false">
+        <path pathLength="1" d="M160 9c-58 21-12 68-73 87-42 13-18 49-69 72"/>
+      </svg>
+      <span class="pet-flow-link__yarn"><i></i></span>
+      <span class="pet-flow-link__treat"></span>
+      <span class="pet-flow-link__paw pet-flow-link__paw--one">{% render 'icon-paw' %}</span>
+    </div>
+
+  {%- when 'newsletter-footer' -%}
+    <div class="pet-flow-link pet-flow-link--newsletter-footer" aria-hidden="true">
+      <svg class="pet-flow-link__curve" viewBox="0 0 220 100" preserveAspectRatio="none" focusable="false">
+        <path pathLength="1" d="M13 14c42 7 53 32 91 36 50 6 50 29 99 38"/>
+      </svg>
+      <span class="pet-flow-link__paw pet-flow-link__paw--one">{% render 'icon-paw' %}</span>
+      <span class="pet-flow-link__paw pet-flow-link__paw--two">{% render 'icon-paw' %}</span>
+      <span class="pet-flow-link__bone"></span>
+    </div>
+{%- endcase -%}
