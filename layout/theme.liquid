@@ -49,6 +49,9 @@
 
     {{ 'pet-theme.css' | asset_url | stylesheet_tag: preload: true }}
     {{ 'design-polish-v1-1-6.css' | asset_url | stylesheet_tag }}
+    {%- if request.page_type == 'index' -%}
+      {{ 'homepage-flow.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
     <script>document.documentElement.classList.remove('no-js');</script>
     <script src="{{ 'pet-theme.js' | asset_url }}" defer="defer"></script>
     {{ content_for_header }}
