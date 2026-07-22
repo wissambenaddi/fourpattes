@@ -129,7 +129,7 @@
           class="pet-life__companions"
           style="--companions-size: {{ section.settings.image_size }}%; --companions-x: {{ section.settings.image_x }}%; --companions-y: {{ section.settings.image_y }}%;"
         >
-          <span class="pet-life__companions-halo" aria-hidden="true"></span>
+          <span class="pet-life__companions-pawprint" aria-hidden="true">{% render 'icon-paw' %}</span>
           {%- if section.settings.image != blank -%}
             {% render 'responsive-image', image: section.settings.image, alt: section.settings.image_alt, class: 'pet-life__companions-image', sizes: '(max-width: 749px) 88vw, (max-width: 989px) 58vw, 560px' %}
           {%- else -%}
