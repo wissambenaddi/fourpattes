@@ -1,0 +1,34 @@
+{% doc %}
+  Renders the reusable Patous brand character.
+  @param {image} [image] - Optional replacement illustration from the theme editor.
+  @param {string} alt - Accessible character description.
+  @param {string} [class] - Optional wrapper class.
+  @param {boolean} [animated] - Enable the subtle character motion.
+  @param {string} [sizes] - Responsive image sizes value.
+{% enddoc %}
+
+<div class="pet-patous-character {{ class }}{% if animated %} pet-patous-character--animated{% endif %}{% if image == blank %} pet-patous-character--brand-art{% endif %}">
+  <div class="pet-patous-character__body">
+    {%- if image != blank -%}
+      {% render 'responsive-image', image: image, alt: alt, class: 'pet-patous-character__image', sizes: sizes %}
+    {%- else -%}
+      <img
+        class="pet-patous-character__image"
+        src="{{ 'mascotte-fourpattes-bandana.webp' | asset_url }}"
+        width="863"
+        height="1027"
+        loading="lazy"
+        alt="{{ alt | escape }}"
+      >
+      <span class="pet-patous-character__part pet-patous-character__part--ears" aria-hidden="true">
+        <img src="{{ 'mascotte-fourpattes-bandana.webp' | asset_url }}" width="863" height="1027" loading="lazy" alt="">
+      </span>
+      <span class="pet-patous-character__part pet-patous-character__part--tail" aria-hidden="true">
+        <img src="{{ 'mascotte-fourpattes-bandana.webp' | asset_url }}" width="863" height="1027" loading="lazy" alt="">
+      </span>
+      <span class="pet-patous-character__eyelid pet-patous-character__eyelid--left" aria-hidden="true"></span>
+      <span class="pet-patous-character__eyelid pet-patous-character__eyelid--right" aria-hidden="true"></span>
+      <span class="pet-patous-character__medal-glint" aria-hidden="true">✦</span>
+    {%- endif -%}
+  </div>
+</div>
