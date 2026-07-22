@@ -1,0 +1,138 @@
+{{ 'fourpattes-newsletter-with-patous.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.enable_section -%}
+  <section
+    id="FourpattesNewsletterPatous-{{ section.id }}"
+    class="pet-newsletter pet-newsletter-patous pet-newsletter-patous--{{ section.settings.patous_position }}{% if section.settings.enable_animations %} pet-newsletter-patous--motion{% else %} is-visible{% endif %}"
+    style="--newsletter-bg: {{ section.settings.background }}; --newsletter-card: {{ section.settings.card_background }}; --newsletter-color: {{ section.settings.text_color }}; --newsletter-accent: {{ section.settings.accent_color }}; --newsletter-button: {{ section.settings.button_color }}; --newsletter-button-text: {{ section.settings.button_text_color }}; --newsletter-bubble: {{ section.settings.bubble_color }}; --newsletter-bubble-text: {{ section.settings.bubble_text_color }}; --newsletter-max-width: {{ section.settings.max_width }}px; --newsletter-patous-size: {{ section.settings.patous_size }}px; --newsletter-padding-top-mobile: {{ section.settings.padding_top_mobile }}px; --newsletter-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px; --newsletter-padding-top-desktop: {{ section.settings.padding_top_desktop }}px; --newsletter-padding-bottom-desktop: {{ section.settings.padding_bottom_desktop }}px;"
+    aria-labelledby="FourpattesNewsletterPatousTitle-{{ section.id }}"
+    {% if section.settings.enable_animations %}data-pet-reveal{% endif %}
+  >
+    <div class="pet-shell pet-newsletter-patous__shell">
+      <div class="pet-newsletter-patous__card">
+        {%- if section.settings.show_decorations -%}
+          <div class="pet-newsletter-patous__decor" aria-hidden="true">
+            <span class="pet-newsletter-patous__paw pet-newsletter-patous__paw--one">{% render 'icon-paw' %}</span>
+            <span class="pet-newsletter-patous__paw pet-newsletter-patous__paw--two">{% render 'icon-paw' %}</span>
+            <span class="pet-newsletter-patous__spark pet-newsletter-patous__spark--one">✦</span>
+            <span class="pet-newsletter-patous__spark pet-newsletter-patous__spark--two">✦</span>
+            <span class="pet-newsletter-patous__decor-heart">♡</span>
+            <span class="pet-newsletter-patous__decor-ball"><i></i></span>
+          </div>
+        {%- endif -%}
+
+        <div class="pet-newsletter-patous__content">
+          {%- if section.settings.eyebrow != blank -%}<p class="pet-newsletter-patous__eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+          <h2 id="FourpattesNewsletterPatousTitle-{{ section.id }}">{{ section.settings.title | escape | newline_to_br }}</h2>
+          {%- if section.settings.text != blank -%}<div class="pet-newsletter-patous__text rte">{{ section.settings.text }}</div>{%- endif -%}
+
+          {%- form 'customer', class: 'pet-newsletter__form pet-newsletter-patous__form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <label class="pet-visually-hidden" for="NewsletterPatousEmail-{{ section.id }}">{{ 'newsletter.email' | t }}</label>
+            <div class="pet-newsletter__field pet-newsletter-patous__field">
+              <input
+                id="NewsletterPatousEmail-{{ section.id }}"
+                type="email"
+                name="contact[email]"
+                value="{{ form.email }}"
+                autocomplete="email"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="{{ section.settings.placeholder | escape }}"
+                required
+                {% if form.errors %}aria-invalid="true" aria-describedby="NewsletterPatousError-{{ section.id }}"{% endif %}
+              >
+              <button type="submit" aria-label="{{ section.settings.button_label | escape }}">
+                <span class="pet-newsletter-patous__button-label">{{ section.settings.button_label | escape }}</span>
+                {% render 'pet-icon', name: 'arrow' %}
+              </button>
+            </div>
+            {%- if form.errors -%}
+              <div class="pet-form-message pet-form-message--error" id="NewsletterPatousError-{{ section.id }}" role="alert">{{ form.errors | default_errors }}</div>
+            {%- endif -%}
+            {%- if form.posted_successfully? -%}
+              <p class="pet-form-message" role="status">{{ 'newsletter.success' | t }}</p>
+            {%- endif -%}
+          {%- endform -%}
+
+          {%- if section.settings.reassurance != blank -%}
+            <p class="pet-newsletter-patous__reassurance"><span aria-hidden="true">✓</span> {{ section.settings.reassurance | escape }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.show_patous -%}
+          <aside class="pet-newsletter-patous__ambassador">
+            {%- if section.settings.show_bubble and section.settings.bubble_text != blank -%}
+              <div class="pet-newsletter-patous__bubble">
+                <p>{{ section.settings.bubble_text | escape | newline_to_br }}</p>
+                <span aria-hidden="true"></span>
+              </div>
+            {%- endif -%}
+
+            {% render 'fourpattes-patous-character', image: section.settings.patous_image, alt: section.settings.patous_alt, class: 'pet-newsletter-patous__character', animated: section.settings.enable_animations, sizes: '(max-width: 749px) 170px, 280px' %}
+            <span class="pet-newsletter-patous__focus-heart" aria-hidden="true">♥</span>
+
+            {%- if section.settings.show_dotted_line -%}
+              <svg class="pet-newsletter-patous__line" viewBox="0 0 220 90" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <path pathLength="1" d="M8 75c58-52 104 16 201-61"/>
+              </svg>
+            {%- endif -%}
+          </aside>
+        {%- endif -%}
+
+        {%- if section.settings.decoration_image != blank -%}
+          <span class="pet-newsletter-patous__custom-decor" aria-hidden="true">
+            {{ section.settings.decoration_image | image_url: width: 480 | image_tag: widths: '120, 220, 320, 480', sizes: '(max-width: 749px) 72px, 120px', loading: 'lazy', alt: '' }}
+          </span>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Newsletter avec Patous",
+  "tag": "section",
+  "class": "section-newsletter-patous",
+  "settings": [
+    { "type": "checkbox", "id": "enable_section", "label": "Afficher la section", "default": true },
+    { "type": "header", "content": "Newsletter" },
+    { "type": "text", "id": "eyebrow", "label": "Petit badge", "default": "PATOUS GARDE UNE PLACE POUR VOUS" },
+    { "type": "textarea", "id": "title", "label": "Titre", "default": "REJOIGNEZ\nLA MEUTE" },
+    { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Des nouveautés utiles, des conseils et quelques surprises pour prendre soin de votre compagnon.</p>" },
+    { "type": "text", "id": "placeholder", "label": "Texte du champ", "default": "Votre adresse e-mail" },
+    { "type": "text", "id": "button_label", "label": "Libellé du bouton", "default": "Je rejoins la meute" },
+    { "type": "text", "id": "reassurance", "label": "Réassurance", "default": "Conseils utiles et nouveautés — jamais de spam" },
+    { "type": "header", "content": "Patous" },
+    { "type": "checkbox", "id": "show_patous", "label": "Afficher Patous", "default": true },
+    { "type": "image_picker", "id": "patous_image", "label": "Illustration de Patous" },
+    { "type": "text", "id": "patous_alt", "label": "Texte alternatif", "default": "Patous invite les visiteurs à rejoindre la meute FourPattes" },
+    { "type": "range", "id": "patous_size", "min": 200, "max": 300, "step": 10, "unit": "px", "label": "Hauteur de Patous", "default": 250 },
+    { "type": "select", "id": "patous_position", "label": "Position sur ordinateur", "options": [{ "value": "left", "label": "À gauche" }, { "value": "right", "label": "À droite" }, { "value": "top", "label": "Au-dessus" }], "default": "left" },
+    { "type": "checkbox", "id": "show_bubble", "label": "Afficher la bulle", "default": true },
+    { "type": "textarea", "id": "bubble_text", "label": "Message de Patous", "default": "Promis : jamais de spam.\nSeulement quelques surprises." },
+    { "type": "checkbox", "id": "enable_animations", "label": "Activer les animations", "default": true },
+    { "type": "header", "content": "Décor" },
+    { "type": "checkbox", "id": "show_decorations", "label": "Afficher les décorations", "default": true },
+    { "type": "checkbox", "id": "show_dotted_line", "label": "Afficher la ligne pointillée", "default": true },
+    { "type": "image_picker", "id": "decoration_image", "label": "Décoration personnalisée" },
+    { "type": "header", "content": "Couleurs" },
+    { "type": "color", "id": "background", "label": "Fond de section", "default": "#F9F0EB" },
+    { "type": "color", "id": "card_background", "label": "Fond de la carte", "default": "#E9D9F7" },
+    { "type": "color", "id": "text_color", "label": "Texte", "default": "#2D1C63" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#C82552" },
+    { "type": "color", "id": "button_color", "label": "Bouton", "default": "#2D1C63" },
+    { "type": "color", "id": "button_text_color", "label": "Texte du bouton", "default": "#FFFFFF" },
+    { "type": "color", "id": "bubble_color", "label": "Bulle", "default": "#FFFDF9" },
+    { "type": "color", "id": "bubble_text_color", "label": "Texte de la bulle", "default": "#2D1C63" },
+    { "type": "header", "content": "Dimensions" },
+    { "type": "range", "id": "max_width", "min": 760, "max": 1240, "step": 40, "unit": "px", "label": "Largeur maximale", "default": 1040 },
+    { "type": "range", "id": "padding_top_desktop", "min": 32, "max": 100, "step": 4, "unit": "px", "label": "Marge haute ordinateur", "default": 64 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 32, "max": 100, "step": 4, "unit": "px", "label": "Marge basse ordinateur", "default": 56 },
+    { "type": "range", "id": "padding_top_mobile", "min": 24, "max": 80, "step": 4, "unit": "px", "label": "Marge haute mobile", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 28, "max": 100, "step": 4, "unit": "px", "label": "Marge basse mobile", "default": 48 }
+  ],
+  "presets": [{ "name": "Newsletter avec Patous" }]
+}
+{% endschema %}
