@@ -1,0 +1,83 @@
+{% doc %}
+  Renders one accessible FourPattes desktop mega menu.
+
+  @param {linklist} menu - Shopify navigation menu.
+  @param {string} menu_id - Unique DOM id.
+  @param {string} label - Accessible menu label.
+  @param {image} image - Optional editorial image.
+  @param {string} card_title - Optional editorial card title.
+  @param {string} card_text - Optional editorial card copy.
+  @param {string} cta_label - Optional CTA label.
+  @param {string} cta_link - Optional CTA URL.
+{% enddoc %}
+{%- assign feature_alt = image.alt | default: card_title -%}
+<div
+  class="pet-mega-menu"
+  id="{{ menu_id }}"
+  aria-label="{{ label | escape }}"
+  hidden
+  data-pet-mega-panel
+>
+  <div class="pet-mega-menu__inner">
+    <div class="pet-mega-menu__links">
+      {%- for group_link in menu.links limit: 6 -%}
+        <section class="pet-mega-menu__group" aria-labelledby="{{ menu_id }}-group-{{ forloop.index }}">
+          <a
+            class="pet-mega-menu__heading"
+            id="{{ menu_id }}-group-{{ forloop.index }}"
+            href="{{ group_link.url }}"
+            {% if group_link.current %}aria-current="page"{% endif %}
+          >
+            {{ group_link.title }}
+          </a>
+          {%- if group_link.links != blank -%}
+            <ul class="pet-mega-menu__list" role="list">
+              {%- for child_link in group_link.links limit: 8 -%}
+                <li>
+                  <a href="{{ child_link.url }}"{% if child_link.current %} aria-current="page"{% endif %}>{{ child_link.title }}</a>
+                  {%- if child_link.links != blank -%}
+                    <ul class="pet-mega-menu__nested" role="list">
+                      {%- for grandchild_link in child_link.links limit: 5 -%}
+                        <li><a href="{{ grandchild_link.url }}"{% if grandchild_link.current %} aria-current="page"{% endif %}>{{ grandchild_link.title }}</a></li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </section>
+      {%- endfor -%}
+    </div>
+
+    {%- if image != blank or card_title != blank or cta_label != blank -%}
+      <aside class="pet-mega-menu__feature">
+        {%- if image != blank -%}
+          {{ image
+            | image_url: width: 760
+            | image_tag:
+              widths: '280, 420, 560, 760',
+              sizes: '(min-width: 1120px) 280px, 1px',
+              loading: 'lazy',
+              class: 'pet-mega-menu__image',
+              alt: feature_alt
+          }}
+        {%- else -%}
+          <div class="pet-mega-menu__illustration" aria-hidden="true">
+            {% render 'icon-paw' %}
+          </div>
+        {%- endif -%}
+        <div class="pet-mega-menu__feature-copy">
+          {%- if card_title != blank -%}<h3>{{ card_title }}</h3>{%- endif -%}
+          {%- if card_text != blank -%}<p>{{ card_text }}</p>{%- endif -%}
+          {%- if cta_label != blank and cta_link != blank -%}
+            <a class="pet-mega-menu__cta" href="{{ cta_link }}">
+              {{ cta_label }}
+              {% render 'pet-icon', name: 'arrow' %}
+            </a>
+          {%- endif -%}
+        </div>
+      </aside>
+    {%- endif -%}
+  </div>
+</div>
