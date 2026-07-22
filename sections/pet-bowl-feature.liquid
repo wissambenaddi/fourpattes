@@ -13,26 +13,6 @@
   data-pet-reveal
 >
   {% render 'wave-divider', color: section.settings.background, position: 'top', flip: section.settings.flip_top_wave %}
-  {%- if request.page_type == 'index' and section.settings.variant == 'teal' and section.settings.decorations -%}
-    {% render 'homepage-flow-link', kind: 'favorites-box' %}
-  {%- endif -%}
-  {%- if section.settings.variant == 'lime' and section.settings.decorations -%}
-    <div class="pet-life-transition" aria-hidden="true">
-      {%- if request.page_type == 'index' -%}
-        <svg class="pet-life-transition__curve" viewBox="0 0 520 230" preserveAspectRatio="none" focusable="false">
-          <path pathLength="1" d="M480 20c-86-18-91 48-164 59-87 13-55 83-146 96-58 9-82 29-132 43"/>
-        </svg>
-      {%- endif -%}
-      <span class="pet-life-transition__paw pet-life-transition__paw--one">{% render 'icon-paw' %}</span>
-      <span class="pet-life-transition__paw pet-life-transition__paw--two">{% render 'icon-paw' %}</span>
-      <span class="pet-life-transition__paw pet-life-transition__paw--three">{% render 'icon-paw' %}</span>
-      <span class="pet-life-transition__ball pet-life-transition__ball--origin"></span>
-      {%- if request.page_type == 'index' -%}<span class="pet-life-transition__ball pet-life-transition__ball--landing"></span>{%- endif -%}
-      <span class="pet-life-transition__mouse"></span>
-      {%- if request.page_type == 'index' -%}<span class="pet-life-transition__rope"></span>{%- endif -%}
-      <span class="pet-life-transition__spark">✦</span>
-    </div>
-  {%- endif -%}
   <div class="pet-shell pet-bowl__inner">
     <header class="pet-bowl__heading">
       <h2>{{ section.settings.title | escape | newline_to_br }}</h2>
