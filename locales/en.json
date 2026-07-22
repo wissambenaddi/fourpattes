@@ -24,6 +24,13 @@
     "submit": "Sign me up",
     "success": "Thank you! You are now part of the pack."
   },
+  "community": {
+    "source": "Source post",
+    "related_review": "View related review",
+    "hidden_content": "Content hidden from the storefront",
+    "consent_help": "Add real content, then confirm that display permission has been obtained.",
+    "editor_preview": "Preview of hidden community content"
+  },
   "products": {
     "price_from": "From {{ price }}",
     "quantity": "Quantity",
