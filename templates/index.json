@@ -106,14 +106,106 @@
       }
     },
     "mission": {
-      "type": "brand-mission",
+      "type": "fourpattes-mission",
       "blocks": {
-        "note_1": { "type": "commitment", "settings": { "title": "NOTRE SOUTIEN", "text": "Présentez ici votre soutien concret aux associations.", "color": "lavender", "icon": "paw", "rotation": -4 } },
-        "note_2": { "type": "commitment", "settings": { "title": "TRANSPARENCE", "text": "Ajoutez vos certifications et vos preuves de qualité.", "color": "blue", "icon": "dog", "rotation": 2 } },
-        "note_3": { "type": "commitment", "settings": { "title": "BIEN-ÊTRE", "text": "Expliquez vos choix responsables et respectueux.", "color": "lime", "icon": "cat", "rotation": -2 } }
+        "mission_1": {
+          "type": "commitment",
+          "settings": {
+            "kicker": "NOUS CHOISISSONS",
+            "title": "Le bien-être avant tout",
+            "text": "<p>Des accessoires utiles, joyeux et adaptés à leur quotidien, sélectionnés avec attention.</p>",
+            "illustration_alt": "Accessoires FourPattes choisis avec soin",
+            "scene": "select",
+            "icon": "paw",
+            "background": "#FFF9F4",
+            "accent": "#5BC4C6",
+            "soft_color": "#DDF2F1",
+            "offset": 0,
+            "animation": "rise",
+            "animation_delay": 0
+          }
+        },
+        "mission_2": {
+          "type": "commitment",
+          "settings": {
+            "kicker": "NOUS PRÉPARONS",
+            "title": "Chaque détail compte",
+            "text": "<p>Chaque commande est préparée comme une attention personnelle, avec soin jusque dans les petits détails.</p>",
+            "illustration_alt": "Commande FourPattes préparée avec attention",
+            "scene": "prepare",
+            "icon": "gift",
+            "background": "#FFF9F4",
+            "accent": "#F3B63B",
+            "soft_color": "#FCE8BA",
+            "offset": 24,
+            "animation": "rise",
+            "animation_delay": 100
+          }
+        },
+        "mission_3": {
+          "type": "commitment",
+          "settings": {
+            "kicker": "ILS DÉCOUVRENT",
+            "title": "La joie prend vie",
+            "text": "<p>Le colis s’ouvre, le jeu commence et les accessoires trouvent naturellement leur place dans la journée.</p>",
+            "illustration_alt": "Chien et chat découvrant leurs accessoires",
+            "scene": "discover",
+            "icon": "sparkle",
+            "background": "#FFF9F4",
+            "accent": "#C82552",
+            "soft_color": "#F6D7E2",
+            "offset": 0,
+            "animation": "rise",
+            "animation_delay": 200
+          }
+        },
+        "mission_4": {
+          "type": "commitment",
+          "settings": {
+            "kicker": "VOUS PARTAGEZ",
+            "title": "Des souvenirs à garder",
+            "text": "<p>Une promenade, un jeu, un moment calme : ces petits instants deviennent votre histoire commune.</p>",
+            "illustration_alt": "Souvenir heureux partagé avec un compagnon",
+            "scene": "remember",
+            "icon": "heart",
+            "background": "#FFF9F4",
+            "accent": "#B7D76D",
+            "soft_color": "#E5F0C6",
+            "offset": 24,
+            "animation": "rise",
+            "animation_delay": 300
+          }
+        }
       },
-      "block_order": ["note_1", "note_2", "note_3"],
-      "settings": { "title": "ON VIENT POUR LE REPAS,\nON RESTE POUR LES VALEURS", "image_one_alt": "Coulisses de Fourpattes", "image_one_caption": "Notre équipe", "image_two_alt": "Action solidaire Fourpattes", "image_two_caption": "Nos engagements", "background": "#702758", "text_color": "#FFFFFF", "show_bottom_wave": true, "bottom_background": "#F9F0EB", "flip_bottom_wave": true }
+      "block_order": ["mission_1", "mission_2", "mission_3", "mission_4"],
+      "settings": {
+        "enable_section": true,
+        "eyebrow": "NOTRE RAISON D’ÊTRE",
+        "title": "PLUS QU’UNE BOUTIQUE,\nUNE MISSION.",
+        "introduction": "<p>Chaque décision est guidée par une seule idée : offrir plus de bonheur aux chiens, aux chats et à leurs humains.</p>",
+        "conclusion": "Les meilleurs accessoires ne restent pas dans un colis : ils deviennent une partie de leur histoire.",
+        "button_label": "Découvrir notre univers",
+        "background": "#702758",
+        "text_color": "#FFFFFF",
+        "card_background": "#FFF9F4",
+        "card_text": "#2D1C63",
+        "accent_color": "#F3B63B",
+        "route_color": "#FFF9F4",
+        "show_decorations": true,
+        "enable_animations": true,
+        "max_width": 1400,
+        "card_gap": 24,
+        "card_radius": 32,
+        "padding_top_desktop": 80,
+        "padding_bottom_desktop": 104,
+        "padding_top_mobile": 56,
+        "padding_bottom_mobile": 72,
+        "show_top_wave": true,
+        "flip_top_wave": false,
+        "show_bottom_wave": true,
+        "bottom_background": "#F9F0EB",
+        "flip_bottom_wave": true
+      }
     },
     "playful": {
       "type": "playful-call-to-action",
