@@ -1,0 +1,149 @@
+{{ 'fourpattes-mission.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.enable_section -%}
+  <section
+    id="FourpattesMission-{{ section.id }}"
+    class="pet-mission pet-brand-story{% if section.settings.enable_animations %} pet-brand-story--motion{% else %} is-visible{% endif %}"
+    style="--mission-bg: {{ section.settings.background }}; --mission-color: {{ section.settings.text_color }}; --story-surface: {{ section.settings.card_background }}; --story-ink: {{ section.settings.card_text }}; --story-accent: {{ section.settings.accent_color }}; --story-route: {{ section.settings.route_color }}; --story-max-width: {{ section.settings.max_width }}px; --story-gap: {{ section.settings.card_gap }}px; --story-padding-top-mobile: {{ section.settings.padding_top_mobile }}px; --story-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px; --story-padding-top-desktop: {{ section.settings.padding_top_desktop }}px; --story-padding-bottom-desktop: {{ section.settings.padding_bottom_desktop }}px; --story-radius: {{ section.settings.card_radius }}px;"
+    aria-labelledby="FourpattesMissionTitle-{{ section.id }}"
+    {% if section.settings.enable_animations %}data-pet-reveal{% endif %}
+  >
+    {%- if section.settings.show_top_wave -%}
+      {% render 'wave-divider', color: section.settings.background, position: 'top', flip: section.settings.flip_top_wave %}
+    {%- endif -%}
+
+    {%- if request.page_type == 'index' -%}{% render 'homepage-flow-link', kind: 'reviews-values' %}{%- endif -%}
+
+    {%- if section.settings.show_decorations -%}
+      <div class="pet-brand-story__decor" aria-hidden="true">
+        {% render 'fourpattes-mission-symbol', symbol: 'paw', class: 'pet-brand-story__decor-paw pet-brand-story__decor-paw--one' %}
+        {% render 'fourpattes-mission-symbol', symbol: 'paw', class: 'pet-brand-story__decor-paw pet-brand-story__decor-paw--two' %}
+        {% render 'fourpattes-mission-symbol', symbol: 'heart', class: 'pet-brand-story__decor-heart' %}
+        <span class="pet-brand-story__decor-ball"><i></i></span>
+        <span class="pet-brand-story__decor-bone"></span>
+        <span class="pet-brand-story__decor-confetti pet-brand-story__decor-confetti--one">✦</span>
+        <span class="pet-brand-story__decor-confetti pet-brand-story__decor-confetti--two">✦</span>
+      </div>
+    {%- endif -%}
+
+    <div class="pet-shell pet-brand-story__shell">
+      <header class="pet-brand-story__heading">
+        {%- if section.settings.eyebrow != blank -%}<p class="pet-brand-story__eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        <h2 id="FourpattesMissionTitle-{{ section.id }}">{{ section.settings.title | escape | newline_to_br }}</h2>
+        {%- if section.settings.introduction != blank -%}<div class="pet-brand-story__intro rte">{{ section.settings.introduction }}</div>{%- endif -%}
+      </header>
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="pet-brand-story__journey">
+          <svg class="pet-brand-story__route" viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path pathLength="100" d="M24 89C152 14 241 158 360 87S568 14 662 89s220 69 302 0 153-62 212-6"/>
+          </svg>
+
+          <ol class="pet-brand-story__grid">
+            {%- for block in section.blocks -%}
+              {% render 'fourpattes-mission-card', block: block, index: forloop.index, total: forloop.length, animations_enabled: section.settings.enable_animations %}
+            {%- endfor -%}
+          </ol>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.conclusion != blank or section.settings.button_label != blank -%}
+        <footer class="pet-brand-story__ending">
+          <span class="pet-brand-story__ending-mark" aria-hidden="true">“</span>
+          {%- if section.settings.conclusion != blank -%}<p>{{ section.settings.conclusion | escape }}</p>{%- endif -%}
+          {%- if section.settings.button_label != blank -%}
+            <a class="pet-button pet-brand-story__button" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+              <span>{{ section.settings.button_label | escape }}</span><span aria-hidden="true">→</span>
+            </a>
+          {%- endif -%}
+        </footer>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_bottom_wave -%}
+      {% render 'wave-divider', color: section.settings.bottom_background, position: 'bottom', flip: section.settings.flip_bottom_wave %}
+    {%- endif -%}
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Mission FourPattes",
+  "tag": "section",
+  "class": "section-fourpattes-mission",
+  "settings": [
+    { "type": "checkbox", "id": "enable_section", "label": "Afficher la section", "default": true },
+    { "type": "header", "content": "Histoire" },
+    { "type": "text", "id": "eyebrow", "label": "Petit badge", "default": "NOTRE RAISON D’ÊTRE" },
+    { "type": "textarea", "id": "title", "label": "Titre", "default": "PLUS QU’UNE BOUTIQUE,\nUNE MISSION." },
+    { "type": "richtext", "id": "introduction", "label": "Introduction", "default": "<p>Chaque décision est guidée par une seule idée : offrir plus de bonheur aux chiens, aux chats et à leurs humains.</p>" },
+    { "type": "text", "id": "conclusion", "label": "Phrase de conclusion", "default": "Les meilleurs accessoires ne restent pas dans un colis : ils deviennent une partie de leur histoire." },
+    { "type": "header", "content": "Bouton" },
+    { "type": "text", "id": "button_label", "label": "Libellé", "default": "Découvrir notre univers" },
+    { "type": "url", "id": "button_link", "label": "Lien" },
+    { "type": "header", "content": "Direction artistique" },
+    { "type": "color", "id": "background", "label": "Fond de section", "default": "#702758" },
+    { "type": "color", "id": "text_color", "label": "Texte de section", "default": "#FFFFFF" },
+    { "type": "color", "id": "card_background", "label": "Fond des cartes", "default": "#FFF9F4" },
+    { "type": "color", "id": "card_text", "label": "Texte des cartes", "default": "#2D1C63" },
+    { "type": "color", "id": "accent_color", "label": "Accent principal", "default": "#F3B63B" },
+    { "type": "color", "id": "route_color", "label": "Chemin narratif", "default": "#FFF9F4" },
+    { "type": "checkbox", "id": "show_decorations", "label": "Afficher les décorations", "default": true },
+    { "type": "checkbox", "id": "enable_animations", "label": "Activer les animations", "default": true },
+    { "type": "header", "content": "Dimensions" },
+    { "type": "range", "id": "max_width", "min": 1000, "max": 1600, "step": 50, "unit": "px", "label": "Largeur maximale", "default": 1400 },
+    { "type": "range", "id": "card_gap", "min": 12, "max": 48, "step": 4, "unit": "px", "label": "Espace entre les cartes", "default": 24 },
+    { "type": "range", "id": "card_radius", "min": 20, "max": 48, "step": 2, "unit": "px", "label": "Arrondi des cartes", "default": 32 },
+    { "type": "range", "id": "padding_top_desktop", "min": 48, "max": 140, "step": 4, "unit": "px", "label": "Marge haute ordinateur", "default": 80 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 56, "max": 160, "step": 4, "unit": "px", "label": "Marge basse ordinateur", "default": 104 },
+    { "type": "range", "id": "padding_top_mobile", "min": 36, "max": 100, "step": 4, "unit": "px", "label": "Marge haute mobile", "default": 56 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 44, "max": 120, "step": 4, "unit": "px", "label": "Marge basse mobile", "default": 72 },
+    { "type": "header", "content": "Vagues" },
+    { "type": "checkbox", "id": "show_top_wave", "label": "Afficher la vague supérieure", "default": true },
+    { "type": "checkbox", "id": "flip_top_wave", "label": "Inverser la vague supérieure", "default": false },
+    { "type": "checkbox", "id": "show_bottom_wave", "label": "Afficher la vague inférieure", "default": true },
+    { "type": "color", "id": "bottom_background", "label": "Couleur après la vague", "default": "#F9F0EB" },
+    { "type": "checkbox", "id": "flip_bottom_wave", "label": "Inverser la vague inférieure", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "commitment",
+      "name": "Engagement",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Étape courte", "default": "NOUS CHOISISSONS" },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Le bien-être avant tout" },
+        { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Des accessoires utiles, joyeux et adaptés à leur quotidien, sélectionnés avec attention.</p>" },
+        { "type": "header", "content": "Illustration" },
+        { "type": "image_picker", "id": "illustration", "label": "Illustration principale" },
+        { "type": "text", "id": "illustration_alt", "label": "Texte alternatif", "default": "Accessoires FourPattes choisis avec soin" },
+        { "type": "select", "id": "scene", "label": "Illustration de secours", "options": [{ "value": "select", "label": "Sélection" }, { "value": "prepare", "label": "Préparation" }, { "value": "discover", "label": "Découverte" }, { "value": "remember", "label": "Souvenir" }], "default": "select" },
+        { "type": "image_picker", "id": "icon_image", "label": "Icône personnalisée" },
+        { "type": "select", "id": "icon", "label": "Icône de secours", "options": [{ "value": "paw", "label": "Patte" }, { "value": "dog", "label": "Chien" }, { "value": "cat", "label": "Chat" }, { "value": "heart", "label": "Cœur" }, { "value": "gift", "label": "Cadeau" }, { "value": "sparkle", "label": "Étoile" }, { "value": "globe", "label": "Communauté" }], "default": "paw" },
+        { "type": "header", "content": "Couleurs" },
+        { "type": "color", "id": "background", "label": "Fond de la carte", "default": "#FFF9F4" },
+        { "type": "color", "id": "accent", "label": "Accent", "default": "#5BC4C6" },
+        { "type": "color", "id": "soft_color", "label": "Fond de l’illustration", "default": "#DDF2F1" },
+        { "type": "header", "content": "Disposition et mouvement" },
+        { "type": "range", "id": "offset", "min": 0, "max": 36, "step": 4, "unit": "px", "label": "Décalage vertical sur ordinateur", "default": 0 },
+        { "type": "select", "id": "animation", "label": "Animation", "options": [{ "value": "none", "label": "Aucune" }, { "value": "rise", "label": "Montée douce" }, { "value": "float", "label": "Flottement doux" }], "default": "rise" },
+        { "type": "range", "id": "animation_delay", "min": 0, "max": 600, "step": 50, "unit": "ms", "label": "Délai d’apparition", "default": 0 },
+        { "type": "header", "content": "Lien facultatif" },
+        { "type": "text", "id": "link_label", "label": "Libellé du lien" },
+        { "type": "url", "id": "link", "label": "Lien" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Mission FourPattes",
+      "blocks": [
+        { "type": "commitment", "settings": { "kicker": "NOUS CHOISISSONS", "title": "Le bien-être avant tout", "text": "<p>Des accessoires utiles, joyeux et adaptés à leur quotidien, sélectionnés avec attention.</p>", "scene": "select", "icon": "paw", "accent": "#5BC4C6", "soft_color": "#DDF2F1", "animation_delay": 0 } },
+        { "type": "commitment", "settings": { "kicker": "NOUS PRÉPARONS", "title": "Chaque détail compte", "text": "<p>Chaque commande est préparée comme une attention personnelle, avec soin jusque dans les petits détails.</p>", "scene": "prepare", "icon": "gift", "accent": "#F3B63B", "soft_color": "#FCE8BA", "offset": 24, "animation_delay": 100 } },
+        { "type": "commitment", "settings": { "kicker": "ILS DÉCOUVRENT", "title": "La joie prend vie", "text": "<p>Le colis s’ouvre, le jeu commence et les accessoires trouvent naturellement leur place dans la journée.</p>", "scene": "discover", "icon": "sparkle", "accent": "#C82552", "soft_color": "#F6D7E2", "animation_delay": 200 } },
+        { "type": "commitment", "settings": { "kicker": "VOUS PARTAGEZ", "title": "Des souvenirs à garder", "text": "<p>Une promenade, un jeu, un moment calme : ces petits instants deviennent votre histoire commune.</p>", "scene": "remember", "icon": "heart", "accent": "#B7D76D", "soft_color": "#E5F0C6", "offset": 24, "animation_delay": 300 } }
+      ]
+    }
+  ]
+}
+{% endschema %}
