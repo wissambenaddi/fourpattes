@@ -34,6 +34,80 @@
   text-wrap:balance;
 }
 
+.pet-life-transition{
+  position:absolute;
+  z-index:7;
+  top:-3.75rem;
+  left:50%;
+  width:min(80vw,21rem);
+  height:7.5rem;
+  color:var(--bowl-color);
+  opacity:.22;
+  pointer-events:none;
+  transform:translateX(-50%) rotate(-7deg);
+}
+
+.pet-life-transition__paw{
+  position:absolute;
+  width:1.7rem;
+}
+
+.pet-life-transition__paw .pet-icon{width:100%;height:auto}
+.pet-life-transition__paw--one{top:3.1rem;left:3%;transform:rotate(-22deg)}
+.pet-life-transition__paw--two{top:1.65rem;left:29%;transform:rotate(12deg) scale(.84)}
+.pet-life-transition__paw--three{top:.55rem;left:56%;transform:rotate(-15deg) scale(.72)}
+
+.pet-life-transition__ball{
+  position:absolute;
+  top:.25rem;
+  right:8%;
+  width:1.45rem;
+  aspect-ratio:1;
+  border:.17rem solid currentColor;
+  border-radius:50%;
+}
+
+.pet-life-transition__ball::before{
+  content:"";
+  position:absolute;
+  top:43%;
+  right:-12%;
+  left:-12%;
+  height:.13rem;
+  border-radius:999px;
+  background:currentColor;
+  transform:rotate(31deg);
+}
+
+.pet-life-transition__mouse{
+  position:absolute;
+  right:23%;
+  bottom:.55rem;
+  width:1.65rem;
+  height:.95rem;
+  border-radius:58% 45% 44% 57%;
+  background:currentColor;
+  transform:rotate(12deg);
+}
+
+.pet-life-transition__mouse::after{
+  content:"";
+  position:absolute;
+  top:.32rem;
+  right:-1.15rem;
+  width:1.3rem;
+  height:.75rem;
+  border-top:.12rem solid currentColor;
+  border-radius:50%;
+}
+
+.pet-life-transition__spark{
+  position:absolute;
+  right:0;
+  bottom:1.25rem;
+  font-size:1.15rem;
+}
+
 .pet-life{
   position:relative;
   width:min(100%,74rem);
@@ -491,6 +565,10 @@
     font-size:.94rem;
   }
 
+  .pet-life-transition{
+    top:-3.15rem;
+    opacity:.18;
+  }
 
   .pet-life{
     display:flex;

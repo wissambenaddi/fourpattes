@@ -1,8 +1,8 @@
 {%- liquid
   assign thread_opacity = section.settings.opacity | divided_by: 100.0
-  assign reveal_class = ' is-visible'
+  assign animation_class = ' is-visible'
   if section.settings.enable_animations
-    assign reveal_class = ' pet-story-thread--motion'
+    assign animation_class = ' pet-story-thread--motion'
   endif
 -%}
 
@@ -12,25 +12,49 @@
 
 {%- if section.settings.enabled -%}
   <div
-    class="pet-story-thread pet-story-thread--{{ section.settings.alignment }}{% unless section.settings.show_on_mobile %} pet-story-thread--hide-mobile{% endunless %}{{ reveal_class }}"
-    style="--thread-color: {{ section.settings.line_color }}; --thread-opacity: {{ thread_opacity }}; --story-object-color: {{ section.settings.object_color }}; --story-object-secondary: {{ section.settings.secondary_color }};"
+    class="pet-story-thread pet-story-thread--{{ section.settings.alignment }}{% if section.settings.flip_horizontal %} pet-story-thread--flipped{% endif %}{% if section.settings.hide_on_tablet %} pet-story-thread--hide-tablet{% endif %}{% if section.settings.hide_on_mobile %} pet-story-thread--hide-mobile{% endif %}{{ animation_class }}"
+    style="--thread-width: {{ section.settings.width }}px; --thread-height: {{ section.settings.height }}px; --thread-x: {{ section.settings.offset_x }}px; --thread-y: {{ section.settings.offset_y }}px; --thread-color: {{ section.settings.line_color }}; --thread-opacity: {{ thread_opacity }}; --thread-stroke: {{ section.settings.stroke_width }}px;"
     aria-hidden="true"
     {% if section.settings.enable_animations %}data-pet-reveal{% endif %}
   >
     <div class="pet-story-thread__stage">
-      <svg class="pet-story-thread__path" viewBox="0 0 220 120" preserveAspectRatio="none" focusable="false">
-        <path pathLength="1" d="M18 18C62 8 78 58 116 52S166 76 204 99"/>
-      </svg>
-      <span class="pet-story-thread__item">
-        {% render 'fourpattes-story-object', object_type: section.settings.object_type, color: section.settings.object_color, secondary_color: section.settings.secondary_color %}
-      </span>
+      {%- if section.settings.show_line -%}
+        <svg class="pet-story-thread__path" viewBox="0 0 640 210" preserveAspectRatio="none" focusable="false">
+          {%- case section.settings.curve_style -%}
+            {%- when 'arc' -%}
+              <path pathLength="1" d="M20 166C151 26 313 16 620 143"/>
+            {%- when 'loop' -%}
+              <path pathLength="1" d="M20 154C129 36 212 180 303 97S466 41 620 151"/>
+            {%- when 'gentle' -%}
+              <path pathLength="1" d="M18 137C151 90 278 131 390 99S535 81 622 120"/>
+            {%- else -%}
+              <path pathLength="1" d="M18 157C126 42 233 190 337 100S506 37 622 145"/>
+          {%- endcase -%}
+        </svg>
+      {%- endif -%}
+
+      <div class="pet-story-thread__objects">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign object_opacity = block.settings.opacity | divided_by: 100.0
+            assign delay_seconds = block.settings.animation_delay | divided_by: 1000.0
+          -%}
+          <span
+            class="pet-story-thread__item pet-story-thread__item--{{ block.settings.animation }}{% if block.settings.hide_mobile %} pet-story-thread__item--hide-mobile{% endif %}"
+            style="--item-x: {{ block.settings.position_x }}%; --item-y: {{ block.settings.position_y }}%; --item-size: {{ block.settings.size }}px; --item-size-mobile: {{ block.settings.mobile_size }}px; --item-rotation: {{ block.settings.rotation }}deg; --item-opacity: {{ object_opacity }}; --item-delay: {{ delay_seconds }}s;"
+            {{ block.shopify_attributes }}
+          >
+            {% render 'fourpattes-story-object', object_type: block.settings.object_type, color: block.settings.color, secondary_color: block.settings.secondary_color %}
+          </span>
+        {%- endfor -%}
+      </div>
     </div>
   </div>
 {%- endif -%}
 
 {% schema %}
 {
-  "name": "Liaison Box → accessoires",
+  "name": "Fil conducteur",
   "tag": "section",
   "class": "fourpattes-story-thread",
   "settings": [
@@ -41,71 +65,262 @@
       "default": true
     },
     {
+      "type": "checkbox",
+      "id": "show_line",
+      "label": "Afficher la ligne pointillée",
+      "default": true
+    },
+    {
       "type": "select",
-      "id": "object_type",
-      "label": "Objet narratif",
+      "id": "curve_style",
+      "label": "Forme de la trajectoire",
       "options": [
-        { "value": "ball", "label": "Balle" },
-        { "value": "leash", "label": "Laisse" },
-        { "value": "mouse", "label": "Souris" },
-        { "value": "yarn", "label": "Pelote" }
+        { "value": "s_curve", "label": "Courbe en S" },
+        { "value": "arc", "label": "Arc organique" },
+        { "value": "loop", "label": "Double courbe" },
+        { "value": "gentle", "label": "Courbe douce" }
       ],
-      "default": "ball"
-    },
-    {
-      "type": "color",
-      "id": "object_color",
-      "label": "Couleur de l’objet",
-      "default": "#F4B63F"
-    },
-    {
-      "type": "color",
-      "id": "secondary_color",
-      "label": "Couleur secondaire",
-      "default": "#2D1C63"
+      "default": "s_curve"
     },
     {
       "type": "color",
       "id": "line_color",
-      "label": "Couleur de la trajectoire",
-      "default": "#BFE2F3"
+      "label": "Couleur de la ligne",
+      "default": "#0B7C82"
     },
     {
       "type": "range",
       "id": "opacity",
-      "min": 45,
-      "max": 60,
+      "min": 20,
+      "max": 80,
       "step": 5,
       "unit": "%",
-      "label": "Opacité de la trajectoire",
-      "default": 50
+      "label": "Opacité de la ligne",
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "stroke_width",
+      "min": 1.5,
+      "max": 3,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Épaisseur de la ligne",
+      "default": 2.5
     },
     {
       "type": "select",
       "id": "alignment",
-      "label": "Position",
+      "label": "Alignement",
       "options": [
-        { "value": "left", "label": "À gauche" },
-        { "value": "right", "label": "À droite" }
+        { "value": "left", "label": "Gauche" },
+        { "value": "center", "label": "Centre" },
+        { "value": "right", "label": "Droite" }
       ],
-      "default": "right"
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "min": 160,
+      "max": 520,
+      "step": 20,
+      "unit": "px",
+      "label": "Largeur sur ordinateur",
+      "default": 240
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 80,
+      "max": 220,
+      "step": 10,
+      "unit": "px",
+      "label": "Hauteur visuelle",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "offset_x",
+      "min": -200,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Décalage horizontal",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "offset_y",
+      "min": -100,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Décalage vertical",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "flip_horizontal",
+      "label": "Inverser la trajectoire",
+      "default": false
     },
     {
       "type": "checkbox",
       "id": "enable_animations",
-      "label": "Animer l’apparition",
+      "label": "Activer les micro-animations",
       "default": true
     },
     {
       "type": "checkbox",
-      "id": "show_on_mobile",
-      "label": "Afficher sur mobile",
-      "default": true
+      "id": "hide_on_tablet",
+      "label": "Masquer sur tablette",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Masquer sur mobile",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "decoration",
+      "name": "Objet narratif",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "select",
+          "id": "object_type",
+          "label": "Objet",
+          "options": [
+            { "value": "paw", "label": "Empreinte" },
+            { "value": "ball", "label": "Balle" },
+            { "value": "leash", "label": "Laisse" },
+            { "value": "bone", "label": "Os" },
+            { "value": "mouse", "label": "Souris" },
+            { "value": "yarn", "label": "Pelote" },
+            { "value": "heart", "label": "Cœur" },
+            { "value": "star", "label": "Étoile" },
+            { "value": "camera", "label": "Appareil photo" },
+            { "value": "photo", "label": "Photo" },
+            { "value": "box", "label": "Carton" },
+            { "value": "medal", "label": "Médaille" },
+            { "value": "treat", "label": "Friandise" }
+          ],
+          "default": "paw"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Couleur principale",
+          "default": "#0B7C82"
+        },
+        {
+          "type": "color",
+          "id": "secondary_color",
+          "label": "Couleur secondaire",
+          "default": "#F7C84B"
+        },
+        {
+          "type": "range",
+          "id": "position_x",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Position horizontale",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "position_y",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Position verticale",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "size",
+          "min": 16,
+          "max": 64,
+          "step": 2,
+          "unit": "px",
+          "label": "Taille sur ordinateur",
+          "default": 34
+        },
+        {
+          "type": "range",
+          "id": "mobile_size",
+          "min": 14,
+          "max": 36,
+          "step": 2,
+          "unit": "px",
+          "label": "Taille sur mobile",
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "rotation",
+          "min": -30,
+          "max": 30,
+          "step": 1,
+          "unit": "deg",
+          "label": "Rotation",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "opacity",
+          "min": 35,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "label": "Opacité",
+          "default": 100
+        },
+        {
+          "type": "select",
+          "id": "animation",
+          "label": "Animation",
+          "options": [
+            { "value": "none", "label": "Aucune" },
+            { "value": "float", "label": "Flottement" },
+            { "value": "rise", "label": "Montée douce" },
+            { "value": "sparkle", "label": "Scintillement" }
+          ],
+          "default": "float"
+        },
+        {
+          "type": "range",
+          "id": "animation_delay",
+          "min": 0,
+          "max": 1000,
+          "step": 100,
+          "unit": "ms",
+          "label": "Délai d’animation",
+          "default": 200
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_mobile",
+          "label": "Masquer sur mobile",
+          "default": false
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Liaison Box → accessoires"
+      "name": "Fil conducteur",
+      "blocks": [
+        { "type": "decoration", "settings": { "object_type": "ball", "position_x": 20, "position_y": 30, "size": 36, "mobile_size": 26, "rotation": -6 } },
+        { "type": "decoration", "settings": { "object_type": "paw", "position_x": 76, "position_y": 68, "size": 22, "mobile_size": 18, "rotation": 10 } }
+      ]
     }
   ]
 }
