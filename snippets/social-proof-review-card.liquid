@@ -1,0 +1,56 @@
+{% doc %}
+  Renders a featured or supporting customer testimonial card.
+
+  @param {block} block - Review block configured in the section editor.
+  @param {boolean} featured - Whether the card is the main testimonial.
+  @param {number} fallback_index - Index used to select an illustrative fallback image.
+  @param {string} verified_label - Merchant-configurable verified review label.
+  @param {string} illustrative_label - Merchant-configurable illustrative photo label.
+
+  @example
+  {% render 'social-proof-review-card', block: block, featured: true, fallback_index: 0, verified_label: 'Client vérifié', illustrative_label: 'Photo illustrative' %}
+{% enddoc %}
+
+{%- liquid
+  assign image_index = fallback_index | modulo: 3
+  assign fallback_asset = 'avis-chien-collier-fourpattes.webp'
+  assign fallback_alt = 'Golden retriever portant un collier violet'
+  if image_index == 1
+    assign fallback_asset = 'avis-chat-jouet-fourpattes.webp'
+    assign fallback_alt = 'Chat gris jouant avec une balle jaune'
+  elsif image_index == 2
+    assign fallback_asset = 'avis-chien-harnais-fourpattes.webp'
+    assign fallback_alt = 'Chien portant un harnais turquoise en promenade'
+  endif
+  assign card_class = 'pet-social-proof-card pet-social-proof-card--secondary'
+  if featured
+    assign card_class = 'pet-social-proof-card pet-social-proof-card--featured'
+  endif
+-%}
+
+<article class="{{ card_class }}" style="--review-rotation: {{ block.settings.rotation | default: 0 }}deg" {{ block.shopify_attributes }}>
+  <div class="pet-social-proof-card__media">
+    {%- if block.settings.image != blank -%}
+      {% render 'responsive-image', image: block.settings.image, alt: block.settings.image_alt, class: 'pet-social-proof-card__image', sizes: '(max-width: 749px) 88vw, (max-width: 989px) 42vw, 420px' %}
+      {%- if block.settings.photo_is_illustrative -%}<span class="pet-social-proof-card__image-label">{{ illustrative_label | escape }}</span>{%- endif -%}
+    {%- else -%}
+      <img class="pet-social-proof-card__image" src="{{ fallback_asset | asset_url }}" width="1254" height="1254" loading="lazy" alt="{{ fallback_alt | escape }}">
+      <span class="pet-social-proof-card__image-label">{{ illustrative_label | escape }}</span>
+    {%- endif -%}
+    {%- if block.settings.verified -%}<span class="pet-social-proof-card__verified"><span aria-hidden="true">✓</span>{{ verified_label | escape }}</span>{%- endif -%}
+  </div>
+
+  <div class="pet-social-proof-card__body">
+    <div class="pet-social-proof-card__stars" aria-label="{{ block.settings.rating }} / 5">
+      {%- for i in (1..5) -%}<span aria-hidden="true">{% if i <= block.settings.rating %}★{% else %}☆{% endif %}</span>{%- endfor -%}
+    </div>
+    <blockquote><span aria-hidden="true">“</span>{{ block.settings.quote | escape }}</blockquote>
+    <div class="pet-social-proof-card__identity">
+      <p><strong>{{ block.settings.name | escape }}</strong>{%- if block.settings.animal_name != blank -%}<span>{{ block.settings.animal_name | escape }}</span>{%- endif -%}</p>
+      {%- if block.settings.city != blank or block.settings.review_date != blank -%}
+        <small>{%- if block.settings.city != blank -%}{{ block.settings.city | escape }}{%- endif -%}{%- if block.settings.city != blank and block.settings.review_date != blank -%}<span aria-hidden="true"> · </span>{%- endif -%}{%- if block.settings.review_date != blank -%}{{ block.settings.review_date | escape }}{%- endif -%}</small>
+      {%- endif -%}
+    </div>
+    {%- if block.settings.product != blank -%}<a class="pet-social-proof-card__product" href="{{ block.settings.product.url }}">{{ block.settings.product.title }}</a>{%- endif -%}
+  </div>
+</article>
