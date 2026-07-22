@@ -1,0 +1,135 @@
+{{ 'fourpattes-patous.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.enable_section -%}
+  <section
+    id="FourpattesPatous-{{ section.id }}"
+    class="pet-playful pet-patous pet-patous--{{ section.settings.character_position }}{% if section.settings.enable_animations %} pet-patous--motion{% else %} is-visible{% endif %}"
+    style="--playful-bg: {{ section.settings.background }}; --patous-bg: {{ section.settings.background }}; --patous-text: {{ section.settings.text_color }}; --patous-title: {{ section.settings.title_color }}; --patous-bubble: {{ section.settings.bubble_color }}; --patous-bubble-text: {{ section.settings.bubble_text_color }}; --patous-accent: {{ section.settings.accent_color }}; --patous-soft: {{ section.settings.soft_color }}; --patous-character-size: {{ section.settings.character_size }}px; --patous-padding-top-mobile: {{ section.settings.padding_top_mobile }}px; --patous-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px; --patous-padding-top-desktop: {{ section.settings.padding_top_desktop }}px; --patous-padding-bottom-desktop: {{ section.settings.padding_bottom_desktop }}px;"
+    aria-labelledby="FourpattesPatousTitle-{{ section.id }}"
+    {% if section.settings.enable_animations %}data-pet-reveal{% endif %}
+  >
+    <div class="pet-shell pet-patous__shell">
+      <header class="pet-patous__heading">
+        {%- if section.settings.eyebrow != blank -%}<p class="pet-patous__eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        <h2 id="FourpattesPatousTitle-{{ section.id }}" class="pet-patous__title">{{ section.settings.title | escape | newline_to_br }}</h2>
+        {%- if section.settings.subtitle != blank -%}<p class="pet-patous__subtitle">{{ section.settings.subtitle | escape }}</p>{%- endif -%}
+      </header>
+
+      <div class="pet-patous__scene">
+        <div class="pet-patous__conversation">
+          <div class="pet-patous__bubble">
+            {%- if section.settings.bubble_label != blank -%}<p class="pet-patous__bubble-label"><span aria-hidden="true">♡</span> {{ section.settings.bubble_label | escape }}</p>{%- endif -%}
+            <div class="pet-patous__dialogue rte">{{ section.settings.dialogue }}</div>
+            <span class="pet-patous__bubble-tail" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div class="pet-patous__character-zone">
+          <div class="pet-patous__floor" aria-hidden="true"></div>
+
+          {%- if section.settings.show_cushion -%}<span class="pet-patous__cushion" aria-hidden="true"><i></i></span>{%- endif -%}
+          {%- if section.settings.show_box -%}<span class="pet-patous__box" aria-hidden="true"><i>FourPattes</i></span>{%- endif -%}
+
+          {% render 'fourpattes-patous-character', image: section.settings.character_image, alt: section.settings.character_alt, class: 'pet-patous__character', animated: section.settings.enable_animations, sizes: '(max-width: 749px) 82vw, (max-width: 989px) 54vw, 650px' %}
+
+          <div class="pet-patous__accessories" aria-hidden="true">
+            {%- if section.settings.show_ball -%}<span class="pet-patous__ball"><i></i></span>{%- endif -%}
+            {%- if section.settings.show_mouse -%}<span class="pet-patous__mouse"><i></i></span>{%- endif -%}
+            {%- if section.settings.show_yarn -%}<span class="pet-patous__yarn"><i></i></span>{%- endif -%}
+            {%- if section.settings.show_bone -%}<span class="pet-patous__bone"></span>{%- endif -%}
+            {%- if section.settings.show_treat -%}<span class="pet-patous__treat"></span>{%- endif -%}
+          </div>
+
+          {%- if section.settings.accessory_left != blank -%}
+            <span class="pet-patous__custom-accessory pet-patous__custom-accessory--left" aria-hidden="true">
+              {{ section.settings.accessory_left | image_url: width: 420 | image_tag: widths: '120, 200, 320, 420', sizes: '(max-width: 749px) 72px, 120px', loading: 'lazy', alt: '' }}
+            </span>
+          {%- endif -%}
+          {%- if section.settings.accessory_right != blank -%}
+            <span class="pet-patous__custom-accessory pet-patous__custom-accessory--right" aria-hidden="true">
+              {{ section.settings.accessory_right | image_url: width: 420 | image_tag: widths: '120, 200, 320, 420', sizes: '(max-width: 749px) 72px, 120px', loading: 'lazy', alt: '' }}
+            </span>
+          {%- endif -%}
+
+          {%- if section.settings.show_paws -%}
+            <span class="pet-patous__paw pet-patous__paw--one" aria-hidden="true">{% render 'icon-paw' %}</span>
+            <span class="pet-patous__paw pet-patous__paw--two" aria-hidden="true">{% render 'icon-paw' %}</span>
+          {%- endif -%}
+          {%- if section.settings.show_sparkles -%}
+            <span class="pet-patous__spark pet-patous__spark--one" aria-hidden="true">✦</span>
+            <span class="pet-patous__spark pet-patous__spark--two" aria-hidden="true">✦</span>
+            <span class="pet-patous__heart" aria-hidden="true">♡</span>
+          {%- endif -%}
+
+          {%- if section.settings.show_guide -%}
+            <div class="pet-patous__guide" aria-hidden="true">
+              <svg viewBox="0 0 240 150" preserveAspectRatio="none" focusable="false"><path pathLength="1" d="M211 13c-76 11-42 72-115 76-52 3-41 39-80 48"/></svg>
+              <span>{% render 'icon-paw' %}</span>
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.button_label != blank -%}
+          <div class="pet-patous__actions">
+            <a class="pet-button pet-patous__button" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+              <span>{{ section.settings.button_label | escape }}</span><span aria-hidden="true">→</span>
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Patous FourPattes",
+  "tag": "section",
+  "class": "section-fourpattes-patous",
+  "settings": [
+    { "type": "checkbox", "id": "enable_section", "label": "Afficher Patous", "default": true },
+    { "type": "header", "content": "Rencontre" },
+    { "type": "text", "id": "eyebrow", "label": "Petit badge", "default": "LE GARDIEN OFFICIEL DE LA MEUTE" },
+    { "type": "textarea", "id": "title", "label": "Titre", "default": "FAIS CONNAISSANCE\nAVEC PATOUS." },
+    { "type": "text", "id": "subtitle", "label": "Sous-titre", "default": "Joueur, curieux et toujours prêt à accueillir un nouveau compagnon." },
+    { "type": "text", "id": "bubble_label", "label": "Petit texte de la bulle", "default": "UN PETIT MOT DE PATOUS" },
+    { "type": "richtext", "id": "dialogue", "label": "Dialogue", "default": "<p><strong>Salut ! Moi, c’est Patous.</strong></p><p>Je suis chargé de vérifier les cartons, tester les jouets… et accueillir chaque nouveau compagnon.</p><p>Tu es arrivé jusqu’ici ? Alors tu fais déjà un peu partie de la meute.</p>" },
+    { "type": "header", "content": "Bouton" },
+    { "type": "text", "id": "button_label", "label": "Libellé", "default": "Continuer l’aventure" },
+    { "type": "url", "id": "button_link", "label": "Lien" },
+    { "type": "header", "content": "Personnage" },
+    { "type": "image_picker", "id": "character_image", "label": "Illustration de Patous" },
+    { "type": "text", "id": "character_alt", "label": "Texte alternatif", "default": "Patous, le chat gardien de la meute FourPattes" },
+    { "type": "range", "id": "character_size", "min": 360, "max": 760, "step": 20, "unit": "px", "label": "Taille de Patous", "default": 620 },
+    { "type": "select", "id": "character_position", "label": "Position sur ordinateur", "options": [{ "value": "right", "label": "À droite" }, { "value": "left", "label": "À gauche" }, { "value": "center", "label": "Au centre" }], "default": "right" },
+    { "type": "checkbox", "id": "enable_animations", "label": "Activer les animations", "default": true },
+    { "type": "header", "content": "Décor" },
+    { "type": "checkbox", "id": "show_box", "label": "Afficher le carton", "default": true },
+    { "type": "checkbox", "id": "show_cushion", "label": "Afficher le coussin", "default": true },
+    { "type": "checkbox", "id": "show_ball", "label": "Afficher la balle", "default": true },
+    { "type": "checkbox", "id": "show_mouse", "label": "Afficher la souris", "default": true },
+    { "type": "checkbox", "id": "show_yarn", "label": "Afficher la pelote", "default": true },
+    { "type": "checkbox", "id": "show_bone", "label": "Afficher l’os", "default": true },
+    { "type": "checkbox", "id": "show_treat", "label": "Afficher la friandise", "default": true },
+    { "type": "checkbox", "id": "show_paws", "label": "Afficher les empreintes", "default": true },
+    { "type": "checkbox", "id": "show_sparkles", "label": "Afficher étoiles et cœur", "default": true },
+    { "type": "checkbox", "id": "show_guide", "label": "Afficher le départ vers la newsletter", "default": true },
+    { "type": "image_picker", "id": "accessory_left", "label": "Décoration personnalisée gauche" },
+    { "type": "image_picker", "id": "accessory_right", "label": "Décoration personnalisée droite" },
+    { "type": "header", "content": "Couleurs" },
+    { "type": "color", "id": "background", "label": "Fond", "default": "#F9F0EB" },
+    { "type": "color", "id": "text_color", "label": "Texte", "default": "#2D1C63" },
+    { "type": "color", "id": "title_color", "label": "Titre", "default": "#C82552" },
+    { "type": "color", "id": "bubble_color", "label": "Bulle", "default": "#FFFDF9" },
+    { "type": "color", "id": "bubble_text_color", "label": "Texte de la bulle", "default": "#2D1C63" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#F3B63B" },
+    { "type": "color", "id": "soft_color", "label": "Forme organique", "default": "#E9D9F7" },
+    { "type": "header", "content": "Espacements" },
+    { "type": "range", "id": "padding_top_desktop", "min": 40, "max": 140, "step": 4, "unit": "px", "label": "Marge haute ordinateur", "default": 72 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 40, "max": 140, "step": 4, "unit": "px", "label": "Marge basse ordinateur", "default": 72 },
+    { "type": "range", "id": "padding_top_mobile", "min": 32, "max": 100, "step": 4, "unit": "px", "label": "Marge haute mobile", "default": 52 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 32, "max": 120, "step": 4, "unit": "px", "label": "Marge basse mobile", "default": 64 }
+  ],
+  "presets": [{ "name": "Patous FourPattes" }]
+}
+{% endschema %}
