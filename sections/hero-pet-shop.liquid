@@ -28,6 +28,11 @@
     --dialogue-bubble-bg: {{ section.settings.dialogue_bubble_background }};
     --dialogue-bubble-border: {{ section.settings.dialogue_bubble_border }};
     --dialogue-bubble-text: {{ section.settings.dialogue_bubble_text }};
+    --trust-capsule-bg: {{ section.settings.trust_background_color }};
+    --trust-capsule-text: {{ section.settings.trust_text_color }};
+    --trust-capsule-star: {{ section.settings.trust_star_color }};
+    --trust-capsule-accent: {{ section.settings.trust_accent_color }};
+    --trust-capsule-font-size: {{ section.settings.trust_font_size }}px;
   "
   data-pet-reveal
   {% if section.settings.enable_animated_dialogue %}
@@ -98,6 +103,72 @@
           <span class="pet-hero__title-line{% if forloop.last %} pet-hero__title-line--emphasis{% endif %}">{{ narrator_line | strip | escape }}</span>
         {%- endfor -%}
       </h1>
+
+      {%- comment -%}
+        Secondary trust signal: all commercial values and colors are editable
+        in the Hero settings. The capsule becomes a single accessible link only
+        when a review page URL is configured.
+      {%- endcomment -%}
+      {%- if section.settings.trust_enabled -%}
+        <div class="pet-hero__trust-slot">
+          {%- if section.settings.trust_link != blank -%}
+            <a class="pet-hero-trust" href="{{ section.settings.trust_link }}">
+          {%- else -%}
+            <div class="pet-hero-trust">
+          {%- endif -%}
+              {%- if section.settings.trust_heading != blank -%}
+                <span class="pet-hero-trust__heading">{{ section.settings.trust_heading | escape }}</span>
+              {%- endif -%}
+
+              <span class="pet-hero-trust__score">
+                <span
+                  class="pet-hero-trust__stars"
+                  role="img"
+                  aria-label="{{ section.settings.trust_stars_aria_label | escape }}"
+                >
+                  {%- for star in (1..5) -%}
+                    <span class="pet-hero-trust__star" aria-hidden="true">★</span>
+                  {%- endfor -%}
+                </span>
+                {%- if section.settings.trust_rating != blank -%}
+                  <strong class="pet-hero-trust__rating">{{ section.settings.trust_rating | escape }}</strong>
+                {%- endif -%}
+              </span>
+
+              {%- if section.settings.trust_reviews_count != blank -%}
+                <span class="pet-hero-trust__separator" aria-hidden="true"></span>
+                <span class="pet-hero-trust__reviews">
+                  <strong>{{ section.settings.trust_reviews_count | escape }}</strong>
+                  {{ section.settings.trust_reviews_label | escape }}
+                </span>
+              {%- endif -%}
+
+              {%- if section.settings.trust_boxes_count != blank -%}
+                <span class="pet-hero-trust__separator" aria-hidden="true"></span>
+                <span class="pet-hero-trust__boxes">
+                  <svg class="pet-hero-trust__parcel" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M4.5 7.5 12 3l7.5 4.5v9L12 21l-7.5-4.5v-9Z"/>
+                    <path d="m4.8 7.7 7.2 4.2 7.2-4.2M12 12v8.6M8.2 5.3l7.4 4.4"/>
+                  </svg>
+                  <strong>{{ section.settings.trust_boxes_count | escape }}</strong>
+                  {{ section.settings.trust_boxes_label | escape }}
+                </span>
+              {%- endif -%}
+
+              {%- if section.settings.trust_link != blank and section.settings.trust_link_text != blank -%}
+                <span class="pet-hero-trust__link-label">
+                  {{ section.settings.trust_link_text | escape }}
+                  <span aria-hidden="true">→</span>
+                </span>
+              {%- endif -%}
+          {%- if section.settings.trust_link != blank -%}
+            </a>
+          {%- else -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
       <div class="pet-button-row">
         {%- if section.settings.button_dog_label != blank -%}<a class="pet-button pet-hero__sticker-button pet-hero__sticker-button--dog" href="{{ section.settings.button_dog_link | default: routes.all_products_collection_url }}"><span class="pet-hero__sticker-icon" aria-hidden="true">🐶</span><span>{{ section.settings.button_dog_label | escape }}</span></a>{%- endif -%}
         {%- if section.settings.button_cat_label != blank -%}<a class="pet-button pet-hero__sticker-button pet-hero__sticker-button--cat" href="{{ section.settings.button_cat_link | default: routes.all_products_collection_url }}"><span class="pet-hero__sticker-icon" aria-hidden="true">🐱</span><span>{{ section.settings.button_cat_label | escape }}</span></a>{%- endif -%}
@@ -129,6 +200,22 @@
     { "type": "url", "id": "button_dog_link", "label": "Lien chiens" },
     { "type": "text", "id": "button_cat_label", "label": "Bouton chats", "default": "Accessoires chat" },
     { "type": "url", "id": "button_cat_link", "label": "Lien chats" },
+    { "type": "header", "content": "Bandeau de confiance" },
+    { "type": "checkbox", "id": "trust_enabled", "label": "Afficher le bandeau", "default": true },
+    { "type": "text", "id": "trust_heading", "label": "Mention de confiance", "default": "Excellent" },
+    { "type": "text", "id": "trust_rating", "label": "Note affichée", "default": "4,8/5" },
+    { "type": "text", "id": "trust_reviews_count", "label": "Nombre d’avis", "default": "684" },
+    { "type": "text", "id": "trust_reviews_label", "label": "Libellé des avis", "default": "avis clients" },
+    { "type": "text", "id": "trust_boxes_count", "label": "Nombre de box", "default": "2 500" },
+    { "type": "text", "id": "trust_boxes_label", "label": "Libellé des box", "default": "box expédiées" },
+    { "type": "url", "id": "trust_link", "label": "Lien vers la page Avis" },
+    { "type": "text", "id": "trust_link_text", "label": "Texte du lien", "default": "Voir les avis" },
+    { "type": "text", "id": "trust_stars_aria_label", "label": "Description accessible des étoiles", "default": "Note moyenne de 4,8 sur 5" },
+    { "type": "color", "id": "trust_background_color", "label": "Fond du bandeau", "default": "#FFF9F4" },
+    { "type": "color", "id": "trust_text_color", "label": "Texte du bandeau", "default": "#2D1C63" },
+    { "type": "color", "id": "trust_star_color", "label": "Carrés des étoiles", "default": "#2F9F75" },
+    { "type": "color", "id": "trust_accent_color", "label": "Accent du bandeau", "default": "#F7C84B" },
+    { "type": "range", "id": "trust_font_size", "min": 11, "max": 16, "step": 1, "unit": "px", "label": "Taille du bandeau", "default": 13 },
     { "type": "header", "content": "Bannière Fourpattes" },
     { "type": "image_picker", "id": "hero_desktop_image", "label": "Bannière desktop personnalisée" },
     { "type": "image_picker", "id": "hero_mobile_image", "label": "Bannière mobile personnalisée" },
