@@ -1,0 +1,186 @@
+{% doc %}
+  Renders one consent-gated item in the FourPattes community gallery.
+
+  @param {block} block - Community photo, quote, card, or video block.
+
+  @example
+  {% render 'community-gallery-item', block: block %}
+{% enddoc %}
+
+{%- liquid
+  assign item_position = block.settings.desktop_position | default: 'auto'
+  assign item_size = block.settings.desktop_size | default: 'medium'
+  assign item_rotation = block.settings.rotation | default: 0
+  assign is_featured = false
+  assign can_render = false
+  assign has_photo_caption = false
+
+  if block.type == 'featured_photo' or block.settings.featured
+    assign is_featured = true
+  endif
+
+  if block.settings.show_caption
+    if block.settings.animal_name != blank or block.settings.caption != blank
+      assign has_photo_caption = true
+    endif
+  endif
+
+  if block.settings.consent
+    case block.type
+      when 'featured_photo', 'photo'
+        if block.settings.image != blank
+          assign can_render = true
+        endif
+      when 'quote'
+        if block.settings.quote != blank
+          assign can_render = true
+        endif
+      when 'community_card'
+        if block.settings.title != blank or block.settings.text != blank
+          assign can_render = true
+        endif
+      when 'video'
+        if block.settings.video != blank or block.settings.external_video != blank
+          assign can_render = true
+        endif
+    endcase
+  endif
+-%}
+
+{%- if can_render -%}
+  <article
+    class="pet-community-item pet-community-item--{{ block.type | handle }} pet-community-item--{{ item_size }}{% if is_featured %} pet-community-item--featured{% endif %}"
+    data-position="{{ item_position | escape }}"
+    data-animal="{{ block.settings.animal_type | default: 'other' | escape }}"
+    style="--community-item-rotation: {{ item_rotation }}deg;{% if block.type == 'quote' or block.type == 'community_card' %} --community-item-bg: {{ block.settings.background }};{% endif %}"
+    {{ block.shopify_attributes }}
+  >
+    {%- case block.type -%}
+      {%- when 'featured_photo', 'photo' -%}
+        {%- liquid
+          assign photo_alt = block.settings.image_alt
+          if photo_alt == blank
+            assign photo_alt = block.settings.caption | default: block.settings.animal_name
+          endif
+        -%}
+        <figure class="pet-community-photo">
+          {%- capture photo_media -%}
+            {% render 'responsive-image', image: block.settings.image, alt: photo_alt, class: 'pet-community-photo__image', sizes: '(max-width: 749px) 86vw, (max-width: 989px) 48vw, 520px' %}
+          {%- endcapture -%}
+
+          {%- if block.settings.link != blank -%}
+            <a class="pet-community-photo__media" href="{{ block.settings.link }}">{{ photo_media }}</a>
+          {%- else -%}
+            <div class="pet-community-photo__media">{{ photo_media }}</div>
+          {%- endif -%}
+
+          {%- if block.settings.badge != blank -%}
+            <span class="pet-community-photo__badge"><span aria-hidden="true">🐾</span>{{ block.settings.badge | escape }}</span>
+          {%- endif -%}
+
+          {%- if has_photo_caption -%}
+            <figcaption class="pet-community-photo__caption">
+              {%- if block.settings.animal_name != blank -%}
+                <strong>{{ block.settings.animal_name | escape }}</strong>
+                {%- if block.settings.client_name != blank -%}<span>&amp; {{ block.settings.client_name | escape }}</span>{%- endif -%}
+              {%- endif -%}
+              {%- if block.settings.caption != blank -%}<small>{{ block.settings.caption | escape }}</small>{%- endif -%}
+            </figcaption>
+          {%- endif -%}
+
+          {%- if block.settings.credit != blank or block.settings.source_link != blank or block.settings.review_link != blank -%}
+            <div class="pet-community-photo__meta">
+              {%- if block.settings.source_link != blank -%}
+                <a href="{{ block.settings.source_link }}">
+                  {%- if block.settings.credit != blank -%}{{ block.settings.credit | escape }}{%- else -%}{{ 'community.source' | t }}{%- endif -%}
+                  <span aria-hidden="true">↗</span>
+                </a>
+              {%- elsif block.settings.credit != blank -%}
+                <span>{{ block.settings.credit | escape }}</span>
+              {%- endif -%}
+              {%- if block.settings.review_link != blank -%}
+                <a href="{{ block.settings.review_link }}">{{ 'community.related_review' | t }} <span aria-hidden="true">→</span></a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </figure>
+
+      {%- when 'quote' -%}
+        <blockquote class="pet-community-quote">
+          {%- unless block.settings.icon == 'none' -%}
+            <span class="pet-community-quote__mark" aria-hidden="true">
+              {%- case block.settings.icon -%}
+                {%- when 'heart' -%}♡
+                {%- when 'paw' -%}🐾
+                {%- else -%}“
+              {%- endcase -%}
+            </span>
+          {%- endunless -%}
+          {%- if block.settings.photo != blank -%}
+            {% render 'responsive-image', image: block.settings.photo, alt: block.settings.photo_alt, class: 'pet-community-quote__photo', sizes: '64px' %}
+          {%- endif -%}
+          <p>{{ block.settings.quote | escape }}</p>
+          {%- if block.settings.client_name != blank or block.settings.animal_name != blank -%}
+            <footer>
+              {%- if block.settings.client_name != blank -%}<strong>{{ block.settings.client_name | escape }}</strong>{%- endif -%}
+              {%- if block.settings.animal_name != blank -%}<span>{{ block.settings.animal_name | escape }}</span>{%- endif -%}
+            </footer>
+          {%- endif -%}
+        </blockquote>
+
+      {%- when 'community_card' -%}
+        <div class="pet-community-note">
+          <span class="pet-community-note__icon" aria-hidden="true">
+            {%- case block.settings.icon -%}
+              {%- when 'heart' -%}♡
+              {%- when 'camera' -%}▣
+              {%- when 'star' -%}✦
+              {%- else -%}🐾
+            {%- endcase -%}
+          </span>
+          {%- if block.settings.title != blank -%}<h3>{{ block.settings.title | escape }}</h3>{%- endif -%}
+          {%- if block.settings.text != blank -%}<p>{{ block.settings.text | escape }}</p>{%- endif -%}
+          {%- if block.settings.link != blank and block.settings.link_label != blank -%}
+            <a href="{{ block.settings.link }}">{{ block.settings.link_label | escape }} <span aria-hidden="true">→</span></a>
+          {%- endif -%}
+        </div>
+
+      {%- when 'video' -%}
+        {%- liquid
+          assign video_muted = block.settings.muted
+          if block.settings.autoplay
+            assign video_muted = true
+          endif
+        -%}
+        <figure class="pet-community-video">
+          <div class="pet-community-video__media" role="group" aria-label="{{ block.settings.video_alt | escape }}">
+            {%- if block.settings.video != blank -%}
+              {%- if block.settings.cover_image != blank -%}
+                {%- assign video_poster = block.settings.cover_image | image_url: width: 1400 -%}
+                {{ block.settings.video | video_tag: class: 'pet-community-video__player', controls: true, autoplay: block.settings.autoplay, muted: video_muted, loop: false, playsinline: true, preload: 'metadata', poster: video_poster }}
+              {%- else -%}
+                {{ block.settings.video | video_tag: class: 'pet-community-video__player', controls: true, autoplay: block.settings.autoplay, muted: video_muted, loop: false, playsinline: true, preload: 'metadata' }}
+              {%- endif -%}
+            {%- elsif block.settings.external_video != blank -%}
+              {{ block.settings.external_video | external_video_tag: class: 'pet-community-video__player', loading: 'lazy', title: block.settings.video_alt }}
+            {%- endif -%}
+          </div>
+          {%- if block.settings.caption != blank or block.settings.animal_name != blank -%}
+            <figcaption>
+              {%- if block.settings.animal_name != blank -%}<strong>{{ block.settings.animal_name | escape }}</strong>{%- endif -%}
+              {%- if block.settings.caption != blank -%}<span>{{ block.settings.caption | escape }}</span>{%- endif -%}
+            </figcaption>
+          {%- endif -%}
+        </figure>
+    {%- endcase -%}
+  </article>
+{%- elsif request.design_mode -%}
+  <article
+    class="pet-community-item pet-community-item--editor-note"
+    data-position="{{ item_position | escape }}"
+    {{ block.shopify_attributes }}
+  >
+    <strong>{{ 'community.hidden_content' | t }}</strong>
+    <span>{{ 'community.consent_help' | t }}</span>
+  </article>
+{%- endif -%}
