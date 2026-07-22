@@ -56,7 +56,21 @@
         "hero_paw_2": { "type": "decoration", "settings": { "object_type": "paw", "color": "#0B7C82", "secondary_color": "#F7C84B", "position_x": 82, "position_y": 73, "size": 31, "mobile_size": 24, "rotation": -9, "opacity": 60, "animation": "rise", "animation_delay": 500, "hide_mobile": true } }
       },
       "block_order": ["hero_ball", "hero_paw_1", "hero_paw_2"],
-      "settings": { "enabled": true, "show_line": true, "curve_style": "s_curve", "line_color": "#0B7C82", "opacity": 55, "stroke_width": 3, "alignment": "center", "width": 640, "height": 210, "offset_x": 0, "offset_y": 0, "flip_horizontal": false, "enable_animations": true }
+      "settings": {
+        "enabled": true,
+        "show_line": true,
+        "curve_style": "s_curve",
+        "line_color": "#0B7C82",
+        "opacity": 55,
+        "stroke_width": 3,
+        "alignment": "center",
+        "width": 640,
+        "height": 210,
+        "offset_x": 0,
+        "offset_y": 0,
+        "flip_horizontal": false,
+        "enable_animations": true
+      }
     },
     "favorites": {
       "type": "favorite-products",
