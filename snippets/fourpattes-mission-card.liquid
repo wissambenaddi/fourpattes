@@ -1,0 +1,57 @@
+{% doc %}
+  Renders one configurable commitment in the FourPattes mission journey.
+  @param {block} block - Shopify commitment block.
+  @param {number} index - One-based journey position.
+  @param {number} total - Total number of commitments.
+  @param {boolean} animations_enabled - Whether entry and hover motion are enabled.
+{% enddoc %}
+
+{%- liquid
+  assign animation_class = ''
+  if animations_enabled and block.settings.animation != 'none'
+    assign animation_class = ' pet-brand-story__item--animated pet-brand-story__item--' | append: block.settings.animation
+  endif
+-%}
+
+<li
+  class="pet-brand-story__item{{ animation_class }}"
+  style="--story-card-bg: {{ block.settings.background }}; --story-card-accent: {{ block.settings.accent }}; --story-card-soft: {{ block.settings.soft_color }}; --story-card-offset: {{ block.settings.offset }}px; --story-delay: {{ block.settings.animation_delay }}ms;"
+  {{ block.shopify_attributes }}
+>
+  <article class="pet-brand-story__card">
+    <span class="pet-visually-hidden">{{ 'mission.step' | t: index: index, total: total }}</span>
+    <div class="pet-brand-story__media">
+      {%- if block.settings.illustration != blank -%}
+        {% render 'responsive-image', image: block.settings.illustration, alt: block.settings.illustration_alt, class: 'pet-brand-story__image', sizes: '(max-width: 749px) 84vw, (max-width: 989px) 42vw, 23vw' %}
+      {%- else -%}
+        {% render 'fourpattes-mission-scene', scene: block.settings.scene, label: block.settings.illustration_alt, class: 'pet-brand-story__fallback-scene' %}
+      {%- endif -%}
+
+      <span class="pet-brand-story__media-spark pet-brand-story__media-spark--one" aria-hidden="true">✦</span>
+      <span class="pet-brand-story__media-spark pet-brand-story__media-spark--two" aria-hidden="true">✦</span>
+    </div>
+
+    <div class="pet-brand-story__copy">
+      <div class="pet-brand-story__meta">
+        <span class="pet-brand-story__step" aria-hidden="true">{{ index | prepend: '0' }}</span>
+        <span class="pet-brand-story__icon" aria-hidden="true">
+          {%- if block.settings.icon_image != blank -%}
+            {{ block.settings.icon_image | image_url: width: 96 | image_tag: widths: '48, 72, 96', sizes: '44px', loading: 'lazy', alt: '' }}
+          {%- else -%}
+            {% render 'fourpattes-mission-symbol', symbol: block.settings.icon, class: 'pet-brand-story__icon-svg' %}
+          {%- endif -%}
+        </span>
+      </div>
+
+      {%- if block.settings.kicker != blank -%}<p class="pet-brand-story__kicker">{{ block.settings.kicker | escape }}</p>{%- endif -%}
+      {%- if block.settings.title != blank -%}<h3>{{ block.settings.title | escape }}</h3>{%- endif -%}
+      {%- if block.settings.text != blank -%}<div class="pet-brand-story__text rte">{{ block.settings.text }}</div>{%- endif -%}
+
+      {%- if block.settings.link != blank and block.settings.link_label != blank -%}
+        <a class="pet-brand-story__card-link" href="{{ block.settings.link }}">
+          <span>{{ block.settings.link_label | escape }}</span><span aria-hidden="true">→</span>
+        </a>
+      {%- endif -%}
+    </div>
+  </article>
+</li>
