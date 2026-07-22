@@ -1,11 +1,41 @@
+{%- liquid
+  assign navigation_label = 'general.primary_navigation' | t
+  assign dog_mega_id = 'PetMegaDog-' | append: section.id
+  assign cat_mega_id = 'PetMegaCat-' | append: section.id
+  assign discover_mega_id = 'PetMegaDiscover-' | append: section.id
+  assign dog_fallback_link = section.settings.dog_cta_link | default: routes.all_products_collection_url
+  assign cat_fallback_link = section.settings.cat_cta_link | default: routes.all_products_collection_url
+  assign discover_fallback_link = section.settings.discover_cta_link | default: routes.root_url
+  assign story_link = section.settings.story_link | default: routes.root_url
+  assign cart_label = 'general.cart_empty_label' | t
+  if cart.item_count == 1
+    assign cart_label = 'general.cart_one_label' | t
+  elsif cart.item_count > 1
+    assign cart_label = 'general.cart_many_label' | t: count: cart.item_count
+  endif
+-%}
+
 <header
-  class="pet-header{% if section.settings.sticky %} pet-header--sticky{% endif %}"
-  style="--header-bg: {{ section.settings.background }}; --header-color: {{ section.settings.text_color }};"
+  class="pet-header pet-header--premium{% if section.settings.sticky %} pet-header--sticky{% endif %}{% if section.settings.show_empty_badge %} pet-header--show-empty-badge{% endif %}"
+  style="
+    --header-bg: {{ section.settings.background }};
+    --header-color: {{ section.settings.text_color }};
+    --header-accent: {{ section.settings.accent_color }};
+    --header-surface: {{ section.settings.surface_color }};
+    --header-action-bg: {{ section.settings.action_background }};
+    --header-badge-bg: {{ section.settings.badge_background }};
+    --header-badge-color: {{ section.settings.badge_text_color }};
+    --header-height: {{ section.settings.header_height }}px;
+    --header-logo-width: {{ section.settings.logo_width }}px;
+    --header-logo-mobile-width: {{ section.settings.logo_width_mobile }}px;
+  "
   data-pet-header
+  data-pet-premium-header
+  data-pet-compact-on-scroll="{{ section.settings.shrink_on_scroll }}"
 >
   <div class="pet-shell pet-header__inner">
     <button
-      class="pet-header__menu-toggle pet-icon-button"
+      class="pet-header__menu-toggle pet-icon-button pet-header__action"
       type="button"
       aria-label="{{ 'accessibility.open_menu' | t }}"
       aria-expanded="false"
@@ -17,81 +47,207 @@
 
     <a class="pet-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
       {%- if settings.logo != blank -%}
-        {{ settings.logo | image_url: width: 520 | image_tag: widths: '100, 150, 200, 300, 400, 520', sizes: '(max-width: 749px) var(--pet-logo-mobile), var(--pet-logo-desktop)', loading: 'eager', alt: settings.logo.alt | default: shop.name }}
+        {{ settings.logo
+          | image_url: width: 640
+          | image_tag:
+            widths: '100, 150, 200, 300, 400, 520, 640',
+            sizes: '(max-width: 1119px) var(--header-logo-mobile-width), var(--header-logo-width)',
+            loading: 'eager',
+            fetchpriority: 'high',
+            alt: settings.logo.alt | default: shop.name
+        }}
       {%- else -%}
         <span class="pet-header__wordmark">FOUR<span>PATTES</span></span>
       {%- endif -%}
     </a>
 
-    {%- if section.settings.menu != blank -%}
-      <nav class="pet-header__nav" aria-label="{{ section.settings.navigation_label | escape }}">
-        <ul class="pet-header__links" role="list">
-          {%- for link in section.settings.menu.links -%}
-            <li class="pet-header__link-item{% if link.links != blank %} has-submenu{% endif %}">
-              <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
-              {%- if link.links != blank -%}
-                <ul class="pet-header__submenu" role="list">
-                  {%- for child_link in link.links -%}
-                    <li><a href="{{ child_link.url }}"{% if child_link.current %} aria-current="page"{% endif %}>{{ child_link.title }}</a></li>
-                  {%- endfor -%}
-                </ul>
-              {%- endif -%}
-            </li>
-          {%- endfor -%}
-        </ul>
-      </nav>
-    {%- endif -%}
+    <nav class="pet-header__nav" aria-label="{{ navigation_label | escape }}">
+      <ul class="pet-header__links" role="list">
+        {%- if section.settings.enable_mega_menus and section.settings.dog_menu != blank and section.settings.dog_menu.links != blank -%}
+          <li class="pet-header__link-item pet-header__link-item--mega" data-pet-mega-item>
+            <button
+              class="pet-header__nav-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="PetMegaDog-{{ section.id }}"
+              data-pet-mega-trigger
+            >
+              {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'pet-icon', name: 'dog' %}</span>{%- endif -%}
+              <span>{{ section.settings.dog_label }}</span>
+              <span class="pet-header__nav-chevron" aria-hidden="true">{% render 'pet-icon', name: 'chevron' %}</span>
+            </button>
+            {% render 'header-mega-menu',
+              menu: section.settings.dog_menu,
+              menu_id: dog_mega_id,
+              label: section.settings.dog_label,
+              image: section.settings.dog_image,
+              card_title: section.settings.dog_card_title,
+              card_text: section.settings.dog_card_text,
+              cta_label: section.settings.dog_cta_label,
+              cta_link: dog_fallback_link
+            %}
+          </li>
+        {%- else -%}
+          <li class="pet-header__link-item">
+            <a class="pet-header__nav-link" href="{{ dog_fallback_link }}">
+              {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'pet-icon', name: 'dog' %}</span>{%- endif -%}
+              <span>{{ section.settings.dog_label }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+
+        {%- if section.settings.enable_mega_menus and section.settings.cat_menu != blank and section.settings.cat_menu.links != blank -%}
+          <li class="pet-header__link-item pet-header__link-item--mega" data-pet-mega-item>
+            <button
+              class="pet-header__nav-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="PetMegaCat-{{ section.id }}"
+              data-pet-mega-trigger
+            >
+              {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'pet-icon', name: 'cat' %}</span>{%- endif -%}
+              <span>{{ section.settings.cat_label }}</span>
+              <span class="pet-header__nav-chevron" aria-hidden="true">{% render 'pet-icon', name: 'chevron' %}</span>
+            </button>
+            {% render 'header-mega-menu',
+              menu: section.settings.cat_menu,
+              menu_id: cat_mega_id,
+              label: section.settings.cat_label,
+              image: section.settings.cat_image,
+              card_title: section.settings.cat_card_title,
+              card_text: section.settings.cat_card_text,
+              cta_label: section.settings.cat_cta_label,
+              cta_link: cat_fallback_link
+            %}
+          </li>
+        {%- else -%}
+          <li class="pet-header__link-item">
+            <a class="pet-header__nav-link" href="{{ cat_fallback_link }}">
+              {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'pet-icon', name: 'cat' %}</span>{%- endif -%}
+              <span>{{ section.settings.cat_label }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+
+        {%- if section.settings.enable_mega_menus and section.settings.discover_menu != blank and section.settings.discover_menu.links != blank -%}
+          <li class="pet-header__link-item pet-header__link-item--mega" data-pet-mega-item>
+            <button
+              class="pet-header__nav-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="PetMegaDiscover-{{ section.id }}"
+              data-pet-mega-trigger
+            >
+              {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'pet-icon', name: 'discover' %}</span>{%- endif -%}
+              <span>{{ section.settings.discover_label }}</span>
+              <span class="pet-header__nav-chevron" aria-hidden="true">{% render 'pet-icon', name: 'chevron' %}</span>
+            </button>
+            {% render 'header-mega-menu',
+              menu: section.settings.discover_menu,
+              menu_id: discover_mega_id,
+              label: section.settings.discover_label,
+              image: section.settings.discover_image,
+              card_title: section.settings.discover_card_title,
+              card_text: section.settings.discover_card_text,
+              cta_label: section.settings.discover_cta_label,
+              cta_link: discover_fallback_link
+            %}
+          </li>
+        {%- else -%}
+          <li class="pet-header__link-item">
+            <a class="pet-header__nav-link" href="{{ discover_fallback_link }}">
+              {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'pet-icon', name: 'discover' %}</span>{%- endif -%}
+              <span>{{ section.settings.discover_label }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+
+        <li class="pet-header__link-item">
+          <a class="pet-header__nav-link" href="{{ story_link }}">
+            {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'pet-icon', name: 'story' %}</span>{%- endif -%}
+            <span>{{ section.settings.story_label }}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
 
     <div class="pet-header__actions">
       {%- if section.settings.show_search -%}
-        <a class="pet-icon-button pet-header__desktop-action" href="{{ routes.search_url }}" aria-label="{{ 'general.search' | t }}">
+        <a class="pet-icon-button pet-header__action pet-header__search" href="{{ routes.search_url }}" aria-label="{{ 'general.search' | t }}">
           {% render 'pet-icon', name: 'search' %}
         </a>
       {%- endif -%}
       {%- if shop.customer_accounts_enabled and section.settings.show_account -%}
-        <a class="pet-icon-button pet-header__desktop-action" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}">
+        <a class="pet-icon-button pet-header__action pet-header__account" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}">
           {% render 'pet-icon', name: 'account' %}
         </a>
       {%- endif -%}
-      <a class="pet-icon-button pet-header__cart" href="{{ routes.cart_url }}" aria-label="{{ 'general.cart' | t }}">
-        {% render 'pet-icon', name: 'cart' %}
-        <span class="pet-header__cart-count{% if cart.item_count == 0 %} is-empty{% endif %}" data-pet-cart-count>{{ cart.item_count }}</span>
-      </a>
+      {%- if section.settings.show_bag -%}
+        <a
+          class="pet-icon-button pet-header__action pet-header__cart"
+          href="{{ routes.cart_url }}"
+          aria-label="{{ cart_label | escape }}"
+          data-pet-bag
+          data-cart-empty-label="{{ 'general.cart_empty_label' | t | escape }}"
+          data-cart-one-label="{{ 'general.cart_one_label' | t | escape }}"
+          data-cart-many-label="{{ 'general.cart_many_label' | t: count: '__COUNT__' | escape }}"
+        >
+          {% render 'icon-fourpattes-bag' %}
+          <span class="pet-header__cart-count{% if cart.item_count == 0 %} is-empty{% endif %}" data-pet-cart-count>{{ cart.item_count }}</span>
+        </a>
+      {%- endif -%}
     </div>
   </div>
 
   <div class="pet-menu-drawer" id="PetMobileMenu-{{ section.id }}" hidden data-pet-menu-drawer>
     <button class="pet-menu-drawer__overlay" type="button" aria-label="{{ 'accessibility.close_menu' | t }}" data-pet-menu-close></button>
-    <div class="pet-menu-drawer__panel" role="dialog" aria-modal="true" aria-label="{{ section.settings.navigation_label | escape }}">
+    <div class="pet-menu-drawer__panel" role="dialog" aria-modal="true" aria-label="{{ navigation_label | escape }}">
       <div class="pet-menu-drawer__top">
-        <strong>{{ 'general.menu' | t }}</strong>
-        <button class="pet-icon-button" type="button" aria-label="{{ 'accessibility.close_menu' | t }}" data-pet-menu-close>
+        <div>
+          <span class="pet-menu-drawer__eyebrow">FourPattes</span>
+          <strong>{{ 'general.menu' | t }}</strong>
+        </div>
+        <button class="pet-icon-button pet-menu-drawer__close" type="button" aria-label="{{ 'accessibility.close_menu' | t }}" data-pet-menu-close>
           {% render 'pet-icon', name: 'close' %}
         </button>
       </div>
-      <nav>
+
+      <nav aria-label="{{ navigation_label | escape }}">
         <ul class="pet-menu-drawer__links" role="list">
-          {%- for link in section.settings.menu.links -%}
-            <li>
-              {%- if link.links != blank -%}
-                <details>
-                  <summary>{{ link.title }} {% render 'pet-icon', name: 'chevron' %}</summary>
-                  <ul role="list">
-                    {%- for child_link in link.links -%}
-                      <li><a href="{{ child_link.url }}">{{ child_link.title }}</a></li>
-                    {%- endfor -%}
-                  </ul>
-                </details>
-              {%- else -%}
-                <a href="{{ link.url }}">{{ link.title }}</a>
-              {%- endif -%}
-            </li>
-          {%- endfor -%}
+          {% render 'header-mobile-menu-group', menu: section.settings.dog_menu, label: section.settings.dog_label, icon: 'dog', fallback_link: dog_fallback_link %}
+          {% render 'header-mobile-menu-group', menu: section.settings.cat_menu, label: section.settings.cat_label, icon: 'cat', fallback_link: cat_fallback_link %}
+          {% render 'header-mobile-menu-group', menu: section.settings.discover_menu, label: section.settings.discover_label, icon: 'discover', fallback_link: discover_fallback_link %}
+          <li class="pet-menu-drawer__item">
+            <a class="pet-menu-drawer__direct-link" href="{{ story_link }}">
+              <span class="pet-menu-drawer__summary-label">
+                <span class="pet-menu-drawer__universe-icon" aria-hidden="true">{% render 'pet-icon', name: 'story' %}</span>
+                {{ section.settings.story_label }}
+              </span>
+              <span aria-hidden="true">{% render 'pet-icon', name: 'arrow' %}</span>
+            </a>
+          </li>
         </ul>
+
+        {%- if section.settings.menu != blank and section.settings.menu.links != blank -%}
+          <div class="pet-menu-drawer__secondary">
+            <span class="pet-menu-drawer__secondary-title">{{ 'general.useful_links' | t }}</span>
+            <ul role="list">
+              {%- for link in section.settings.menu.links -%}
+                <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
       </nav>
+
       <div class="pet-menu-drawer__utilities">
-        <a href="{{ routes.search_url }}">{{ 'general.search' | t }}</a>
-        {%- if shop.customer_accounts_enabled -%}<a href="{{ routes.account_url }}">{{ 'general.account' | t }}</a>{%- endif -%}
+        {%- if shop.customer_accounts_enabled -%}
+          <a href="{{ routes.account_url }}">{% render 'pet-icon', name: 'account' %}<span>{{ 'general.account' | t }}</span></a>
+        {%- endif -%}
+        <a href="{{ routes.search_url }}">{% render 'pet-icon', name: 'search' %}<span>{{ 'general.search' | t }}</span></a>
+        {%- if section.settings.contact_link != blank -%}
+          <a href="{{ section.settings.contact_link }}">{% render 'pet-icon', name: 'story' %}<span>{{ 'general.contact' | t }}</span></a>
+        {%- endif -%}
       </div>
     </div>
   </div>
@@ -99,16 +255,65 @@
 
 {% schema %}
 {
-  "name": "En-tête Fourpattes",
+  "name": "En-tête FourPattes premium",
   "class": "pet-header-section",
   "settings": [
-    { "type": "link_list", "id": "menu", "label": "Menu principal", "default": "main-menu" },
-    { "type": "text", "id": "navigation_label", "label": "Libellé de navigation", "default": "Navigation principale" },
+    { "type": "header", "content": "Structure" },
+    { "type": "link_list", "id": "menu", "label": "Menu mobile complémentaire", "default": "main-menu" },
+    { "type": "checkbox", "id": "show_menu_icons", "label": "Afficher les icônes des univers", "default": true },
+    { "type": "checkbox", "id": "enable_mega_menus", "label": "Activer les méga-menus", "default": true },
     { "type": "checkbox", "id": "sticky", "label": "En-tête fixe", "default": true },
+    { "type": "checkbox", "id": "shrink_on_scroll", "label": "Réduire l'en-tête au défilement", "default": true },
+    { "type": "range", "id": "header_height", "min": 72, "max": 88, "step": 4, "unit": "px", "label": "Hauteur sur ordinateur", "default": 80 },
+    { "type": "range", "id": "logo_width", "min": 160, "max": 230, "step": 5, "unit": "px", "label": "Largeur du logo sur ordinateur", "default": 190 },
+    { "type": "range", "id": "logo_width_mobile", "min": 80, "max": 140, "step": 5, "unit": "px", "label": "Largeur du logo sur mobile", "default": 105 },
+
+    { "type": "header", "content": "Univers Chien" },
+    { "type": "text", "id": "dog_label", "label": "Libellé", "default": "Univers Chien" },
+    { "type": "link_list", "id": "dog_menu", "label": "Menu Chien" },
+    { "type": "image_picker", "id": "dog_image", "label": "Image éditoriale Chien" },
+    { "type": "text", "id": "dog_card_title", "label": "Titre de la carte Chien", "default": "Nos favoris chiens" },
+    { "type": "textarea", "id": "dog_card_text", "label": "Texte de la carte Chien", "default": "Des accessoires choisis pour les promenades, les jeux et les grands moments de complicité." },
+    { "type": "text", "id": "dog_cta_label", "label": "Libellé du bouton Chien", "default": "Voir l'univers chien" },
+    { "type": "url", "id": "dog_cta_link", "label": "Lien de l'univers Chien" },
+
+    { "type": "header", "content": "Univers Chat" },
+    { "type": "text", "id": "cat_label", "label": "Libellé", "default": "Univers Chat" },
+    { "type": "link_list", "id": "cat_menu", "label": "Menu Chat" },
+    { "type": "image_picker", "id": "cat_image", "label": "Image éditoriale Chat" },
+    { "type": "text", "id": "cat_card_title", "label": "Titre de la carte Chat", "default": "Nos favoris chats" },
+    { "type": "textarea", "id": "cat_card_text", "label": "Texte de la carte Chat", "default": "Des idées pour jouer, se prélasser et éveiller la curiosité des félins." },
+    { "type": "text", "id": "cat_cta_label", "label": "Libellé du bouton Chat", "default": "Voir l'univers chat" },
+    { "type": "url", "id": "cat_cta_link", "label": "Lien de l'univers Chat" },
+
+    { "type": "header", "content": "Découvrir" },
+    { "type": "text", "id": "discover_label", "label": "Libellé", "default": "Découvrir" },
+    { "type": "link_list", "id": "discover_menu", "label": "Menu Découvrir" },
+    { "type": "image_picker", "id": "discover_image", "label": "Image éditoriale Découvrir" },
+    { "type": "text", "id": "discover_card_title", "label": "Titre de la carte Découvrir", "default": "La vie avec FourPattes" },
+    { "type": "textarea", "id": "discover_card_text", "label": "Texte de la carte Découvrir", "default": "Nouveautés, conseils et histoires pour profiter encore plus de la vie ensemble." },
+    { "type": "text", "id": "discover_cta_label", "label": "Libellé du bouton Découvrir", "default": "Explorer FourPattes" },
+    { "type": "url", "id": "discover_cta_link", "label": "Lien Découvrir" },
+
+    { "type": "header", "content": "Notre histoire" },
+    { "type": "text", "id": "story_label", "label": "Libellé", "default": "Notre histoire" },
+    { "type": "url", "id": "story_link", "label": "Lien Notre histoire" },
+    { "type": "url", "id": "contact_link", "label": "Lien Contact dans le menu mobile" },
+
+    { "type": "header", "content": "Actions" },
     { "type": "checkbox", "id": "show_search", "label": "Afficher la recherche", "default": true },
     { "type": "checkbox", "id": "show_account", "label": "Afficher le compte", "default": true },
-    { "type": "color", "id": "background", "label": "Fond", "default": "#FFFFFF" },
-    { "type": "color", "id": "text_color", "label": "Texte et icônes", "default": "#332266" }
+    { "type": "checkbox", "id": "show_bag", "label": "Afficher le sac FourPattes", "default": true },
+    { "type": "checkbox", "id": "show_empty_badge", "label": "Afficher 0 lorsque le panier est vide", "default": false },
+
+    { "type": "header", "content": "Couleurs" },
+    { "type": "color", "id": "background", "label": "Fond", "default": "#332266" },
+    { "type": "color", "id": "text_color", "label": "Texte et icônes", "default": "#FFFFFF" },
+    { "type": "color", "id": "accent_color", "label": "Accent actif et focus", "default": "#F7C84B" },
+    { "type": "color", "id": "surface_color", "label": "Fond des menus", "default": "#FFF9F4" },
+    { "type": "color", "id": "action_background", "label": "Fond des boutons d'action", "default": "#4A367D" },
+    { "type": "color", "id": "badge_background", "label": "Fond du badge", "default": "#F7C84B" },
+    { "type": "color", "id": "badge_text_color", "label": "Texte du badge", "default": "#332266" }
   ]
 }
 {% endschema %}
