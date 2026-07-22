@@ -207,47 +207,40 @@
         "flip_bottom_wave": true
       }
     },
-    "playful": {
-      "type": "fourpattes-patous",
+    "newsletter": {
+      "type": "fourpattes-newsletter-with-patous",
       "settings": {
         "enable_section": true,
-        "eyebrow": "LE GARDIEN OFFICIEL DE LA MEUTE",
-        "title": "FAIS CONNAISSANCE\nAVEC PATOUS.",
-        "subtitle": "Joueur, curieux et toujours prêt à accueillir un nouveau compagnon.",
-        "bubble_label": "UN PETIT MOT DE PATOUS",
-        "dialogue": "<p><strong>Salut ! Moi, c’est Patous.</strong></p><p>Je suis chargé de vérifier les cartons, tester les jouets… et accueillir chaque nouveau compagnon.</p><p>Tu es arrivé jusqu’ici ? Alors tu fais déjà un peu partie de la meute.</p>",
-        "button_label": "Continuer l’aventure",
-        "character_alt": "Patous, le chat gardien de la meute FourPattes",
-        "character_size": 620,
-        "character_position": "right",
+        "eyebrow": "PATOUS GARDE UNE PLACE POUR VOUS",
+        "title": "REJOIGNEZ\nLA MEUTE",
+        "text": "<p>Des nouveautés utiles, des conseils et quelques surprises pour prendre soin de votre compagnon.</p>",
+        "placeholder": "Votre adresse e-mail",
+        "button_label": "Je rejoins la meute",
+        "reassurance": "Conseils utiles et nouveautés — jamais de spam",
+        "show_patous": true,
+        "patous_alt": "Patous invite les visiteurs à rejoindre la meute FourPattes",
+        "patous_size": 250,
+        "patous_position": "left",
+        "show_bubble": true,
+        "bubble_text": "Promis : jamais de spam.\nSeulement quelques surprises.",
         "enable_animations": true,
-        "show_box": true,
-        "show_cushion": true,
-        "show_ball": true,
-        "show_mouse": true,
-        "show_yarn": true,
-        "show_bone": true,
-        "show_treat": true,
-        "show_paws": true,
-        "show_sparkles": true,
-        "show_guide": true,
+        "show_decorations": true,
+        "show_dotted_line": true,
         "background": "#F9F0EB",
+        "card_background": "#E9D9F7",
         "text_color": "#2D1C63",
-        "title_color": "#C82552",
+        "accent_color": "#C82552",
+        "button_color": "#2D1C63",
+        "button_text_color": "#FFFFFF",
         "bubble_color": "#FFFDF9",
         "bubble_text_color": "#2D1C63",
-        "accent_color": "#F3B63B",
-        "soft_color": "#E9D9F7",
-        "padding_top_desktop": 72,
-        "padding_bottom_desktop": 72,
-        "padding_top_mobile": 52,
-        "padding_bottom_mobile": 64
+        "max_width": 1040,
+        "padding_top_desktop": 64,
+        "padding_bottom_desktop": 56,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 48
       }
-    },
-    "newsletter": {
-      "type": "newsletter-pet-shop",
-      "settings": { "title": "REJOIGNEZ LA MEUTE", "eyebrow": "DES NOUVELLES QUI FONT REMUER LA QUEUE", "text": "<p>Des nouveautés, des conseils et un peu de joie dans votre boîte mail.</p>", "reassurance": "Conseils utiles, nouveautés et offres — jamais de spam", "placeholder": "Votre adresse e-mail", "button_label": "Je m’inscris", "show_animals": true, "background": "#F9F0EB", "card_background": "#E9D9F7", "text_color": "#2D1C63" }
     }
   },
-  "order": ["hero", "favorites", "bowl_in", "bowl_out", "reviews", "mission", "playful", "newsletter"]
+  "order": ["hero", "favorites", "bowl_in", "bowl_out", "reviews", "mission", "newsletter"]
 }
