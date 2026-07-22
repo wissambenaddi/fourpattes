@@ -208,8 +208,41 @@
       }
     },
     "playful": {
-      "type": "playful-call-to-action",
-      "settings": { "title": "WOW, MÊME NOTRE MASCOTTE\nN’A JAMAIS SCROLLÉ JUSQUE-LÀ…", "card_title": "CLAIREMENT, VOUS AVEZ DU FLAIR", "text": "<p>Découvrez notre sélection pensée avec attention pour les chiens, les chats et les humains qui les aiment.</p>", "button_label": "Découvrir la boutique", "mascot_alt": "Mascotte Fourpattes", "background": "#F9F0EB", "title_color": "#C82552", "card_color": "#C82552", "mascot_color": "#FFBE58" }
+      "type": "fourpattes-patous",
+      "settings": {
+        "enable_section": true,
+        "eyebrow": "LE GARDIEN OFFICIEL DE LA MEUTE",
+        "title": "FAIS CONNAISSANCE\nAVEC PATOUS.",
+        "subtitle": "Joueur, curieux et toujours prêt à accueillir un nouveau compagnon.",
+        "bubble_label": "UN PETIT MOT DE PATOUS",
+        "dialogue": "<p><strong>Salut ! Moi, c’est Patous.</strong></p><p>Je suis chargé de vérifier les cartons, tester les jouets… et accueillir chaque nouveau compagnon.</p><p>Tu es arrivé jusqu’ici ? Alors tu fais déjà un peu partie de la meute.</p>",
+        "button_label": "Continuer l’aventure",
+        "character_alt": "Patous, le chat gardien de la meute FourPattes",
+        "character_size": 620,
+        "character_position": "right",
+        "enable_animations": true,
+        "show_box": true,
+        "show_cushion": true,
+        "show_ball": true,
+        "show_mouse": true,
+        "show_yarn": true,
+        "show_bone": true,
+        "show_treat": true,
+        "show_paws": true,
+        "show_sparkles": true,
+        "show_guide": true,
+        "background": "#F9F0EB",
+        "text_color": "#2D1C63",
+        "title_color": "#C82552",
+        "bubble_color": "#FFFDF9",
+        "bubble_text_color": "#2D1C63",
+        "accent_color": "#F3B63B",
+        "soft_color": "#E9D9F7",
+        "padding_top_desktop": 72,
+        "padding_bottom_desktop": 72,
+        "padding_top_mobile": 52,
+        "padding_bottom_mobile": 64
+      }
     },
     "newsletter": {
       "type": "newsletter-pet-shop",
