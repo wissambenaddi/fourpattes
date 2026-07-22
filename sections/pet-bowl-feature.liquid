@@ -1,5 +1,5 @@
 <section
-  class="pet-bowl pet-bowl--{{ section.settings.variant }}{% if section.settings.variant == 'teal' %} pet-bowl--gift-box{% endif %}"
+  class="pet-bowl pet-bowl--{{ section.settings.variant }}{% if section.settings.variant == 'teal' %} pet-bowl--gift-box{% else %} pet-bowl--life{% endif %}"
   style="
     --bowl-bg: {{ section.settings.background }};
     --bowl-color: {{ section.settings.text_color }};
@@ -13,6 +13,16 @@
   data-pet-reveal
 >
   {% render 'wave-divider', color: section.settings.background, position: 'top', flip: section.settings.flip_top_wave %}
+  {%- if section.settings.variant == 'lime' and section.settings.decorations -%}
+    <div class="pet-life-transition" aria-hidden="true">
+      <span class="pet-life-transition__paw pet-life-transition__paw--one">{% render 'icon-paw' %}</span>
+      <span class="pet-life-transition__paw pet-life-transition__paw--two">{% render 'icon-paw' %}</span>
+      <span class="pet-life-transition__paw pet-life-transition__paw--three">{% render 'icon-paw' %}</span>
+      <span class="pet-life-transition__ball"></span>
+      <span class="pet-life-transition__mouse"></span>
+      <span class="pet-life-transition__spark">✦</span>
+    </div>
+  {%- endif -%}
   <div class="pet-shell pet-bowl__inner">
     <header class="pet-bowl__heading">
       <h2>{{ section.settings.title | escape | newline_to_br }}</h2>
@@ -95,50 +105,120 @@
         </div>
       </div>
     {%- else -%}
-    <div class="pet-bowl__composition">
-      {%- if section.settings.decorations -%}
-        <span class="pet-bowl__star pet-bowl__star--one" aria-hidden="true">✦</span>
-        <span class="pet-bowl__star pet-bowl__star--two" aria-hidden="true">✧</span>
-        <span class="pet-bowl__star pet-bowl__star--three" aria-hidden="true">✦</span>
-        <span class="pet-bowl__halo" aria-hidden="true"></span>
-        <span class="pet-bowl__paw" aria-hidden="true">{% render 'icon-paw' %}</span>
-        <span class="pet-bowl__leaf pet-bowl__leaf--one" aria-hidden="true">❧</span>
-        <span class="pet-bowl__leaf pet-bowl__leaf--two" aria-hidden="true">❧</span>
-      {%- endif -%}
+      <div class="pet-life">
+        {%- if section.settings.decorations -%}
+          <div class="pet-life__ambient" aria-hidden="true">
+            <span class="pet-life__pawprint">{% render 'icon-paw' %}</span>
+            <span class="pet-life__doodle pet-life__doodle--paw-one">{% render 'icon-paw' %}</span>
+            <span class="pet-life__doodle pet-life__doodle--paw-two">{% render 'icon-paw' %}</span>
+            <span class="pet-life__doodle pet-life__doodle--leaf-one">❧</span>
+            <span class="pet-life__doodle pet-life__doodle--leaf-two">❧</span>
+            <span class="pet-life__doodle pet-life__doodle--star-one">✦</span>
+            <span class="pet-life__doodle pet-life__doodle--star-two">✧</span>
+            <span class="pet-life__doodle pet-life__doodle--trail">· · ·</span>
+          </div>
+        {%- endif -%}
 
-      <div class="pet-bowl__image-wrap">
         {%- if section.settings.image != blank -%}
-          {% render 'responsive-image', image: section.settings.image, alt: section.settings.image_alt, class: 'pet-bowl__image', sizes: '(max-width: 749px) 58vw, 440px' %}
-        {%- else -%}
-          {%- liquid
-            assign fallback_asset = 'gamelle-antiderapante-fourpattes.webp'
-            assign fallback_alt = 'Gamelle crème et verte avec base antidérapante'
-            assign fallback_width = 1419
-            assign fallback_height = 538
-            if section.settings.variant == 'lime'
-              assign fallback_asset = 'kit-promenade-fourpattes.webp'
-              assign fallback_alt = 'Harnais turquoise, laisse violette et accessoires de promenade'
-              assign fallback_width = 1286
-              assign fallback_height = 876
-            endif
-          -%}
-          <img
-            class="pet-bowl__image pet-bowl__image--fallback"
-            src="{{ fallback_asset | asset_url }}"
-            width="{{ fallback_width }}"
-            height="{{ fallback_height }}"
-            loading="lazy"
-            alt="{{ fallback_alt | escape }}"
+          <figure
+            class="pet-life__scene-image"
+            style="--scene-image-size: {{ section.settings.image_size }}%; --scene-image-x: {{ section.settings.image_x }}%; --scene-image-y: {{ section.settings.image_y }}%;"
           >
+            {% render 'responsive-image', image: section.settings.image, alt: section.settings.image_alt, class: 'pet-life__scene-image-element', sizes: '(max-width: 749px) 72vw, 520px' %}
+          </figure>
+        {%- endif -%}
+
+        <div class="pet-life__items">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign card_text = block.settings.text
+              if card_text == blank and block.settings.kind == 'ball'
+                assign card_text = section.settings.fact_one
+              elsif card_text == blank and block.settings.kind == 'leash'
+                assign card_text = section.settings.fact_two
+              elsif card_text == blank and block.settings.kind == 'cushion'
+                assign card_text = section.settings.fact_three
+              endif
+            -%}
+            <article
+              class="pet-life__item pet-life__item--{{ block.settings.slot }} pet-life__item--motion-{{ block.settings.motion }}"
+              style="--item-color: {{ block.settings.color }}; --item-rotation: {{ block.settings.rotation }}deg;"
+              {{ block.shopify_attributes }}
+            >
+              <div class="pet-life__visual">
+                {%- if block.settings.image != blank -%}
+                  {% render 'responsive-image', image: block.settings.image, alt: block.settings.image_alt, class: 'pet-life__visual-image', sizes: '(max-width: 749px) 42vw, (max-width: 989px) 28vw, 260px' %}
+                {%- else -%}
+                  <div class="pet-life__fallback" role="img" aria-label="{{ block.settings.image_alt | escape }}">
+                    {%- case block.settings.kind -%}
+                      {%- when 'ball' -%}
+                        <svg viewBox="0 0 240 210" aria-hidden="true" focusable="false">
+                          <ellipse class="pet-life__shadow" cx="120" cy="184" rx="72" ry="13"/>
+                          <circle class="pet-life__shape" cx="120" cy="104" r="72"/>
+                          <path class="pet-life__detail pet-life__detail--wide" d="M48 101c41-18 102-16 144 3M83 42c15 39 16 84 0 123M157 43c-16 39-16 83 0 122"/>
+                        </svg>
+                      {%- when 'leash' -%}
+                        <svg viewBox="0 0 300 220" aria-hidden="true" focusable="false">
+                          <ellipse class="pet-life__shadow" cx="149" cy="190" rx="108" ry="12"/>
+                          <path class="pet-life__detail pet-life__detail--leash" d="M70 156c-54-16-42-91 13-105 45-11 78 29 51 58-23 24-72 9-60-20 10-25 54-18 88 10 34 29 52 61 78 68"/>
+                          <path class="pet-life__shape-stroke" d="M62 153c-14 10-19 24-7 31 14 7 28-5 34-19"/>
+                          <path class="pet-life__metal" d="m230 157 28 17-10 17-28-18zM253 176l19 5-7 12-17-4"/>
+                        </svg>
+                      {%- when 'cushion' -%}
+                        <svg viewBox="0 0 300 220" aria-hidden="true" focusable="false">
+                          <ellipse class="pet-life__shadow" cx="151" cy="187" rx="112" ry="15"/>
+                          <path class="pet-life__shape" d="M56 69c8-23 28-33 54-28 27 5 52 5 79 0 28-5 50 8 57 32 9 30 5 72-10 94-15 21-42 25-67 18-15-4-27-4-43 0-29 7-57-2-69-27-12-25-11-62-1-89Z"/>
+                          <path class="pet-life__detail" d="M79 77c39 13 101 14 144 0M79 153c41-13 103-13 144 0"/>
+                          <path class="pet-life__detail pet-life__detail--bone" d="M123 109c-10-15-25-3-16 8-9 13 7 24 17 9h49c10 15 26 4 17-9 9-12-6-23-17-8z"/>
+                        </svg>
+                      {%- when 'mouse' -%}
+                        <svg viewBox="0 0 280 210" aria-hidden="true" focusable="false">
+                          <ellipse class="pet-life__shadow" cx="133" cy="178" rx="96" ry="12"/>
+                          <path class="pet-life__tail" d="M199 143c42-4 61-25 42-42-13-12-27-2-19 9"/>
+                          <ellipse class="pet-life__shape" cx="130" cy="119" rx="78" ry="51" transform="rotate(-8 130 119)"/>
+                          <circle class="pet-life__ear" cx="86" cy="76" r="23"/>
+                          <circle class="pet-life__ear-inner" cx="86" cy="76" r="12"/>
+                          <circle class="pet-life__eye" cx="166" cy="105" r="5"/>
+                          <circle class="pet-life__nose" cx="207" cy="123" r="7"/>
+                          <path class="pet-life__whisker" d="M190 116l33-13M191 126l38 1M188 135l32 14"/>
+                        </svg>
+                      {%- when 'harness' -%}
+                        <svg viewBox="0 0 280 230" aria-hidden="true" focusable="false">
+                          <ellipse class="pet-life__shadow" cx="141" cy="201" rx="92" ry="13"/>
+                          <path class="pet-life__shape-stroke pet-life__shape-stroke--harness" d="M79 57c18 31 23 65 21 104m101-104c-18 31-23 65-21 104M80 58c37 18 83 18 120 0M100 159c26 18 54 18 80 0"/>
+                          <path class="pet-life__shape" d="M111 75h59l15 70-44 31-44-31z"/>
+                          <path class="pet-life__detail" d="M141 81v86M107 126h68"/>
+                          <rect class="pet-life__metal" x="131" y="38" width="20" height="32" rx="8"/>
+                        </svg>
+                    {%- endcase -%}
+                  </div>
+                {%- endif -%}
+              </div>
+
+              <div class="pet-life__card">
+                <span class="pet-life__card-icon" aria-hidden="true">
+                  {%- case block.settings.kind -%}
+                    {%- when 'ball' -%}🎾
+                    {%- when 'leash' -%}🦮
+                    {%- when 'cushion' -%}🛏
+                    {%- when 'mouse' -%}🐱
+                    {%- when 'harness' -%}💚
+                  {%- endcase -%}
+                </span>
+                <div>
+                  {%- if block.settings.label != blank -%}<p>{{ block.settings.label | escape }}</p>{%- endif -%}
+                  {%- if block.settings.title != blank -%}<h3>{{ block.settings.title | escape }}</h3>{%- endif -%}
+                  {%- if card_text != blank -%}<small>{{ card_text | escape }}</small>{%- endif -%}
+                </div>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.annotation != blank -%}
+          <p class="pet-life__annotation">{{ section.settings.annotation | escape | newline_to_br }}</p>
         {%- endif -%}
       </div>
-      {%- if section.settings.annotation != blank -%}<p class="pet-bowl__annotation">{{ section.settings.annotation | escape | newline_to_br }}</p>{%- endif -%}
-      <div class="pet-bowl__facts" aria-label="Points forts">
-        {%- if section.settings.fact_one != blank -%}<p class="pet-bowl__fact pet-bowl__fact--one"><span aria-hidden="true">✦</span>{{ section.settings.fact_one | escape }}</p>{%- endif -%}
-        {%- if section.settings.fact_two != blank -%}<p class="pet-bowl__fact pet-bowl__fact--two"><span aria-hidden="true">♡</span>{{ section.settings.fact_two | escape }}</p>{%- endif -%}
-        {%- if section.settings.fact_three != blank -%}<p class="pet-bowl__fact pet-bowl__fact--three"><span aria-hidden="true">✓</span>{{ section.settings.fact_three | escape }}</p>{%- endif -%}
-      </div>
-    </div>
 
     {%- endif -%}
   </div>
@@ -149,6 +229,9 @@
 </section>
 
 {{ 'gift-box-story.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.variant == 'lime' -%}
+  {{ 'accessory-life-story.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
 
 {% schema %}
 {
@@ -190,9 +273,39 @@
     { "type": "color", "id": "bottom_color", "label": "Couleur sous la vague", "default": "#F9F0EB" },
     { "type": "checkbox", "id": "flip_bottom_wave", "label": "Inverser la vague inférieure", "default": true }
   ],
+  "blocks": [
+    {
+      "type": "accessory",
+      "name": "Accessoire — scène de vie",
+      "limit": 5,
+      "settings": [
+        { "type": "select", "id": "kind", "label": "Type d’accessoire", "options": [{ "value": "ball", "label": "Balle" }, { "value": "leash", "label": "Laisse" }, { "value": "cushion", "label": "Coussin" }, { "value": "mouse", "label": "Souris" }, { "value": "harness", "label": "Harnais" }], "default": "ball" },
+        { "type": "image_picker", "id": "image", "label": "Image de l’accessoire" },
+        { "type": "text", "id": "image_alt", "label": "Texte alternatif", "default": "Accessoire Fourpattes prêt à être utilisé" },
+        { "type": "text", "id": "label", "label": "Catégorie", "default": "JEU" },
+        { "type": "text", "id": "title", "label": "Nom", "default": "Balle" },
+        { "type": "text", "id": "text", "label": "Courte phrase" },
+        { "type": "select", "id": "slot", "label": "Position dans la scène", "options": [{ "value": "one", "label": "Position 1" }, { "value": "two", "label": "Position 2" }, { "value": "three", "label": "Position 3" }, { "value": "four", "label": "Position 4" }, { "value": "five", "label": "Position 5" }], "default": "one" },
+        { "type": "select", "id": "motion", "label": "Micro-animation", "options": [{ "value": "none", "label": "Aucune" }, { "value": "roll", "label": "Très léger roulement" }, { "value": "breathe", "label": "Respiration discrète" }, { "value": "float", "label": "Flottement discret" }], "default": "none" },
+        { "type": "range", "id": "rotation", "min": -8, "max": 8, "step": 1, "unit": "deg", "label": "Inclinaison", "default": 0 },
+        { "type": "color", "id": "color", "label": "Couleur de l’illustration", "default": "#27C6CC" }
+      ]
+    }
+  ],
+  "max_blocks": 5,
   "presets": [
     { "name": "Gamelle bleu-vert" },
-    { "name": "Gamelle verte", "settings": { "variant": "lime", "title": "CE QUI SORT AVEC\nFOURPATTES", "background": "#B1CD71", "text_color": "#005E66", "accent_color": "#82B45F" } }
+    {
+      "name": "Vie des accessoires",
+      "settings": { "variant": "lime", "title": "CE QUI SORT AVEC\nFOURPATTES", "subtitle": "Confort, jeu et complicité au quotidien.", "background": "#B1CD71", "text_color": "#005E66", "accent_color": "#82B45F" },
+      "blocks": [
+        { "type": "accessory", "settings": { "kind": "ball", "image_alt": "Balle Fourpattes après une partie de jeu", "label": "JEU", "title": "Balle", "slot": "one", "motion": "roll", "rotation": -4, "color": "#F4B63F" } },
+        { "type": "accessory", "settings": { "kind": "leash", "image_alt": "Laisse Fourpattes légèrement déroulée", "label": "PROMENADE", "title": "Laisse", "slot": "two", "motion": "breathe", "rotation": 3, "color": "#2D1C63" } },
+        { "type": "accessory", "settings": { "kind": "cushion", "image_alt": "Coussin Fourpattes prêt pour le repos", "label": "CONFORT", "title": "Coussin", "slot": "three", "motion": "none", "rotation": 4, "color": "#F29FBB" } },
+        { "type": "accessory", "settings": { "kind": "mouse", "image_alt": "Souris Fourpattes orientée comme après une partie de jeu", "label": "ÉVEIL", "title": "Souris", "text": "Toujours prête pour une nouvelle poursuite.", "slot": "four", "motion": "float", "rotation": -5, "color": "#B79ADE" } },
+        { "type": "accessory", "settings": { "kind": "harness", "image_alt": "Harnais Fourpattes posé après la promenade", "label": "BIEN-ÊTRE", "title": "Harnais", "text": "Le confort continue après chaque aventure.", "slot": "five", "motion": "breathe", "rotation": 2, "color": "#27C6CC" } }
+      ]
+    }
   ]
 }
 {% endschema %}
