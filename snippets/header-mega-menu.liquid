@@ -1,0 +1,59 @@
+{% doc %}
+  Renders one accessible FourPattes desktop mega menu.
+
+  @param {linklist} menu - Shopify Navigation menu.
+  @param {string} menu_id - Unique DOM id.
+  @param {string} label - Accessible label.
+  @param {image} image - Optional editorial image.
+  @param {string} card_title - Editorial card title.
+  @param {string} card_text - Editorial card text.
+  @param {string} cta_label - CTA label.
+  @param {string} cta_link - CTA URL.
+{% enddoc %}
+<div
+  class="pet-header__mega"
+  id="{{ menu_id }}"
+  role="region"
+  aria-label="{{ label | escape }}"
+  hidden
+  data-pet-mega-panel
+>
+  <div class="pet-header__mega-inner">
+    <div class="pet-header__mega-links">
+      {%- for link in menu.links limit: 4 -%}
+        <section class="pet-header__mega-column">
+          <a class="pet-header__mega-heading" href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+          {%- if link.links != blank -%}
+            <ul role="list">
+              {%- for child_link in link.links limit: 7 -%}
+                <li><a href="{{ child_link.url }}"{% if child_link.current %} aria-current="page"{% endif %}>{{ child_link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </section>
+      {%- endfor -%}
+    </div>
+
+    <a class="pet-header__mega-card" href="{{ cta_link }}">
+      {%- if image != blank -%}
+        <div class="pet-header__mega-media">
+          {{ image
+            | image_url: width: 720
+            | image_tag:
+              widths: '240, 360, 480, 600, 720',
+              sizes: '(min-width: 1120px) 250px, 1px',
+              loading: 'lazy',
+              alt: image.alt | default: card_title
+          }}
+        </div>
+      {%- else -%}
+        <span class="pet-header__mega-illustration" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'discover' %}</span>
+      {%- endif -%}
+      <span class="pet-header__mega-copy">
+        {%- if card_title != blank -%}<strong>{{ card_title }}</strong>{%- endif -%}
+        {%- if card_text != blank -%}<span>{{ card_text }}</span>{%- endif -%}
+        {%- if cta_label != blank -%}<b>{{ cta_label }} {% render 'fourpattes-header-icon', name: 'arrow' %}</b>{%- endif -%}
+      </span>
+    </a>
+  </div>
+</div>
