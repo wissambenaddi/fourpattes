@@ -166,18 +166,19 @@
   transform:translateX(-50%);
 }
 
-.pet-life__companions-halo{
+.pet-life__companions-pawprint{
   position:absolute;
   z-index:-1;
-  top:3%;
+  top:-7%;
   left:50%;
-  width:112%;
-  height:88%;
-  border-radius:46% 54% 58% 42% / 52% 40% 60% 48%;
-  background:radial-gradient(ellipse at center,rgba(255,249,244,.62),rgba(255,249,244,.28) 48%,transparent 72%);
-  filter:blur(1px);
-  transform:translateX(-50%) rotate(-3deg);
+  width:116%;
+  color:#FFF9F4;
+  opacity:.2;
+  filter:drop-shadow(0 18px 26px rgba(45,28,99,.05));
+  transform:translateX(-50%) rotate(-7deg);
 }
+
+.pet-life__companions-pawprint .pet-icon{display:block;width:100%;height:auto}
 
 .pet-life__companions-image,
 .pet-life__companions-fallback,
@@ -599,9 +600,10 @@
     transform:none;
   }
 
-  .pet-life__companions-halo{
-    width:108%;
-    height:84%;
+  .pet-life__companions-pawprint{
+    top:-4%;
+    width:106%;
+    opacity:.17;
   }
 
   .pet-life__companions figcaption{
