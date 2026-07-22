@@ -1,13 +1,28 @@
 {% doc %}
-  Renders a storefront utility icon.
-  @param {string} name - Icon name: menu, close, search, account, cart, arrow, chevron.
+  Renders a lightweight FourPattes storefront icon.
+  @param {string} name - Icon name: menu, close, search, account, cart, arrow, chevron, dog, cat, discover, story.
 {% enddoc %}
 {%- case name -%}
-  {%- when 'menu' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-  {%- when 'close' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>
-  {%- when 'search' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
-  {%- when 'account' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.8-5 3.3-7 7.5-7s6.7 2 7.5 7"/></svg>
-  {%- when 'cart' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11h10.9l2-8H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
-  {%- when 'arrow' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
-  {%- when 'chevron' -%}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  {%- when 'menu' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.2h16M4 12h16M4 16.8h16"/></svg>
+  {%- when 'close' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m5.5 5.5 13 13m0-13-13 13"/></svg>
+  {%- when 'search' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.25"/><path d="m15.25 15.25 4.9 4.9"/></svg>
+  {%- when 'account' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="7.75" r="3.75"/><path d="M4.75 20.5c.65-4.55 3.1-6.65 7.25-6.65s6.6 2.1 7.25 6.65"/></svg>
+  {%- when 'cart' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 4h2l2.2 11h10.9l2-8H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+  {%- when 'arrow' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+  {%- when 'chevron' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6.5 9 5.5 5.5L17.5 9"/></svg>
+  {%- when 'dog' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.25 7.2 4.3 5.5l.6 5.1M16.75 7.2l2.95-1.7-.6 5.1M7.1 7.05C8.15 5.8 9.85 5.1 12 5.1s3.85.7 4.9 1.95c1.15 1.35 1.4 3.25 1.1 5.2-.45 3.15-2.4 5.65-6 5.65s-5.55-2.5-6-5.65c-.3-1.95-.05-3.85 1.1-5.2Z"/><path d="M9.3 12.7h.01M14.7 12.7h.01M10.1 15.45c1.1.9 2.7.9 3.8 0"/></svg>
+  {%- when 'cat' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6.4 8.25-.2-4.05 3.35 2.05A8 8 0 0 1 12 5.85c.85 0 1.7.15 2.45.4L17.8 4.2l-.2 4.05c.85 1.1 1.3 2.5 1.3 4.05 0 3.65-2.6 6.15-6.9 6.15s-6.9-2.5-6.9-6.15c0-1.55.45-2.95 1.3-4.05Z"/><path d="M9.25 12.55h.01M14.75 12.55h.01M10.2 15.2c1.05.8 2.55.8 3.6 0M6 14.1l-3 .7m3.25 1.45-2.65 1.5m14.4-3.65 3 .7m-3.25 1.45 2.65 1.5"/></svg>
+  {%- when 'discover' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5c.6 3.35 2.15 4.9 5.5 5.5-3.35.6-4.9 2.15-5.5 5.5-.6-3.35-2.15-4.9-5.5-5.5 3.35-.6 4.9-2.15 5.5-5.5ZM18.5 15.2c.3 1.75 1.1 2.55 2.85 2.85-1.75.3-2.55 1.1-2.85 2.85-.3-1.75-1.1-2.55-2.85-2.85 1.75-.3 2.55-1.1 2.85-2.85ZM5.4 15.25c.25 1.35.85 1.95 2.2 2.2-1.35.25-1.95.85-2.2 2.2-.25-1.35-.85-1.95-2.2-2.2 1.35-.25 1.95-.85 2.2-2.2Z"/></svg>
+  {%- when 'story' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20.2 4.85 13.5C1.2 10.05 3.05 4.55 7.45 4.55c2.1 0 3.65 1.1 4.55 2.55.9-1.45 2.45-2.55 4.55-2.55 4.4 0 6.25 5.5 2.6 8.95L12 20.2Z"/></svg>
 {%- endcase -%}
