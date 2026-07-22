@@ -48,31 +48,6 @@
         "decorations": false
       }
     },
-    "thread_hero_favorites": {
-      "type": "fourpattes-story-thread",
-      "blocks": {
-        "hero_ball": { "type": "decoration", "settings": { "object_type": "ball", "color": "#F7C84B", "secondary_color": "#2D1C63", "position_x": 14, "position_y": 28, "size": 38, "mobile_size": 26, "rotation": -6, "opacity": 95, "animation": "float", "animation_delay": 100, "hide_mobile": false } },
-        "hero_paw": { "type": "decoration", "settings": { "object_type": "paw", "color": "#0B7C82", "secondary_color": "#F7C84B", "position_x": 78, "position_y": 70, "size": 22, "mobile_size": 18, "rotation": 10, "opacity": 55, "animation": "rise", "animation_delay": 300, "hide_mobile": false } }
-      },
-      "block_order": ["hero_ball", "hero_paw"],
-      "settings": {
-        "enabled": true,
-        "show_line": true,
-        "curve_style": "gentle",
-        "line_color": "#0B7C82",
-        "opacity": 45,
-        "stroke_width": 2,
-        "alignment": "left",
-        "width": 180,
-        "height": 120,
-        "offset_x": 160,
-        "offset_y": 0,
-        "flip_horizontal": false,
-        "enable_animations": true,
-        "hide_on_tablet": false,
-        "hide_on_mobile": true
-      }
-    },
     "favorites": {
       "type": "favorite-products",
       "settings": { "title": "NOS GRANDS FAVORIS", "subtitle": "Leurs coups de cœur, réunis juste ici.", "show_filters": true, "tab_label": "Choisir un animal", "dog_label": "Chien", "cat_label": "Chat", "product_count": 4, "show_quick_add": true, "show_arrows": true, "button_label": "DÉCOUVRIR TOUS LES ACCESSOIRES", "show_decorations": true, "enable_animations": true, "background": "#F9F0EB", "text_color": "#2D1C63" }
@@ -83,12 +58,7 @@
     },
     "thread_box_life": {
       "type": "fourpattes-story-thread",
-      "blocks": {
-        "box_ball_start": { "type": "decoration", "settings": { "object_type": "ball", "color": "#F4B63F", "secondary_color": "#2D1C63", "position_x": 30, "position_y": 28, "size": 36, "mobile_size": 26, "rotation": -7, "opacity": 100, "animation": "float", "animation_delay": 100, "hide_mobile": false } },
-        "box_ball_end": { "type": "decoration", "settings": { "object_type": "ball", "color": "#F4B63F", "secondary_color": "#2D1C63", "position_x": 72, "position_y": 74, "size": 36, "mobile_size": 26, "rotation": 6, "opacity": 95, "animation": "float", "animation_delay": 400, "hide_mobile": false } }
-      },
-      "block_order": ["box_ball_start", "box_ball_end"],
-      "settings": { "enabled": true, "show_line": true, "curve_style": "loop", "line_color": "#BFE2F3", "opacity": 50, "stroke_width": 2.5, "alignment": "center", "width": 480, "height": 200, "offset_x": 0, "offset_y": 0, "flip_horizontal": false, "enable_animations": true, "hide_on_tablet": false, "hide_on_mobile": false }
+      "settings": { "enabled": true, "object_type": "ball", "object_color": "#F4B63F", "secondary_color": "#2D1C63", "line_color": "#BFE2F3", "opacity": 50, "alignment": "right", "enable_animations": true, "show_on_mobile": true }
     },
     "bowl_out": {
       "type": "pet-bowl-feature",
@@ -101,14 +71,6 @@
       },
       "block_order": ["life_ball", "life_mouse", "life_leash", "life_cushion", "life_harness"],
       "settings": { "variant": "lime", "title": "TOUT CE QUI PART AVEC\nFOURPATTES", "subtitle": "Des essentiels joyeux, pensés pour leur bien-être au quotidien.", "image_alt": "Chien et chat Fourpattes assis ensemble au centre de leurs accessoires", "annotation": "Une attention pour chaque moment partagé.", "fact_one": "Une partie peut commencer partout.", "fact_two": "Prête pour les balades à deux.", "fact_three": "Un coin doux après l’aventure.", "image_size": 56, "image_x": 0, "image_y": 0, "height_mobile": 1120, "height_desktop": 840, "background": "#B1CD71", "text_color": "#005E66", "accent_color": "#82B45F", "decorations": true, "enable_scene_animations": true, "flip_top_wave": true, "show_bottom_wave": true, "bottom_color": "#F9F0EB", "flip_bottom_wave": false }
-    },
-    "thread_life_reviews": {
-      "type": "fourpattes-story-thread",
-      "blocks": {
-        "life_heart": { "type": "decoration", "settings": { "object_type": "heart", "color": "#C82552", "secondary_color": "#F7C84B", "position_x": 68, "position_y": 62, "size": 26, "mobile_size": 18, "rotation": -5, "opacity": 80, "animation": "rise", "animation_delay": 200, "hide_mobile": false } }
-      },
-      "block_order": ["life_heart"],
-      "settings": { "enabled": true, "show_line": true, "curve_style": "gentle", "line_color": "#0B7C82", "opacity": 35, "stroke_width": 2, "alignment": "right", "width": 200, "height": 120, "offset_x": -160, "offset_y": 0, "flip_horizontal": false, "enable_animations": true, "hide_on_tablet": true, "hide_on_mobile": true }
     },
     "reviews": {
       "type": "fourpattes-community-gallery",
@@ -282,15 +244,7 @@
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 48
       }
-    },
-    "thread_newsletter_footer": {
-      "type": "fourpattes-story-thread",
-      "blocks": {
-        "newsletter_medal": { "type": "decoration", "settings": { "object_type": "medal", "color": "#0B7C82", "secondary_color": "#7E4BC2", "position_x": 76, "position_y": 30, "size": 30, "mobile_size": 22, "rotation": -4, "opacity": 85, "animation": "float", "animation_delay": 100, "hide_mobile": false } }
-      },
-      "block_order": ["newsletter_medal"],
-      "settings": { "enabled": true, "show_line": true, "curve_style": "gentle", "line_color": "#BFE2F3", "opacity": 40, "stroke_width": 2, "alignment": "left", "width": 220, "height": 100, "offset_x": 20, "offset_y": 0, "flip_horizontal": true, "enable_animations": true, "hide_on_tablet": false, "hide_on_mobile": false }
     }
   },
-  "order": ["hero", "thread_hero_favorites", "favorites", "bowl_in", "thread_box_life", "bowl_out", "thread_life_reviews", "reviews", "mission", "newsletter", "thread_newsletter_footer"]
+  "order": ["hero", "favorites", "bowl_in", "thread_box_life", "bowl_out", "reviews", "mission", "newsletter"]
 }
