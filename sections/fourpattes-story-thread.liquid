@@ -1,0 +1,316 @@
+{%- liquid
+  assign thread_opacity = section.settings.opacity | divided_by: 100.0
+  assign animation_class = ' is-visible'
+  if section.settings.enable_animations
+    assign animation_class = ' pet-story-thread--motion'
+  endif
+-%}
+
+<style>
+  #shopify-section-{{ section.id }}{position:relative;z-index:2;height:0;min-height:0;overflow:visible}
+</style>
+
+{%- if section.settings.enabled -%}
+  <div
+    class="pet-story-thread pet-story-thread--{{ section.settings.alignment }}{% if section.settings.flip_horizontal %} pet-story-thread--flipped{% endif %}{{ animation_class }}"
+    style="--thread-width: {{ section.settings.width }}px; --thread-height: {{ section.settings.height }}px; --thread-x: {{ section.settings.offset_x }}px; --thread-y: {{ section.settings.offset_y }}px; --thread-color: {{ section.settings.line_color }}; --thread-opacity: {{ thread_opacity }}; --thread-stroke: {{ section.settings.stroke_width }}px;"
+    aria-hidden="true"
+    {% if section.settings.enable_animations %}data-pet-reveal{% endif %}
+  >
+    <div class="pet-story-thread__stage">
+      {%- if section.settings.show_line -%}
+        <svg class="pet-story-thread__path" viewBox="0 0 640 210" preserveAspectRatio="none" focusable="false">
+          {%- case section.settings.curve_style -%}
+            {%- when 'arc' -%}
+              <path pathLength="1" d="M20 166C151 26 313 16 620 143"/>
+            {%- when 'loop' -%}
+              <path pathLength="1" d="M20 154C129 36 212 180 303 97S466 41 620 151"/>
+            {%- when 'gentle' -%}
+              <path pathLength="1" d="M18 137C151 90 278 131 390 99S535 81 622 120"/>
+            {%- else -%}
+              <path pathLength="1" d="M18 157C126 42 233 190 337 100S506 37 622 145"/>
+          {%- endcase -%}
+        </svg>
+      {%- endif -%}
+
+      <div class="pet-story-thread__objects">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign object_opacity = block.settings.opacity | divided_by: 100.0
+            assign delay_seconds = block.settings.animation_delay | divided_by: 1000.0
+          -%}
+          <span
+            class="pet-story-thread__item pet-story-thread__item--{{ block.settings.animation }}{% if block.settings.hide_mobile %} pet-story-thread__item--hide-mobile{% endif %}"
+            style="--item-x: {{ block.settings.position_x }}%; --item-y: {{ block.settings.position_y }}%; --item-size: {{ block.settings.size }}px; --item-size-mobile: {{ block.settings.mobile_size }}px; --item-rotation: {{ block.settings.rotation }}deg; --item-opacity: {{ object_opacity }}; --item-delay: {{ delay_seconds }}s;"
+            {{ block.shopify_attributes }}
+          >
+            {% render 'fourpattes-story-object', object_type: block.settings.object_type, color: block.settings.color, secondary_color: block.settings.secondary_color %}
+          </span>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Fil conducteur",
+  "tag": "section",
+  "class": "fourpattes-story-thread",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Afficher la liaison",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_line",
+      "label": "Afficher la ligne pointillée",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "curve_style",
+      "label": "Forme de la trajectoire",
+      "options": [
+        { "value": "s_curve", "label": "Courbe en S" },
+        { "value": "arc", "label": "Arc organique" },
+        { "value": "loop", "label": "Double courbe" },
+        { "value": "gentle", "label": "Courbe douce" }
+      ],
+      "default": "s_curve"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Couleur de la ligne",
+      "default": "#0B7C82"
+    },
+    {
+      "type": "range",
+      "id": "opacity",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Opacité de la ligne",
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "stroke_width",
+      "min": 2,
+      "max": 4,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Épaisseur de la ligne",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignement",
+      "options": [
+        { "value": "left", "label": "Gauche" },
+        { "value": "center", "label": "Centre" },
+        { "value": "right", "label": "Droite" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "min": 320,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "label": "Largeur sur ordinateur",
+      "default": 640
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 140,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Hauteur visuelle",
+      "default": 210
+    },
+    {
+      "type": "range",
+      "id": "offset_x",
+      "min": -200,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Décalage horizontal",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "offset_y",
+      "min": -100,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Décalage vertical",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "flip_horizontal",
+      "label": "Inverser la trajectoire",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_animations",
+      "label": "Activer les micro-animations",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "decoration",
+      "name": "Objet narratif",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "select",
+          "id": "object_type",
+          "label": "Objet",
+          "options": [
+            { "value": "paw", "label": "Empreinte" },
+            { "value": "ball", "label": "Balle" },
+            { "value": "leash", "label": "Laisse" },
+            { "value": "bone", "label": "Os" },
+            { "value": "mouse", "label": "Souris" },
+            { "value": "yarn", "label": "Pelote" },
+            { "value": "heart", "label": "Cœur" },
+            { "value": "star", "label": "Étoile" },
+            { "value": "camera", "label": "Appareil photo" },
+            { "value": "photo", "label": "Photo" },
+            { "value": "box", "label": "Carton" },
+            { "value": "medal", "label": "Médaille" },
+            { "value": "treat", "label": "Friandise" }
+          ],
+          "default": "paw"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Couleur principale",
+          "default": "#0B7C82"
+        },
+        {
+          "type": "color",
+          "id": "secondary_color",
+          "label": "Couleur secondaire",
+          "default": "#F7C84B"
+        },
+        {
+          "type": "range",
+          "id": "position_x",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Position horizontale",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "position_y",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Position verticale",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "size",
+          "min": 24,
+          "max": 92,
+          "step": 2,
+          "unit": "px",
+          "label": "Taille sur ordinateur",
+          "default": 44
+        },
+        {
+          "type": "range",
+          "id": "mobile_size",
+          "min": 20,
+          "max": 56,
+          "step": 2,
+          "unit": "px",
+          "label": "Taille sur mobile",
+          "default": 32
+        },
+        {
+          "type": "range",
+          "id": "rotation",
+          "min": -30,
+          "max": 30,
+          "step": 1,
+          "unit": "deg",
+          "label": "Rotation",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "opacity",
+          "min": 35,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "label": "Opacité",
+          "default": 100
+        },
+        {
+          "type": "select",
+          "id": "animation",
+          "label": "Animation",
+          "options": [
+            { "value": "none", "label": "Aucune" },
+            { "value": "float", "label": "Flottement" },
+            { "value": "rise", "label": "Montée douce" },
+            { "value": "sparkle", "label": "Scintillement" }
+          ],
+          "default": "float"
+        },
+        {
+          "type": "range",
+          "id": "animation_delay",
+          "min": 0,
+          "max": 1000,
+          "step": 100,
+          "unit": "ms",
+          "label": "Délai d’animation",
+          "default": 200
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_mobile",
+          "label": "Masquer sur mobile",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fil conducteur",
+      "blocks": [
+        { "type": "decoration", "settings": { "object_type": "ball", "position_x": 18, "position_y": 24, "size": 54, "mobile_size": 38, "rotation": -8 } },
+        { "type": "decoration", "settings": { "object_type": "paw", "position_x": 54, "position_y": 53, "size": 34, "mobile_size": 26, "rotation": 12 } },
+        { "type": "decoration", "settings": { "object_type": "paw", "position_x": 83, "position_y": 74, "size": 30, "mobile_size": 24, "rotation": -10 } }
+      ]
+    }
+  ]
+}
+{% endschema %}
