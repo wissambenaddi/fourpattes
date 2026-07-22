@@ -26,7 +26,7 @@
                   <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'chevron' %}</span>
                 </summary>
                 <ul role="list">
-                  <li><a class="pet-menu-drawer__view-all" href="{{ link.url }}">Voir tout</a></li>
+                  <li><a class="pet-menu-drawer__view-all" href="{{ link.url }}">{{ 'general.view_all' | t }}</a></li>
                   {%- for child_link in link.links -%}
                     <li><a href="{{ child_link.url }}"{% if child_link.current %} aria-current="page"{% endif %}>{{ child_link.title }}</a></li>
                   {%- endfor -%}
