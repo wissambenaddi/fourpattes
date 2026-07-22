@@ -7,17 +7,26 @@
     "next": "Next"
   },
   "general": {
-    "meta": { "tags": "Tags: {{ tags }}", "page": "Page {{ page }}" },
+    "meta": {
+      "tags": "Tags: {{ tags }}",
+      "page": "Page {{ page }}"
+    },
     "search": "Search",
-    "account": "Account",
+    "account": "My account",
     "cart": "Cart",
+    "cart_empty_label": "Cart, no items",
+    "cart_one_label": "Cart, 1 item",
+    "cart_many_label": "Cart, {{ count }} items",
     "menu": "Menu",
     "close": "Close",
+    "contact": "Contact",
+    "useful_links": "Useful links",
     "choose_options": "Choose options",
     "add_to_cart": "Add to cart",
     "sold_out": "Sold out",
     "added_to_cart": "Product added to cart",
-    "view_all": "View all"
+    "view_all": "View all",
+    "primary_navigation": "Primary navigation"
   },
   "newsletter": {
     "email": "Your email address",
