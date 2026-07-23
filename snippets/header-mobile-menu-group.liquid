@@ -9,6 +9,7 @@
   @param {string} label - Visible label.
   @param {string} icon - FourPattes header icon name.
   @param {string} fallback_link - URL used when no menu is selected.
+  @param {boolean} force_accordion - Keeps the accessible accordion markup when mega menus are enabled.
 {% enddoc %}
 
 {%- liquid
@@ -16,11 +17,16 @@
   assign second_group = menu.links[1]
   assign primary_is_grouped = false
   assign secondary_is_grouped = false
+  assign has_menu_links = false
   assign visible_count = 0
   assign view_all_text = 'View all'
 
   if request.locale.iso_code contains 'fr'
     assign view_all_text = 'Voir tout'
+  endif
+
+  if menu != blank and menu.links != blank
+    assign has_menu_links = true
   endif
 
   if first_group.links != blank
@@ -33,7 +39,7 @@
 -%}
 
 <li class="pet-menu-drawer__item">
-  {%- if menu != blank and menu.links != blank -%}
+  {%- if has_menu_links or force_accordion -%}
     <details class="pet-menu-drawer__details">
       <summary>
         <span class="pet-menu-drawer__summary-label">
@@ -48,58 +54,60 @@
       </summary>
 
       <div class="pet-menu-drawer__submenu-content">
-        <span class="pet-menu-drawer__group-title">
-          {%- if primary_is_grouped -%}{{ first_group.title }}{%- else -%}Catégories mises en avant{%- endif -%}
-        </span>
-        <ul class="pet-menu-drawer__sublist" role="list">
-          {%- if primary_is_grouped -%}
-            {%- for link in first_group.links limit: 3 -%}
-              <li>
-                <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                  <span>{{ link.title }}</span>
-                  <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                </a>
-              </li>
-              {%- assign visible_count = visible_count | plus: 1 -%}
-            {%- endfor -%}
-          {%- else -%}
-            {%- for link in menu.links limit: 3 -%}
-              <li>
-                <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                  <span>{{ link.title }}</span>
-                  <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                </a>
-              </li>
-              {%- assign visible_count = visible_count | plus: 1 -%}
-            {%- endfor -%}
-          {%- endif -%}
-        </ul>
+        {%- if has_menu_links -%}
+          <span class="pet-menu-drawer__group-title">
+            {%- if primary_is_grouped -%}{{ first_group.title }}{%- else -%}Catégories mises en avant{%- endif -%}
+          </span>
+          <ul class="pet-menu-drawer__sublist" role="list">
+            {%- if primary_is_grouped -%}
+              {%- for link in first_group.links limit: 3 -%}
+                <li>
+                  <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                    <span>{{ link.title }}</span>
+                    <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                  </a>
+                </li>
+                {%- assign visible_count = visible_count | plus: 1 -%}
+              {%- endfor -%}
+            {%- else -%}
+              {%- for link in menu.links limit: 3 -%}
+                <li>
+                  <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                    <span>{{ link.title }}</span>
+                    <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                  </a>
+                </li>
+                {%- assign visible_count = visible_count | plus: 1 -%}
+              {%- endfor -%}
+            {%- endif -%}
+          </ul>
 
-        {%- assign remaining_links = 4 | minus: visible_count -%}
-        {%- if remaining_links > 0 and secondary_is_grouped -%}
-          <span class="pet-menu-drawer__group-title">{{ second_group.title }}</span>
-          <ul class="pet-menu-drawer__sublist" role="list">
-            {%- for link in second_group.links limit: remaining_links -%}
-              <li>
-                <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                  <span>{{ link.title }}</span>
-                  <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                </a>
-              </li>
-            {%- endfor -%}
-          </ul>
-        {%- elsif remaining_links > 0 and primary_is_grouped == false and menu.links.size > 3 -%}
-          <span class="pet-menu-drawer__group-title">Autres essentiels</span>
-          <ul class="pet-menu-drawer__sublist" role="list">
-            {%- for link in menu.links offset: 3 limit: remaining_links -%}
-              <li>
-                <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                  <span>{{ link.title }}</span>
-                  <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                </a>
-              </li>
-            {%- endfor -%}
-          </ul>
+          {%- assign remaining_links = 4 | minus: visible_count -%}
+          {%- if remaining_links > 0 and secondary_is_grouped -%}
+            <span class="pet-menu-drawer__group-title">{{ second_group.title }}</span>
+            <ul class="pet-menu-drawer__sublist" role="list">
+              {%- for link in second_group.links limit: remaining_links -%}
+                <li>
+                  <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                    <span>{{ link.title }}</span>
+                    <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- elsif remaining_links > 0 and primary_is_grouped == false and menu.links.size > 3 -%}
+            <span class="pet-menu-drawer__group-title">Autres essentiels</span>
+            <ul class="pet-menu-drawer__sublist" role="list">
+              {%- for link in menu.links offset: 3 limit: remaining_links -%}
+                <li>
+                  <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                    <span>{{ link.title }}</span>
+                    <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
         {%- endif -%}
 
         <a class="pet-menu-drawer__view-all" href="{{ fallback_link }}">
