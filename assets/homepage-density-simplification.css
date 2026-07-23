@@ -1,0 +1,279 @@
+/* FourPattes — professional homepage density pass.
+   Scope is intentionally limited to the index template. */
+
+body.pet-template-index {
+  --fp-shadow-primary: 0 14px 30px rgba(45, 28, 99, .12);
+  --fp-shadow-secondary: 0 8px 20px rgba(45, 28, 99, .075);
+}
+
+/* Favoris: a quieter, product-led orientation zone. */
+body.pet-template-index .pet-favorites--catalog {
+  padding: clamp(3.8rem, 5.4vw, 5.2rem) 0 clamp(3.7rem, 5vw, 4.8rem);
+}
+
+body.pet-template-index .pet-favorites__paw-intro {
+  display: none;
+}
+
+body.pet-template-index .pet-favorites__heading {
+  margin-bottom: clamp(1.8rem, 2.8vw, 2.6rem);
+}
+
+body.pet-template-index .pet-favorites__tabs {
+  margin-top: clamp(1.25rem, 2vw, 1.7rem);
+}
+
+body.pet-template-index .pet-favorites .pet-favorites__tab {
+  min-height: 2.9rem;
+  border-width: 1px;
+  box-shadow: 0 4px 12px rgba(45, 28, 99, .075);
+}
+
+body.pet-template-index .pet-favorites .pet-favorites__tab.is-active {
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--pet-deep-purple) 76%, #000), 0 9px 18px rgba(45, 28, 99, .12);
+  transform: none;
+}
+
+body.pet-template-index .pet-favorites .pet-product-card,
+body.pet-template-index .pet-favorites .pet-product-card:nth-child(even) {
+  border-radius: 1.4rem;
+  box-shadow: var(--fp-shadow-secondary);
+  transform: none;
+}
+
+body.pet-template-index .pet-favorites .pet-product-card:hover,
+body.pet-template-index .pet-favorites .pet-product-card:nth-child(even):hover {
+  box-shadow: var(--fp-shadow-primary);
+  transform: translateY(-3px);
+}
+
+body.pet-template-index .pet-favorites .pet-product-card__media img {
+  filter: drop-shadow(0 7px 8px rgba(45, 28, 99, .085));
+}
+
+body.pet-template-index .pet-favorites__button {
+  margin-top: clamp(2rem, 3vw, 2.8rem);
+}
+
+/* Box: preserve the carton as the clear focal point. */
+body.pet-template-index .pet-bowl--gift-box .pet-gift-card--five {
+  display: none;
+}
+
+body.pet-template-index .pet-bowl--gift-box .pet-gift-card {
+  box-shadow: var(--fp-shadow-secondary);
+}
+
+body.pet-template-index .pet-bowl--gift-box .pet-gift-box__halo {
+  opacity: .48;
+}
+
+body.pet-template-index .pet-bowl--gift-box .pet-gift-box__light {
+  opacity: .38;
+}
+
+body.pet-template-index .pet-bowl--gift-box .pet-gift-box__print--star,
+body.pet-template-index .pet-bowl--gift-box .pet-gift-box__print--heart {
+  display: none;
+}
+
+/* Life scene: four essential accessories, no competing decorative network. */
+body.pet-template-index .pet-bowl--life .pet-life__companions-pawprint {
+  display: none;
+}
+
+body.pet-template-index .pet-bowl--life .pet-life__item {
+  filter: none;
+}
+
+body.pet-template-index .pet-bowl--life .pet-life__card {
+  box-shadow: var(--fp-shadow-secondary);
+}
+
+body.pet-template-index .pet-bowl--life .pet-life__card-icon {
+  opacity: .62;
+}
+
+body.pet-template-index .pet-bowl--life .pet-life__visual-image,
+body.pet-template-index .pet-bowl--life .pet-life__fallback {
+  filter: drop-shadow(0 8px 9px rgba(45, 28, 99, .09));
+}
+
+/* Community: the deliberate calm pause in the journey. */
+body.pet-template-index .pet-community__empty-illustration {
+  display: none;
+}
+
+body.pet-template-index .pet-community__empty {
+  width: min(100%, 46rem);
+  min-height: 0;
+  margin-inline: auto;
+  padding: clamp(1.5rem, 3vw, 2.4rem);
+  border-radius: 1.5rem;
+  box-shadow: var(--fp-shadow-secondary);
+}
+
+body.pet-template-index .pet-community__empty h2 {
+  margin-bottom: .65rem;
+}
+
+body.pet-template-index .pet-community__empty > p:not(.pet-community__eyebrow) {
+  max-width: 36rem;
+  margin: 0 auto 1.15rem;
+}
+
+body.pet-template-index .pet-community__participation {
+  padding: clamp(1.15rem, 2.2vw, 1.6rem);
+  border-radius: 1.35rem;
+  box-shadow: var(--fp-shadow-secondary);
+}
+
+/* Mission: retain four strong commitments, remove the competing route and card-within-card effect. */
+body.pet-template-index .pet-brand-story__journey {
+  margin-top: clamp(2rem, 3.7vw, 3.2rem);
+}
+
+body.pet-template-index .pet-brand-story__route,
+body.pet-template-index .pet-brand-story__grid::before,
+body.pet-template-index .pet-brand-story__media-spark,
+body.pet-template-index .pet-brand-story__ending-mark {
+  display: none;
+}
+
+body.pet-template-index .pet-brand-story__card {
+  box-shadow: 0 12px 28px rgba(32, 12, 53, .13), inset 0 1px 0 rgba(255, 255, 255, .72);
+}
+
+body.pet-template-index .pet-brand-story__card::after {
+  display: none;
+}
+
+body.pet-template-index .pet-brand-story__media {
+  min-height: 10.75rem;
+  margin: .55rem .55rem 0;
+}
+
+body.pet-template-index .pet-brand-story__image {
+  min-height: 10.75rem;
+  max-height: 12.5rem;
+}
+
+body.pet-template-index .pet-brand-story__fallback-scene {
+  width: min(90%, 17rem);
+  filter: drop-shadow(0 8px 9px rgba(45, 28, 99, .09));
+}
+
+body.pet-template-index .pet-brand-story__copy {
+  padding: 1rem 1.1rem 1.2rem;
+}
+
+body.pet-template-index .pet-brand-story__meta {
+  margin-bottom: .65rem;
+}
+
+body.pet-template-index .pet-brand-story__icon {
+  width: 2.45rem;
+  height: 2.45rem;
+  box-shadow: none;
+}
+
+body.pet-template-index .pet-brand-story__text {
+  line-height: 1.45;
+}
+
+body.pet-template-index .pet-brand-story__ending {
+  width: min(100%, 43rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+body.pet-template-index .pet-brand-story__ending p {
+  margin-bottom: 1rem;
+  font-size: clamp(1.05rem, .98rem + .3vw, 1.35rem);
+}
+
+/* Newsletter: form first, Patous clearly secondary. */
+body.pet-template-index .pet-newsletter-patous__card {
+  padding: .9rem 1rem 1.35rem;
+  border-radius: 1.65rem;
+  box-shadow: 0 15px 34px rgba(45, 28, 99, .1), inset 0 1px 0 rgba(255, 255, 255, .72);
+}
+
+body.pet-template-index .pet-newsletter-patous__card::before {
+  display: none;
+}
+
+body.pet-template-index .pet-newsletter-patous__field {
+  box-shadow: 0 8px 20px rgba(45, 28, 99, .1);
+}
+
+body.pet-template-index .pet-newsletter-patous .pet-patous-character__image {
+  filter: drop-shadow(0 10px 10px rgba(154, 76, 25, .11));
+}
+
+/* Mobile receives the strongest simplification. */
+@media (max-width: 749px) {
+  body.pet-template-index .pet-favorites--catalog {
+    padding: 3rem 0 3.2rem;
+  }
+
+  body.pet-template-index .pet-favorites__subtitle {
+    max-width: 26rem;
+  }
+
+  body.pet-template-index .pet-favorites .pet-product-card {
+    padding: .85rem;
+    border-radius: 1.15rem;
+  }
+
+  body.pet-template-index .pet-bowl--gift-box .pet-gift-card,
+  body.pet-template-index .pet-bowl--life .pet-life__card {
+    box-shadow: 0 6px 15px rgba(45, 28, 99, .065);
+  }
+
+  body.pet-template-index .pet-community__empty {
+    padding: 1.35rem 1rem;
+  }
+
+  body.pet-template-index .pet-brand-story__grid {
+    gap: 1rem;
+  }
+
+  body.pet-template-index .pet-brand-story__card {
+    margin-left: 0;
+  }
+
+  body.pet-template-index .pet-brand-story__media {
+    min-height: 10rem;
+  }
+
+  body.pet-template-index .pet-brand-story__image {
+    min-height: 10rem;
+    max-height: 11.5rem;
+  }
+
+  body.pet-template-index .pet-brand-story__copy {
+    padding: .9rem 1rem 1.1rem;
+  }
+
+  body.pet-template-index .pet-newsletter-patous__ambassador {
+    min-height: 8.5rem;
+  }
+
+  body.pet-template-index .pet-newsletter-patous__character {
+    height: min(var(--newsletter-patous-size), 8.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.pet-template-index .pet-product-card,
+  body.pet-template-index .pet-brand-story__card,
+  body.pet-template-index .pet-newsletter-patous__card {
+    transition: none;
+  }
+}
