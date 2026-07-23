@@ -1,4 +1,32 @@
-# Sous-menus FourPattes — audit et configuration
+# Sous-menus FourPattes — audit, correctif et configuration
+
+## Correctif des panneaux invisibles
+
+### Cause racine
+
+Le header rendait le déclencheur et le panneau desktop uniquement lorsque le menu spécialisé de l’univers était déjà sélectionné et contenait au moins un lien.
+
+Les réglages `dog_menu`, `cat_menu` et `discover_menu` étant absents de `sections/header-group.json`, Liquid rendait trois liens directs au lieu des éléments attendus par `pet-header.js` :
+
+- aucun `data-pet-mega-item` ;
+- aucun `data-pet-mega-trigger` ;
+- aucun `aria-controls` ;
+- aucun panneau `data-pet-mega-panel`.
+
+Le CSS et le JavaScript ne pouvaient donc pas ouvrir les sous-menus, car leur markup n’existait pas dans la page.
+
+### Comportement corrigé
+
+Lorsque **Activer les méga-menus** est coché :
+
+- les trois déclencheurs et leurs panneaux sont toujours rendus ;
+- le menu spécialisé sélectionné dans l’éditeur reste prioritaire ;
+- si ce menu est vide, le `Menu mobile complémentaire` sert de repli Shopify Navigation ;
+- si tous les menus sont vides, le panneau conserve sa carte éditoriale et son lien global ;
+- le drawer mobile conserve un accordéon accessible, même sans catégories ;
+- le menu complémentaire n’est pas dupliqué dans le drawer lorsqu’il sert déjà de repli.
+
+Le repli garantit le fonctionnement immédiat. Il doit être remplacé par trois menus spécialisés dès que les collections Chien, Chat et Découvrir sont disponibles.
 
 ## Audit commercial réalisé
 
@@ -13,13 +41,15 @@ Il n’est donc pas possible de déterminer honnêtement les catégories chien o
 
 ## Source des catégories
 
-Chaque univers utilise le menu sélectionné dans l’éditeur de thème :
+Chaque univers utilise en priorité le menu sélectionné dans l’éditeur de thème :
 
 - **Menu Chien** pour Univers Chien ;
 - **Menu Chat** pour Univers Chat ;
 - **Menu Découvrir** pour Découvrir.
 
 Les URLs et les catégories proviennent uniquement de Shopify Navigation. Elles ne sont pas codées en dur dans le thème.
+
+Tant qu’un menu spécialisé n’est pas sélectionné, le menu complémentaire du header est utilisé comme repli. Dans la configuration actuelle de la boutique, ce repli correspond à `main-menu`.
 
 ## Structure recommandée d’un menu
 
@@ -54,7 +84,7 @@ Lorsque les ventes et le catalogue seront disponibles :
 
 ## Carte éditoriale
 
-La carte de droite utilise déjà les réglages indépendants de chaque univers :
+La carte de droite utilise les réglages indépendants de chaque univers :
 
 - image ;
 - titre ;
@@ -67,8 +97,8 @@ En l’absence de données de vente, conserver une formulation éditoriale telle
 ## Comportement responsive et accessible
 
 - Desktop : ouverture au survol, au focus et au clic via le système existant.
-- Clavier : `aria-expanded`, navigation par Tab, fermeture avec Échap et retour du focus.
+- Clavier : `aria-expanded`, `aria-haspopup`, navigation par Tab, fermeture avec Échap et retour du focus.
 - Clic extérieur : fermeture via le script existant.
 - Mobile et tablette : accordéons natifs `<details>` avec zones tactiles d’au moins 44 px.
 - Sticky : le panneau reste au-dessus du contenu et conserve le correctif pleine largeur du header.
-- Réduction des mouvements : l’animation d’entrée du panneau est désactivée.
+- Réduction des mouvements : l’animation d’entrée du panneau est désactivée lorsque l’utilisateur le demande.
