@@ -5,21 +5,26 @@
   --header-brand-turquoise: #27c6cc;
   --header-drawer-turquoise: #007c7a;
   --header-initial-inline-gap: clamp(.5rem, 1.4vw, 1.25rem);
-  --header-sticky-inline-gap: .375rem;
   --header-initial-radius: 1.625rem;
-  --header-sticky-radius: .8125rem;
   margin-inline: var(--header-initial-inline-gap);
   border-radius: 0 0 var(--header-initial-radius) var(--header-initial-radius);
-  transition:
-    margin-inline .26s ease,
-    border-radius .26s ease,
-    box-shadow .26s ease;
+  transition: box-shadow .22s ease;
 }
 
 .pet-header--premium.is-compact {
-  margin-inline: var(--header-sticky-inline-gap);
-  border-radius: 0 0 var(--header-sticky-radius) var(--header-sticky-radius);
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  border-radius: 0;
   box-shadow: 0 10px 28px rgba(28, 16, 67, .13);
+}
+
+/* Keep the Shopify section wrapper full width when the compact sticky state is active. */
+.pet-header-section:has(.pet-header--premium.is-compact) {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 0;
 }
 
 .pet-header--premium .pet-header__inner {
@@ -239,9 +244,7 @@ body.pet-template-index .pet-header-section {
 @media (min-width: 750px) and (max-width: 1119px) {
   .pet-header--premium {
     --header-initial-inline-gap: clamp(.5rem, 1.2vw, 1rem);
-    --header-sticky-inline-gap: .25rem;
     --header-initial-radius: 1.375rem;
-    --header-sticky-radius: .625rem;
   }
 
   .pet-header--premium .pet-header__inner {
@@ -285,9 +288,7 @@ body.pet-template-index .pet-header-section {
 @media (max-width: 749px) {
   .pet-header--premium {
     --header-initial-inline-gap: .25rem;
-    --header-sticky-inline-gap: 0rem;
     --header-initial-radius: 1rem;
-    --header-sticky-radius: .375rem;
   }
 
   .pet-header--premium .pet-header__inner {
