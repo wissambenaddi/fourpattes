@@ -4,8 +4,26 @@
 .pet-header--premium {
   --header-brand-turquoise: #27c6cc;
   --header-drawer-turquoise: #007c7a;
-  margin-inline: clamp(.5rem, 1.4vw, 1.25rem);
-  border-radius: 0 0 1.625rem 1.625rem;
+  --header-initial-inline-gap: clamp(.5rem, 1.4vw, 1.25rem);
+  --header-sticky-inline-gap: .375rem;
+  --header-initial-radius: 1.625rem;
+  --header-sticky-radius: .8125rem;
+  margin-inline: var(--header-initial-inline-gap);
+  border-radius: 0 0 var(--header-initial-radius) var(--header-initial-radius);
+  transition:
+    margin-inline .26s ease,
+    border-radius .26s ease,
+    box-shadow .26s ease;
+}
+
+.pet-header--premium.is-compact {
+  margin-inline: var(--header-sticky-inline-gap);
+  border-radius: 0 0 var(--header-sticky-radius) var(--header-sticky-radius);
+  box-shadow: 0 10px 28px rgba(28, 16, 67, .13);
+}
+
+.pet-header--premium .pet-header__inner {
+  transition: min-height .26s ease;
 }
 
 /* The section wrapper supplies the colour revealed by the rounded lower corners. */
@@ -20,7 +38,7 @@ body.pet-template-index .pet-header-section {
 /* Logo: white at rest, exact FourPattes turquoise on hover/focus. */
 .pet-header--premium .pet-header__logo-image {
   filter: brightness(0) saturate(100%) invert(100%);
-  transition: width .2s ease, transform .2s ease, filter .2s ease;
+  transition: width .26s ease, transform .26s ease, filter .2s ease;
 }
 
 .pet-header--premium .pet-header__logo:hover .pet-header__logo-image,
@@ -92,6 +110,15 @@ body.pet-template-index .pet-header-section {
       auto
       minmax(var(--header-logo-width), 1fr);
     gap: clamp(.75rem, 1.2vw, 1.5rem);
+  }
+
+  .pet-header--premium.is-compact .pet-header__inner {
+    min-height: calc(var(--header-height) - 12px);
+  }
+
+  .pet-header--premium.is-compact .pet-header__logo-image {
+    transform: scale(.9);
+    transform-origin: left center;
   }
 
   .pet-header--premium .pet-header__actions {
@@ -211,12 +238,23 @@ body.pet-template-index .pet-header-section {
 
 @media (min-width: 750px) and (max-width: 1119px) {
   .pet-header--premium {
-    margin-inline: clamp(.5rem, 1.2vw, 1rem);
-    border-radius: 0 0 1.375rem 1.375rem;
+    --header-initial-inline-gap: clamp(.5rem, 1.2vw, 1rem);
+    --header-sticky-inline-gap: .25rem;
+    --header-initial-radius: 1.375rem;
+    --header-sticky-radius: .625rem;
   }
 
   .pet-header--premium .pet-header__inner {
     grid-template-columns: minmax(6.5rem, auto) minmax(0, 1fr) minmax(6.5rem, auto);
+  }
+
+  .pet-header--premium.is-compact .pet-header__inner {
+    min-height: 4rem;
+  }
+
+  .pet-header--premium.is-compact .pet-header__logo-image {
+    transform: scale(.9);
+    transform-origin: center;
   }
 
   .pet-header--premium .pet-header__menu-toggle {
@@ -246,8 +284,23 @@ body.pet-template-index .pet-header-section {
 
 @media (max-width: 749px) {
   .pet-header--premium {
-    margin-inline: .25rem;
-    border-radius: 0 0 1rem 1rem;
+    --header-initial-inline-gap: .25rem;
+    --header-sticky-inline-gap: 0rem;
+    --header-initial-radius: 1rem;
+    --header-sticky-radius: .375rem;
+  }
+
+  .pet-header--premium .pet-header__inner {
+    transition: min-height .26s ease;
+  }
+
+  .pet-header--premium.is-compact .pet-header__inner {
+    min-height: 3.75rem;
+  }
+
+  .pet-header--premium.is-compact .pet-header__logo-image {
+    transform: scale(.92);
+    transform-origin: center;
   }
 
   .pet-header--premium .pet-header__actions {
@@ -271,6 +324,8 @@ body.pet-template-index .pet-header-section {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .pet-header--premium,
+  .pet-header--premium .pet-header__inner,
   .pet-header--premium .pet-header__logo-image,
   .pet-header--premium .pet-header__actions .pet-header__action,
   .pet-header--premium .pet-header__nav-trigger,
