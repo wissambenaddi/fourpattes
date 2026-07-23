@@ -27,6 +27,11 @@
   assign secondary_is_grouped = false
   assign show_secondary = false
   assign panel_icon = 'discover'
+  assign view_all_text = 'View all'
+
+  if request.locale.iso_code contains 'fr'
+    assign view_all_text = 'Voir tout'
+  endif
 
   if menu_id contains 'Dog'
     assign panel_icon = 'dog'
@@ -122,7 +127,7 @@
 
         {%- if cta_link != blank -%}
           <a class="pet-header__mega-view-all" href="{{ cta_link }}">
-            <span>{{ 'general.view_all' | t }} — {{ label }}</span>
+            <span>{{ view_all_text }} — {{ label }}</span>
             <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
           </a>
         {%- endif -%}
