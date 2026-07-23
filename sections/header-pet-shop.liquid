@@ -7,6 +7,24 @@
   assign discover_fallback_link = section.settings.discover_cta_link | default: routes.root_url
   assign story_link = section.settings.story_link | default: routes.root_url
 
+  assign dog_navigation_menu = section.settings.dog_menu
+  assign cat_navigation_menu = section.settings.cat_menu
+  assign discover_navigation_menu = section.settings.discover_menu
+  assign uses_shared_menu_fallback = false
+
+  if dog_navigation_menu == blank
+    assign dog_navigation_menu = section.settings.menu
+    assign uses_shared_menu_fallback = true
+  endif
+  if cat_navigation_menu == blank
+    assign cat_navigation_menu = section.settings.menu
+    assign uses_shared_menu_fallback = true
+  endif
+  if discover_navigation_menu == blank
+    assign discover_navigation_menu = section.settings.menu
+    assign uses_shared_menu_fallback = true
+  endif
+
   if request.locale.iso_code contains 'fr'
     assign navigation_label = 'Navigation principale'
     assign useful_links_label = 'Liens utiles'
@@ -88,40 +106,40 @@
 
     <nav class="pet-header__nav" aria-label="{{ navigation_label | escape }}">
       <ul class="pet-header__links" role="list">
-        {%- if section.settings.enable_mega_menus and section.settings.dog_menu != blank and section.settings.dog_menu.links != blank -%}
+        {%- if section.settings.enable_mega_menus -%}
           <li class="pet-header__link-item pet-header__link-item--mega" data-pet-mega-item>
-            <button class="pet-header__nav-trigger" type="button" aria-expanded="false" aria-controls="{{ dog_mega_id }}" data-pet-mega-trigger>
+            <button class="pet-header__nav-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="{{ dog_mega_id }}" data-pet-mega-trigger>
               {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'dog' %}</span>{%- endif -%}
               <span>{{ section.settings.dog_label }}</span>
               <span class="pet-header__nav-chevron" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'chevron' %}</span>
             </button>
-            {% render 'header-mega-menu', menu: section.settings.dog_menu, menu_id: dog_mega_id, label: section.settings.dog_label, image: section.settings.dog_image, card_title: section.settings.dog_card_title, card_text: section.settings.dog_card_text, cta_label: section.settings.dog_cta_label, cta_link: dog_fallback_link %}
+            {% render 'header-mega-menu', menu: dog_navigation_menu, menu_id: dog_mega_id, label: section.settings.dog_label, image: section.settings.dog_image, card_title: section.settings.dog_card_title, card_text: section.settings.dog_card_text, cta_label: section.settings.dog_cta_label, cta_link: dog_fallback_link %}
           </li>
         {%- else -%}
           <li class="pet-header__link-item"><a class="pet-header__nav-link" href="{{ dog_fallback_link }}">{%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'dog' %}</span>{%- endif -%}<span>{{ section.settings.dog_label }}</span></a></li>
         {%- endif -%}
 
-        {%- if section.settings.enable_mega_menus and section.settings.cat_menu != blank and section.settings.cat_menu.links != blank -%}
+        {%- if section.settings.enable_mega_menus -%}
           <li class="pet-header__link-item pet-header__link-item--mega" data-pet-mega-item>
-            <button class="pet-header__nav-trigger" type="button" aria-expanded="false" aria-controls="{{ cat_mega_id }}" data-pet-mega-trigger>
+            <button class="pet-header__nav-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="{{ cat_mega_id }}" data-pet-mega-trigger>
               {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'cat' %}</span>{%- endif -%}
               <span>{{ section.settings.cat_label }}</span>
               <span class="pet-header__nav-chevron" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'chevron' %}</span>
             </button>
-            {% render 'header-mega-menu', menu: section.settings.cat_menu, menu_id: cat_mega_id, label: section.settings.cat_label, image: section.settings.cat_image, card_title: section.settings.cat_card_title, card_text: section.settings.cat_card_text, cta_label: section.settings.cat_cta_label, cta_link: cat_fallback_link %}
+            {% render 'header-mega-menu', menu: cat_navigation_menu, menu_id: cat_mega_id, label: section.settings.cat_label, image: section.settings.cat_image, card_title: section.settings.cat_card_title, card_text: section.settings.cat_card_text, cta_label: section.settings.cat_cta_label, cta_link: cat_fallback_link %}
           </li>
         {%- else -%}
           <li class="pet-header__link-item"><a class="pet-header__nav-link" href="{{ cat_fallback_link }}">{%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'cat' %}</span>{%- endif -%}<span>{{ section.settings.cat_label }}</span></a></li>
         {%- endif -%}
 
-        {%- if section.settings.enable_mega_menus and section.settings.discover_menu != blank and section.settings.discover_menu.links != blank -%}
+        {%- if section.settings.enable_mega_menus -%}
           <li class="pet-header__link-item pet-header__link-item--mega" data-pet-mega-item>
-            <button class="pet-header__nav-trigger" type="button" aria-expanded="false" aria-controls="{{ discover_mega_id }}" data-pet-mega-trigger>
+            <button class="pet-header__nav-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="{{ discover_mega_id }}" data-pet-mega-trigger>
               {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'discover' %}</span>{%- endif -%}
               <span>{{ section.settings.discover_label }}</span>
               <span class="pet-header__nav-chevron" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'chevron' %}</span>
             </button>
-            {% render 'header-mega-menu', menu: section.settings.discover_menu, menu_id: discover_mega_id, label: section.settings.discover_label, image: section.settings.discover_image, card_title: section.settings.discover_card_title, card_text: section.settings.discover_card_text, cta_label: section.settings.discover_cta_label, cta_link: discover_fallback_link %}
+            {% render 'header-mega-menu', menu: discover_navigation_menu, menu_id: discover_mega_id, label: section.settings.discover_label, image: section.settings.discover_image, card_title: section.settings.discover_card_title, card_text: section.settings.discover_card_text, cta_label: section.settings.discover_cta_label, cta_link: discover_fallback_link %}
           </li>
         {%- else -%}
           <li class="pet-header__link-item"><a class="pet-header__nav-link" href="{{ discover_fallback_link }}">{%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'discover' %}</span>{%- endif -%}<span>{{ section.settings.discover_label }}</span></a></li>
@@ -170,9 +188,9 @@
 
       <nav aria-label="{{ navigation_label | escape }}">
         <ul class="pet-menu-drawer__links" role="list">
-          {% render 'header-mobile-menu-group', menu: section.settings.dog_menu, label: section.settings.dog_label, icon: 'dog', fallback_link: dog_fallback_link %}
-          {% render 'header-mobile-menu-group', menu: section.settings.cat_menu, label: section.settings.cat_label, icon: 'cat', fallback_link: cat_fallback_link %}
-          {% render 'header-mobile-menu-group', menu: section.settings.discover_menu, label: section.settings.discover_label, icon: 'discover', fallback_link: discover_fallback_link %}
+          {% render 'header-mobile-menu-group', menu: dog_navigation_menu, label: section.settings.dog_label, icon: 'dog', fallback_link: dog_fallback_link, force_accordion: section.settings.enable_mega_menus %}
+          {% render 'header-mobile-menu-group', menu: cat_navigation_menu, label: section.settings.cat_label, icon: 'cat', fallback_link: cat_fallback_link, force_accordion: section.settings.enable_mega_menus %}
+          {% render 'header-mobile-menu-group', menu: discover_navigation_menu, label: section.settings.discover_label, icon: 'discover', fallback_link: discover_fallback_link, force_accordion: section.settings.enable_mega_menus %}
           <li class="pet-menu-drawer__item">
             <a class="pet-menu-drawer__direct-link" href="{{ story_link }}">
               <span class="pet-menu-drawer__summary-label"><span class="pet-menu-drawer__universe-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'story' %}</span><span>{{ section.settings.story_label }}</span></span>
@@ -181,7 +199,7 @@
           </li>
         </ul>
 
-        {%- if section.settings.menu != blank and section.settings.menu.links != blank -%}
+        {%- if uses_shared_menu_fallback == false and section.settings.menu != blank and section.settings.menu.links != blank -%}
           <div class="pet-menu-drawer__secondary">
             <span class="pet-menu-drawer__secondary-title">{{ useful_links_label }}</span>
             <ul role="list">{%- for link in section.settings.menu.links -%}<li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>{%- endfor -%}</ul>
