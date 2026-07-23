@@ -1,28 +1,129 @@
-{%- if section.settings.text != blank -%}
+{%- liquid
+  assign enabled_message_count = 0
+  for block in section.blocks
+    if block.settings.enabled and block.settings.text != blank
+      assign enabled_message_count = enabled_message_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- if section.settings.enabled and enabled_message_count > 0 -%}
+  {{ 'fourpattes-rotating-announcement.css' | asset_url | stylesheet_tag }}
+
   <aside
-    class="pet-announcement{% if section.settings.sticky %} pet-announcement--sticky{% endif %}"
-    style="--announcement-bg: {{ section.settings.background }}; --announcement-color: {{ section.settings.text_color }};"
+    id="RotatingAnnouncement-{{ section.id }}"
+    class="pet-announcement pet-announcement--rotating pet-announcement--{{ section.settings.density }}{% if section.settings.sticky %} pet-announcement--sticky{% endif %}"
+    style="--announcement-bg: {{ section.settings.background }}; --announcement-color: {{ section.settings.text_color }}; --announcement-icon-color: {{ section.settings.icon_color }}; --announcement-transition: {{ section.settings.transition_speed }}ms;"
     role="region"
     aria-label="{{ section.settings.accessibility_label | escape }}"
+    data-rotating-announcement
+    data-rotation-enabled="{{ section.settings.enable_rotation }}"
+    data-duration="{{ section.settings.display_duration | times: 1000 }}"
+    data-transition="{{ section.settings.transition_speed }}"
+    data-pause-hover="{{ section.settings.pause_on_hover }}"
+    data-mobile-behavior="{{ section.settings.mobile_behavior }}"
   >
-    {%- if section.settings.link != blank -%}<a href="{{ section.settings.link }}">{%- endif -%}
-      <span>{{ section.settings.text | escape }}</span>
-    {%- if section.settings.link != blank -%}</a>{%- endif -%}
+    <div class="pet-announcement__inner">
+      <div class="pet-announcement__track" aria-live="off" aria-atomic="true">
+        {%- assign visible_index = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.settings.enabled and block.settings.text != blank -%}
+            {%- liquid
+              assign is_first = false
+              if visible_index == 0
+                assign is_first = true
+              endif
+            -%}
+
+            <div
+              class="pet-announcement__item{% if is_first %} is-active{% endif %}"
+              data-announcement-item
+              aria-hidden="{% if is_first %}false{% else %}true{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.link != blank -%}
+                <a
+                  class="pet-announcement__content"
+                  href="{{ block.settings.link }}"
+                  tabindex="{% if is_first %}0{% else %}-1{% endif %}"
+                  {% if block.settings.new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+                >
+              {%- else -%}
+                <span class="pet-announcement__content">
+              {%- endif -%}
+
+                {%- if section.settings.show_icons and block.settings.icon != 'none' -%}
+                  <span class="pet-announcement__icon" aria-hidden="true">
+                    {% render 'fourpattes-announcement-icon', name: block.settings.icon %}
+                  </span>
+                {%- endif -%}
+
+                <span class="pet-announcement__text pet-announcement__text--desktop">{{ block.settings.text | escape }}</span>
+                {%- if block.settings.mobile_text != blank -%}
+                  <span class="pet-announcement__text pet-announcement__text--mobile">{{ block.settings.mobile_text | escape }}</span>
+                {%- endif -%}
+
+              {%- if block.settings.link != blank -%}
+                </a>
+              {%- else -%}
+                </span>
+              {%- endif -%}
+            </div>
+
+            {%- assign visible_index = visible_index | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
   </aside>
+
+  <script src="{{ 'fourpattes-rotating-announcement.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
 {% schema %}
 {
-  "name": "Barre d’annonce",
+  "name": "Annonce rotative",
   "class": "pet-announcement-section",
   "settings": [
-    { "type": "text", "id": "text", "label": "Message", "default": "Livraison offerte dès 49 €" },
-    { "type": "url", "id": "link", "label": "Lien" },
-    { "type": "text", "id": "accessibility_label", "label": "Libellé d’accessibilité", "default": "Annonce" },
+    { "type": "checkbox", "id": "enabled", "label": "Afficher la barre", "default": true },
+    { "type": "checkbox", "id": "enable_rotation", "label": "Activer la rotation", "default": true },
+    { "type": "range", "id": "display_duration", "min": 3, "max": 10, "step": 1, "unit": "s", "label": "Durée de chaque message", "default": 5 },
+    { "type": "range", "id": "transition_speed", "min": 300, "max": 500, "step": 50, "unit": "ms", "label": "Durée de la transition", "default": 400 },
+    { "type": "select", "id": "density", "label": "Hauteur", "options": [{ "value": "compact", "label": "Compacte" }, { "value": "normal", "label": "Normale" }], "default": "compact" },
+    { "type": "checkbox", "id": "show_icons", "label": "Afficher les icônes", "default": true },
+    { "type": "checkbox", "id": "pause_on_hover", "label": "Mettre en pause au survol", "default": true },
+    { "type": "select", "id": "mobile_behavior", "label": "Comportement mobile", "options": [{ "value": "rotate", "label": "Faire tourner les messages" }, { "value": "first", "label": "Afficher seulement le premier" }], "default": "rotate" },
+    { "type": "text", "id": "accessibility_label", "label": "Libellé d’accessibilité", "default": "Informations de livraison et de paiement" },
     { "type": "color", "id": "background", "label": "Fond", "default": "#F7C84B" },
-    { "type": "color", "id": "text_color", "label": "Texte", "default": "#332266" },
+    { "type": "color", "id": "text_color", "label": "Texte", "default": "#2D1C63" },
+    { "type": "color", "id": "icon_color", "label": "Icônes", "default": "#2D1C63" },
     { "type": "checkbox", "id": "sticky", "label": "Garder la barre visible", "default": false }
   ],
-  "presets": [{ "name": "Barre d’annonce" }]
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        { "type": "checkbox", "id": "enabled", "label": "Activer ce message", "default": true },
+        { "type": "text", "id": "text", "label": "Texte", "default": "Livraison offerte dès 49 €" },
+        { "type": "text", "id": "mobile_text", "label": "Texte court sur mobile" },
+        { "type": "select", "id": "icon", "label": "Icône", "options": [{ "value": "truck", "label": "Camion" }, { "value": "package", "label": "Colis" }, { "value": "lock", "label": "Cadenas" }, { "value": "paw", "label": "Patte" }, { "value": "heart", "label": "Cœur" }, { "value": "none", "label": "Aucune" }], "default": "truck" },
+        { "type": "url", "id": "link", "label": "Lien facultatif" },
+        { "type": "checkbox", "id": "new_tab", "label": "Ouvrir dans un nouvel onglet", "default": false }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Annonce rotative",
+      "blocks": [
+        { "type": "message", "settings": { "text": "Livraison offerte dès 49 €", "icon": "truck" } },
+        { "type": "message", "settings": { "text": "Expédition suivie", "icon": "package" } },
+        { "type": "message", "settings": { "text": "Paiement sécurisé", "icon": "lock" } },
+        { "type": "message", "settings": { "text": "Chaque colis est préparé avec soin", "mobile_text": "Colis préparé avec soin", "icon": "paw" } }
+      ]
+    }
+  ]
 }
 {% endschema %}
