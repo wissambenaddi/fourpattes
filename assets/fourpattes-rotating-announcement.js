@@ -1,4 +1,9 @@
 (() => {
+  if (window.FourpattesAnnouncement) {
+    window.FourpattesAnnouncement.initializeAll(document);
+    return;
+  }
+
   const selector = '[data-rotating-announcement]';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const mobileViewport = window.matchMedia('(max-width: 749px)');
@@ -157,6 +162,8 @@
   function initializeAll(scope = document) {
     queryAll(selector, scope).forEach(initialize);
   }
+
+  window.FourpattesAnnouncement = { initializeAll };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => initializeAll());
