@@ -1,17 +1,55 @@
 {% doc %}
-  Renders one accessible FourPattes desktop mega menu.
+  Renders one accessible FourPattes desktop submenu from a Shopify Navigation menu.
 
-  @param {linklist} menu - Shopify Navigation menu.
+  Recommended menu structure:
+  - first top-level item: primary group with up to three category children;
+  - second top-level item: secondary group with up to three category children.
+
+  A flat menu remains supported: its first three links become the primary group and
+  the next three links become the secondary group. No commercial badge is inferred.
+
+  @param {linklist} menu - Shopify Navigation menu selected by the merchant.
   @param {string} menu_id - Unique DOM id.
-  @param {string} label - Accessible label.
+  @param {string} label - Visible and accessible universe label.
   @param {image} image - Optional editorial image.
   @param {string} card_title - Editorial card title.
   @param {string} card_text - Editorial card text.
-  @param {string} cta_label - CTA label.
-  @param {string} cta_link - CTA URL.
+  @param {string} cta_label - Card CTA label.
+  @param {string} cta_link - Card and view-all destination.
 {% enddoc %}
+
+{%- liquid
+  assign first_group = menu.links | first
+  assign second_group = menu.links[1]
+  assign primary_heading = 'Catégories mises en avant'
+  assign secondary_heading = 'Autres essentiels'
+  assign primary_is_grouped = false
+  assign secondary_is_grouped = false
+  assign show_secondary = false
+  assign panel_icon = 'discover'
+
+  if menu_id contains 'Dog'
+    assign panel_icon = 'dog'
+  elsif menu_id contains 'Cat'
+    assign panel_icon = 'cat'
+  endif
+
+  if first_group.links != blank
+    assign primary_is_grouped = true
+    assign primary_heading = first_group.title
+  endif
+
+  if second_group.links != blank
+    assign secondary_is_grouped = true
+    assign secondary_heading = second_group.title
+    assign show_secondary = true
+  elsif primary_is_grouped == false and menu.links.size > 3
+    assign show_secondary = true
+  endif
+-%}
+
 <div
-  class="pet-header__mega"
+  class="pet-header__mega pet-header__mega--compact"
   id="{{ menu_id }}"
   role="region"
   aria-label="{{ label | escape }}"
@@ -19,41 +57,104 @@
   data-pet-mega-panel
 >
   <div class="pet-header__mega-inner">
-    <div class="pet-header__mega-links">
-      {%- for link in menu.links limit: 4 -%}
-        <section class="pet-header__mega-column">
-          <a class="pet-header__mega-heading" href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
-          {%- if link.links != blank -%}
-            <ul role="list">
-              {%- for child_link in link.links limit: 7 -%}
-                <li><a href="{{ child_link.url }}"{% if child_link.current %} aria-current="page"{% endif %}>{{ child_link.title }}</a></li>
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
-        </section>
-      {%- endfor -%}
+    <div class="pet-header__mega-titlebar">
+      <span class="pet-header__mega-title-icon" aria-hidden="true">
+        {% render 'fourpattes-header-icon', name: panel_icon %}
+      </span>
+      <strong>{{ label }}</strong>
     </div>
 
-    <a class="pet-header__mega-card" href="{{ cta_link }}">
-      {%- if image != blank -%}
-        <div class="pet-header__mega-media">
-          {{ image
-            | image_url: width: 720
-            | image_tag:
-              widths: '240, 360, 480, 600, 720',
-              sizes: '(min-width: 1120px) 250px, 1px',
-              loading: 'lazy',
-              alt: image.alt | default: card_title
-          }}
+    <div class="pet-header__mega-layout">
+      <div class="pet-header__mega-navigation">
+        <div class="pet-header__mega-links pet-header__mega-links--curated">
+          <section class="pet-header__mega-column">
+            <h3>{{ primary_heading }}</h3>
+            <ul role="list">
+              {%- if primary_is_grouped -%}
+                {%- for link in first_group.links limit: 3 -%}
+                  <li>
+                    <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                      <span>{{ link.title }}</span>
+                      <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                    </a>
+                  </li>
+                {%- endfor -%}
+              {%- else -%}
+                {%- for link in menu.links limit: 3 -%}
+                  <li>
+                    <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                      <span>{{ link.title }}</span>
+                      <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                    </a>
+                  </li>
+                {%- endfor -%}
+              {%- endif -%}
+            </ul>
+          </section>
+
+          {%- if show_secondary -%}
+            <section class="pet-header__mega-column">
+              <h3>{{ secondary_heading }}</h3>
+              <ul role="list">
+                {%- if secondary_is_grouped -%}
+                  {%- for link in second_group.links limit: 3 -%}
+                    <li>
+                      <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                        <span>{{ link.title }}</span>
+                        <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- for link in menu.links offset: 3 limit: 3 -%}
+                    <li>
+                      <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                        <span>{{ link.title }}</span>
+                        <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                {%- endif -%}
+              </ul>
+            </section>
+          {%- endif -%}
         </div>
-      {%- else -%}
-        <span class="pet-header__mega-illustration" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'discover' %}</span>
+
+        {%- if cta_link != blank -%}
+          <a class="pet-header__mega-view-all" href="{{ cta_link }}">
+            <span>{{ 'general.view_all' | t }} — {{ label }}</span>
+            <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if image != blank or card_title != blank or card_text != blank or cta_label != blank -%}
+        <a class="pet-header__mega-card" href="{{ cta_link }}">
+          {%- if image != blank -%}
+            <div class="pet-header__mega-media">
+              {{ image
+                | image_url: width: 640
+                | image_tag:
+                  widths: '240, 360, 480, 640',
+                  sizes: '(min-width: 1120px) 240px, 1px',
+                  loading: 'lazy',
+                  alt: image.alt | default: card_title
+              }}
+            </div>
+          {%- else -%}
+            <span class="pet-header__mega-illustration" aria-hidden="true">
+              {% render 'fourpattes-header-icon', name: panel_icon %}
+            </span>
+          {%- endif -%}
+          <span class="pet-header__mega-copy">
+            {%- if card_title != blank -%}<strong>{{ card_title }}</strong>{%- endif -%}
+            {%- if card_text != blank -%}<span>{{ card_text }}</span>{%- endif -%}
+            {%- if cta_label != blank -%}
+              <b>{{ cta_label }} {% render 'fourpattes-header-icon', name: 'arrow' %}</b>
+            {%- endif -%}
+          </span>
+        </a>
       {%- endif -%}
-      <span class="pet-header__mega-copy">
-        {%- if card_title != blank -%}<strong>{{ card_title }}</strong>{%- endif -%}
-        {%- if card_text != blank -%}<span>{{ card_text }}</span>{%- endif -%}
-        {%- if cta_label != blank -%}<b>{{ cta_label }} {% render 'fourpattes-header-icon', name: 'arrow' %}</b>{%- endif -%}
-      </span>
-    </a>
+    </div>
   </div>
 </div>
