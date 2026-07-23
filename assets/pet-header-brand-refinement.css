@@ -14,7 +14,7 @@
 }
 
 body.pet-template-index .pet-header-section {
-  background: var(--pet-sky-blue, #b7e3fb);
+  background: #b7e3fb;
 }
 
 /* Logo: white at rest, exact FourPattes turquoise on hover/focus. */
@@ -25,7 +25,7 @@ body.pet-template-index .pet-header-section {
 
 .pet-header--premium .pet-header__logo:hover .pet-header__logo-image,
 .pet-header--premium .pet-header__logo:focus-visible .pet-header__logo-image {
-  filter: brightness(0) saturate(100%) invert(64%) sepia(64%) saturate(1235%) hue-rotate(132deg) brightness(102%) contrast(70%);
+  filter: brightness(0) saturate(100%) invert(63.572%) sepia(64.29%) saturate(1235.21%) hue-rotate(131.945deg) brightness(102.202%) contrast(69.531%);
 }
 
 .pet-header--premium .pet-header__logo:focus-visible {
@@ -34,8 +34,8 @@ body.pet-template-index .pet-header-section {
   outline-offset: 4px;
 }
 
-/* Right-side actions retain a 46px target without visible circular chrome. */
-.pet-header--premium .pet-header__action {
+/* Search, account and bag retain a 46px target without visible circular chrome. */
+.pet-header--premium .pet-header__actions .pet-header__action {
   width: 2.875rem;
   height: 2.875rem;
   min-width: 44px;
@@ -47,25 +47,25 @@ body.pet-template-index .pet-header-section {
   transition: color .18s ease, background-color .18s ease, transform .18s ease;
 }
 
-.pet-header--premium .pet-header__action:hover {
+.pet-header--premium .pet-header__actions .pet-header__action:hover {
   border-color: transparent;
   background: rgba(255, 255, 255, .065);
   color: var(--header-brand-turquoise);
   transform: translateY(-1px);
 }
 
-.pet-header--premium .pet-header__action:focus-visible {
+.pet-header--premium .pet-header__actions .pet-header__action:focus-visible {
   border-color: transparent;
   background: rgba(255, 255, 255, .065);
   color: var(--header-brand-turquoise);
   outline-color: var(--header-brand-turquoise);
 }
 
-.pet-header--premium .pet-header__action:active {
+.pet-header--premium .pet-header__actions .pet-header__action:active {
   transform: translateY(0);
 }
 
-.pet-header--premium .pet-header__action .pet-header-icon {
+.pet-header--premium .pet-header__actions .pet-header__action .pet-header-icon {
   width: 1.5rem;
   height: 1.5rem;
 }
@@ -133,7 +133,7 @@ body.pet-template-index .pet-header-section {
   }
 }
 
-/* Compact desktop range: preserve the larger text without collisions. */
+/* Compact desktop range: preserve readable type without collisions. */
 @media (min-width: 1120px) and (max-width: 1279px) {
   .pet-header--premium .pet-header__links {
     gap: .75rem;
@@ -146,7 +146,7 @@ body.pet-template-index .pet-header-section {
   }
 }
 
-/* Drawer navigation: larger touch-friendly labels and an accessible dark turquoise on the light panel. */
+/* Drawer navigation: larger touch-friendly labels and accessible turquoise on the light panel. */
 .pet-header--premium .pet-menu-drawer__details > summary,
 .pet-header--premium .pet-menu-drawer__direct-link {
   min-height: 3.75rem;
@@ -178,6 +178,11 @@ body.pet-template-index .pet-header-section {
     margin-inline: clamp(.5rem, 1.2vw, 1rem);
     border-radius: 0 0 1.375rem 1.375rem;
   }
+
+  .pet-header--premium .pet-menu-drawer__details > summary,
+  .pet-header--premium .pet-menu-drawer__direct-link {
+    font-size: 1.0625rem;
+  }
 }
 
 @media (max-width: 749px) {
@@ -190,7 +195,7 @@ body.pet-template-index .pet-header-section {
     gap: .1rem;
   }
 
-  .pet-header--premium .pet-header__action {
+  .pet-header--premium .pet-header__actions .pet-header__action {
     width: 2.75rem;
     height: 2.75rem;
   }
@@ -198,7 +203,7 @@ body.pet-template-index .pet-header-section {
 
 @media (prefers-reduced-motion: reduce) {
   .pet-header--premium .pet-header__logo-image,
-  .pet-header--premium .pet-header__action,
+  .pet-header--premium .pet-header__actions .pet-header__action,
   .pet-header--premium .pet-header__nav-trigger,
   .pet-header--premium .pet-header__nav-link {
     transition: none;
