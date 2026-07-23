@@ -9,16 +9,17 @@
   width: 100%;
   min-height: var(--announcement-height);
   height: var(--announcement-height);
+  max-height: var(--announcement-height);
   padding: 0 clamp(1rem, 2vw, 1.5rem);
   border: 0;
   background: var(--announcement-bg);
   color: var(--announcement-color);
   box-shadow: none;
-  overflow: hidden;
+  overflow: visible;
   font-family: var(--font-body-family);
   font-size: clamp(.8125rem, .78rem + .1vw, .9rem);
   font-weight: var(--font-weight-semibold, 600);
-  line-height: 1.2;
+  line-height: 1;
   text-align: center;
 }
 
@@ -31,19 +32,28 @@
   top: auto;
 }
 
-.pet-announcement__inner,
-.pet-announcement__track {
+/*
+ * The theme-wide `.pet-announcement span` rule is intentionally overridden here.
+ * Without this extra specificity, the no-link content wrapper becomes a block and
+ * stacks the SVG above the copy inside a fixed-height viewport.
+ */
+.pet-announcement--rotating .pet-announcement__inner,
+.pet-announcement--rotating .pet-announcement__track {
   display: grid;
   width: 100%;
   height: 100%;
+  min-height: 0;
   min-width: 0;
+  margin: 0;
+  padding: 0;
 }
 
-.pet-announcement__inner {
+.pet-announcement--rotating .pet-announcement__inner {
   place-items: center;
+  overflow: visible;
 }
 
-.pet-announcement__track {
+.pet-announcement--rotating .pet-announcement__track {
   grid-template-areas: 'message';
   place-items: center;
   max-width: min(100%, 58rem);
@@ -51,24 +61,28 @@
   overflow: hidden;
 }
 
-.pet-announcement__item {
+.pet-announcement--rotating .pet-announcement__item {
   grid-area: message;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
   min-width: 0;
   max-width: 100%;
+  margin: 0;
+  padding: 0;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translateY(6px);
+  transform: translateY(5px);
   transition:
     opacity var(--announcement-transition) ease,
     transform var(--announcement-transition) cubic-bezier(.2, .7, .2, 1),
     visibility 0s linear var(--announcement-transition);
 }
 
-.pet-announcement__item.is-active {
+.pet-announcement--rotating .pet-announcement__item.is-active {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -76,70 +90,87 @@
   transition-delay: 0s;
 }
 
-.pet-announcement__item.is-leaving {
+.pet-announcement--rotating .pet-announcement__item.is-leaving {
   opacity: 0;
   visibility: visible;
   pointer-events: none;
-  transform: translateY(-6px);
+  transform: translateY(-5px);
 }
 
-.pet-announcement__content {
+.pet-announcement--rotating .pet-announcement__content {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: auto;
+  height: 100%;
   min-width: 0;
   max-width: 100%;
-  gap: .5rem;
+  gap: .4375rem;
+  margin: 0;
+  padding: 0;
   color: inherit;
+  line-height: 1;
   text-decoration: none;
   white-space: nowrap;
+  overflow: visible;
 }
 
-.pet-announcement__content[href] {
+.pet-announcement--rotating .pet-announcement__content[href] {
   cursor: pointer;
 }
 
-.pet-announcement__content[href]:hover {
+.pet-announcement--rotating .pet-announcement__content[href]:hover {
   text-decoration: underline;
   text-decoration-thickness: .08em;
   text-underline-offset: .16em;
 }
 
-.pet-announcement__content:focus-visible {
+.pet-announcement--rotating .pet-announcement__content:focus-visible {
   border-radius: .25rem;
   outline: 2px solid currentColor;
   outline-offset: 2px;
 }
 
-.pet-announcement__icon {
+.pet-announcement--rotating .pet-announcement__icon {
   display: inline-grid;
   flex: 0 0 auto;
   place-items: center;
   width: 1rem;
   height: 1rem;
+  max-width: none;
+  margin: 0;
+  padding: 0;
   color: var(--announcement-icon-color);
+  line-height: 0;
+  overflow: visible;
 }
 
-.pet-announcement__icon-svg {
+.pet-announcement--rotating .pet-announcement__icon-svg {
   display: block;
   width: 100%;
   height: 100%;
+  max-width: none;
   fill: none;
   stroke: currentColor;
   stroke-width: 1.75;
   stroke-linecap: round;
   stroke-linejoin: round;
+  overflow: visible;
 }
 
-.pet-announcement__text {
+.pet-announcement--rotating .pet-announcement__text {
+  display: inline-block;
   min-width: 0;
   max-width: 100%;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.15;
   white-space: nowrap;
 }
 
-.pet-announcement__text--mobile {
+.pet-announcement--rotating .pet-announcement__text--mobile {
   display: none;
 }
 
@@ -169,25 +200,25 @@
     --announcement-height: 38px;
   }
 
-  .pet-announcement__track {
+  .pet-announcement--rotating .pet-announcement__track {
     max-width: calc(100vw - 1.5rem);
   }
 
-  .pet-announcement__content {
-    gap: .4rem;
+  .pet-announcement--rotating .pet-announcement__content {
+    gap: .375rem;
   }
 
-  .pet-announcement__icon {
+  .pet-announcement--rotating .pet-announcement__icon {
     width: .9375rem;
     height: .9375rem;
   }
 
-  .pet-announcement__text--desktop:has(+ .pet-announcement__text--mobile:not(:empty)) {
+  .pet-announcement--rotating .pet-announcement__text--desktop:has(+ .pet-announcement__text--mobile:not(:empty)) {
     display: none;
   }
 
-  .pet-announcement__text--mobile:not(:empty) {
-    display: inline;
+  .pet-announcement--rotating .pet-announcement__text--mobile:not(:empty) {
+    display: inline-block;
   }
 
   .pet-announcement-section:has(.pet-announcement--rotating.pet-announcement--sticky.pet-announcement--compact) + .pet-header-section {
@@ -199,14 +230,14 @@
   }
 }
 
-.no-js .pet-announcement__item:not(.is-active) {
+.no-js .pet-announcement--rotating .pet-announcement__item:not(.is-active) {
   display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pet-announcement__item,
-  .pet-announcement__item.is-active,
-  .pet-announcement__item.is-leaving {
+  .pet-announcement--rotating .pet-announcement__item,
+  .pet-announcement--rotating .pet-announcement__item.is-active,
+  .pet-announcement--rotating .pet-announcement__item.is-leaving {
     transition: none;
     transform: none;
   }
