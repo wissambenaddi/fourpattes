@@ -87,7 +87,7 @@
         "discover_card_text": "Nouveautés, conseils et histoires pour profiter encore plus de la vie ensemble.",
         "discover_cta_label": "Explorer FourPattes",
         "story_label": "Notre histoire",
-        "show_search": true,
+        "show_search": false,
         "show_account": true,
         "show_bag": true,
         "show_empty_badge": false,
