@@ -1,1 +1,406 @@
-{"sections":{"hero":{"type":"hero-pet-shop","settings":{"title":"ILS ONT CHACUN\nLEUR PETITE\nPRÉFÉRENCE...","trust_enabled":true,"trust_heading":"Excellent","trust_rating":"4,8/5","trust_reviews_count":"684","trust_reviews_label":"avis clients","trust_boxes_count":"2 500","trust_boxes_label":"box expédiées","trust_link_text":"Voir les avis","trust_stars_aria_label":"Note moyenne de 4,8 sur 5","trust_background_color":"#FFF9F4","trust_text_color":"#2D1C63","trust_star_color":"#2F9F75","trust_accent_color":"#F7C84B","trust_font_size":13,"button_dog_label":"ACCESSOIRES CHIEN","button_cat_label":"ACCESSOIRES CHAT","hero_image_alt":"Golden retriever et chat gris entourés d’accessoires joyeux Fourpattes","enable_animated_dialogue":false,"dog_dialogue":"JE PRENDS LA LAISSE !","dog_reaction":"🐾 Prêt en 2 secondes","cat_dialogue":"MOI, JE PRENDS LE COUSSIN.","cat_reaction":"♡ Priorité au confort","dialogue_bubble_background":"#FFF9F4","dialogue_bubble_border":"#2D1C63","dialogue_bubble_text":"#2D1C63","dog_dialogue_x":5,"dog_dialogue_y":7,"cat_dialogue_x":5,"cat_dialogue_y":7,"dog_alt":"Chien heureux","dog_width":54,"dog_x":-5,"dog_y":4,"cat_alt":"Chat curieux","cat_width":50,"cat_x":-4,"cat_y":5,"background":"#B7E3FB","text_color":"#2D1C63","height_mobile":540,"height_desktop":600,"decorations":false}},"favorites":{"type":"favorite-products","settings":{"title":"NOS GRANDS FAVORIS","subtitle":"Leurs coups de cœur, réunis juste ici.","show_filters":true,"tab_label":"Choisir un animal","dog_label":"Chien","cat_label":"Chat","product_count":4,"show_quick_add":true,"show_arrows":true,"button_label":"DÉCOUVRIR TOUS LES ACCESSOIRES","show_decorations":false,"enable_animations":false,"background":"#F9F0EB","text_color":"#2D1C63"}},"bowl_in":{"type":"pet-bowl-feature","settings":{"variant":"teal","title":"CE QUI RENTRE AVEC\nFOURPATTES","subtitle":"DU BON, DU BEAU, DU JOYEUX","gift_box_alt":"Boîte cadeau Fourpattes ouverte remplie d’accessoires pour chiens et chats","quality_title":"QUALITÉ","quality_text":"Des matériaux sélectionnés avec soin.","comfort_title":"CONFORT","comfort_text":"Pensé pour leur bien-être.","style_title":"STYLE","style_text":"Des accessoires pleins de personnalité.","originality_title":"DURABILITÉ","originality_text":"Des produits conçus pour accompagner leur quotidien.","durability_title":"ORIGINALITÉ","durability_text":"Des créations qui sortent de l’ordinaire.","image_alt":"Gamelle Fourpattes","annotation":"Une gamelle pensée\npour les petits bonheurs","fact_one":"Pensé pour leur bien-être","fact_two":"Des moments de complicité","fact_three":"Sélectionné avec attention","image_size":72,"image_x":-6,"image_y":6,"height_mobile":720,"height_desktop":620,"background":"#005E66","text_color":"#F7C84B","accent_color":"#65B2B2","decorations":false,"enable_scene_animations":false,"flip_top_wave":false,"show_bottom_wave":false,"bottom_color":"#B1CD71","flip_bottom_wave":true}},"thread_box_life":{"type":"fourpattes-story-thread","settings":{"enabled":false,"object_type":"ball","object_color":"#F4B63F","secondary_color":"#2D1C63","line_color":"#BFE2F3","opacity":50,"alignment":"right","enable_animations":false,"show_on_mobile":false}},"bowl_out":{"type":"pet-bowl-feature","blocks":{"life_ball":{"type":"accessory","settings":{"kind":"ball","image_alt":"Balle Fourpattes colorée pour jouer","label":"JEU","title":"Balle","text":"Une partie peut commencer partout.","badge":"","slot":"one","motion":"none","rotation":-2,"color":"#F4B63F"}},"life_mouse":{"type":"accessory","settings":{"kind":"mouse","image_alt":"Souris Fourpattes pour éveiller la curiosité du chat","label":"ÉVEIL","title":"Souris","text":"Pensée pour réveiller sa curiosité.","badge":"","slot":"two","motion":"none","rotation":2,"color":"#B79ADE"}},"life_leash":{"type":"accessory","settings":{"kind":"leash","image_alt":"Laisse Fourpattes légèrement déroulée","label":"PROMENADE","title":"Laisse","text":"Prête pour les balades à deux.","badge":"","slot":"three","motion":"none","rotation":-2,"color":"#2D1C63"}},"life_cushion":{"type":"accessory","settings":{"kind":"cushion","image_alt":"Coussin Fourpattes doux pour le repos","label":"CONFORT","title":"Coussin","text":"Un coin doux après l’aventure.","badge":"","slot":"four","motion":"none","rotation":2,"color":"#F29FBB"}}},"block_order":["life_ball","life_mouse","life_leash","life_cushion"],"settings":{"variant":"lime","title":"TOUT CE QUI PART AVEC\nFOURPATTES","subtitle":"Des essentiels joyeux, pensés pour leur bien-être au quotidien.","image_alt":"Chien et chat Fourpattes assis ensemble au centre de leurs accessoires","annotation":"Une attention pour chaque moment partagé.","fact_one":"Une partie peut commencer partout.","fact_two":"Prête pour les balades à deux.","fact_three":"Un coin doux après l’aventure.","image_size":56,"image_x":0,"image_y":0,"height_mobile":920,"height_desktop":720,"background":"#B1CD71","text_color":"#005E66","accent_color":"#82B45F","decorations":false,"enable_scene_animations":false,"flip_top_wave":true,"show_bottom_wave":true,"bottom_color":"#F9F0EB","flip_bottom_wave":false}},"reviews":{"type":"fourpattes-community-gallery","settings":{"enabled":true,"eyebrow":"LA COMMUNAUTÉ FOURPATTES","title":"ILS FONT DÉJÀ PARTIE DE LA MEUTE","subtitle":"Des moments de complicité partagés par notre communauté.","gallery_label":"Photos et histoires de la communauté FourPattes","desktop_layout":"mosaic","mobile_layout":"carousel","max_width":1040,"padding_top":48,"padding_bottom":52,"enable_animations":false,"show_decorations":false,"show_participation":true,"participation_title":"Votre compagnon pourrait être le prochain","participation_text":"Partagez une photo de votre compagnon et rejoignez la meute.","button_label":"Partager une photo","button_style":"solid","secondary_link_label":"Voir tous les avis","empty_eyebrow":"LA MEUTE COMMENCE ICI","empty_title":"Votre compagnon pourrait être le premier","empty_text":"Partagez son expérience FourPattes après votre commande.","empty_button_label":"Découvrir FourPattes","background":"#F9F0EB","text_color":"#2D1C63","accent_color":"#C82552","card_color":"#FFF9F4","soft_color":"#BFE2F3","show_top_wave":false,"flip_top_wave":false,"show_bottom_wave":false,"bottom_color":"#702758","flip_bottom_wave":false}},"mission":{"type":"fourpattes-mission","blocks":{"mission_1":{"type":"commitment","settings":{"kicker":"NOUS CHOISISSONS","title":"Le bien-être avant tout","text":"<p>Des accessoires utiles et adaptés à leur quotidien, sélectionnés avec attention.</p>","illustration_alt":"Accessoires FourPattes choisis avec soin","scene":"select","icon":"paw","background":"#FFF9F4","accent":"#5BC4C6","soft_color":"#DDF2F1","offset":0,"animation":"none","animation_delay":0}},"mission_2":{"type":"commitment","settings":{"kicker":"NOUS PRÉPARONS","title":"Chaque détail compte","text":"<p>Chaque commande est préparée avec soin, jusque dans les petits détails.</p>","illustration_alt":"Commande FourPattes préparée avec attention","scene":"prepare","icon":"gift","background":"#FFF9F4","accent":"#F3B63B","soft_color":"#FCE8BA","offset":0,"animation":"none","animation_delay":0}},"mission_3":{"type":"commitment","settings":{"kicker":"ILS DÉCOUVRENT","title":"La joie prend vie","text":"<p>Le colis s’ouvre, le jeu commence et les accessoires trouvent leur place.</p>","illustration_alt":"Chien et chat découvrant leurs accessoires","scene":"discover","icon":"sparkle","background":"#FFF9F4","accent":"#C82552","soft_color":"#F6D7E2","offset":0,"animation":"none","animation_delay":0}},"mission_4":{"type":"commitment","settings":{"kicker":"VOUS PARTAGEZ","title":"Des souvenirs à garder","text":"<p>Une promenade, un jeu ou un moment calme devient votre histoire commune.</p>","illustration_alt":"Souvenir heureux partagé avec un compagnon","scene":"remember","icon":"heart","background":"#FFF9F4","accent":"#B7D76D","soft_color":"#E5F0C6","offset":0,"animation":"none","animation_delay":0}}},"block_order":["mission_1","mission_2","mission_3","mission_4"],"settings":{"enable_section":true,"eyebrow":"NOTRE RAISON D’ÊTRE","title":"PLUS QU’UNE BOUTIQUE,\nUNE MISSION.","introduction":"<p>Chaque décision vise à offrir plus de bonheur aux animaux et à leurs humains.</p>","conclusion":"Les meilleurs accessoires deviennent une partie de leur histoire.","button_label":"Découvrir notre univers","background":"#702758","text_color":"#FFFFFF","card_background":"#FFF9F4","card_text":"#2D1C63","accent_color":"#F3B63B","route_color":"#FFF9F4","show_decorations":false,"enable_animations":false,"max_width":1300,"card_gap":20,"card_radius":26,"padding_top_desktop":64,"padding_bottom_desktop":80,"padding_top_mobile":44,"padding_bottom_mobile":52,"show_top_wave":true,"flip_top_wave":false,"show_bottom_wave":true,"bottom_background":"#F9F0EB","flip_bottom_wave":true}},"newsletter":{"type":"fourpattes-newsletter-with-patous","settings":{"enable_section":true,"eyebrow":"PATOUS GARDE UNE PLACE POUR VOUS","title":"REJOIGNEZ\nLA MEUTE","text":"<p>Nouveautés utiles, conseils et surprises pour votre compagnon.</p>","placeholder":"Votre adresse e-mail","button_label":"Je rejoins la meute","reassurance":"Conseils utiles et nouveautés — jamais de spam","show_patous":true,"patous_alt":"Patous invite les visiteurs à rejoindre la meute FourPattes","patous_size":220,"patous_position":"left","show_bubble":false,"bubble_text":"Promis : jamais de spam.\nSeulement quelques surprises.","enable_animations":false,"show_decorations":false,"show_dotted_line":false,"background":"#F9F0EB","card_background":"#E9D9F7","text_color":"#2D1C63","accent_color":"#C82552","button_color":"#2D1C63","button_text_color":"#FFFFFF","bubble_color":"#FFFDF9","bubble_text_color":"#2D1C63","max_width":960,"padding_top_desktop":48,"padding_bottom_desktop":44,"padding_top_mobile":32,"padding_bottom_mobile":36}}},"order":["hero","favorites","bowl_in","thread_box_life","bowl_out","reviews","mission","newsletter"]}
+{
+  "sections": {
+    "hero": {
+      "type": "hero-pet-shop",
+      "settings": {
+        "title": "ILS ONT CHACUN\nLEUR PETITE\nPRÉFÉRENCE...",
+        "trust_enabled": true,
+        "trust_heading": "Excellent",
+        "trust_rating": "4,8/5",
+        "trust_reviews_count": "684",
+        "trust_reviews_label": "avis clients",
+        "trust_boxes_count": "2 500",
+        "trust_boxes_label": "box expédiées",
+        "trust_link_text": "Voir les avis",
+        "trust_stars_aria_label": "Note moyenne de 4,8 sur 5",
+        "trust_background_color": "#FFF9F4",
+        "trust_text_color": "#2D1C63",
+        "trust_star_color": "#2F9F75",
+        "trust_accent_color": "#F7C84B",
+        "trust_font_size": 13,
+        "button_dog_label": "ACCESSOIRES CHIEN",
+        "button_cat_label": "ACCESSOIRES CHAT",
+        "hero_image_alt": "Golden retriever et chat gris entourés d’accessoires joyeux Fourpattes",
+        "enable_animated_dialogue": false,
+        "dog_dialogue": "JE PRENDS LA LAISSE !",
+        "dog_reaction": "🐾 Prêt en 2 secondes",
+        "cat_dialogue": "MOI, JE PRENDS LE COUSSIN.",
+        "cat_reaction": "♡ Priorité au confort",
+        "dialogue_bubble_background": "#FFF9F4",
+        "dialogue_bubble_border": "#2D1C63",
+        "dialogue_bubble_text": "#2D1C63",
+        "dog_dialogue_x": 5,
+        "dog_dialogue_y": 7,
+        "cat_dialogue_x": 5,
+        "cat_dialogue_y": 7,
+        "dog_alt": "Chien heureux",
+        "dog_width": 54,
+        "dog_x": -5,
+        "dog_y": 4,
+        "cat_alt": "Chat curieux",
+        "cat_width": 50,
+        "cat_x": -4,
+        "cat_y": 5,
+        "background": "#B7E3FB",
+        "text_color": "#2D1C63",
+        "height_mobile": 540,
+        "height_desktop": 600,
+        "decorations": false
+      }
+    },
+    "favorites": {
+      "type": "favorite-products",
+      "settings": {
+        "title": "NOS GRANDS FAVORIS",
+        "subtitle": "Leurs coups de cœur, réunis juste ici.",
+        "show_filters": true,
+        "tab_label": "Choisir un animal",
+        "dog_label": "Chien",
+        "cat_label": "Chat",
+        "product_count": 4,
+        "show_quick_add": true,
+        "show_arrows": true,
+        "button_label": "DÉCOUVRIR TOUS LES ACCESSOIRES",
+        "show_decorations": false,
+        "enable_animations": false,
+        "background": "#F9F0EB",
+        "text_color": "#2D1C63"
+      }
+    },
+    "bowl_in": {
+      "type": "pet-bowl-feature",
+      "settings": {
+        "variant": "teal",
+        "title": "CE QUI RENTRE AVEC\nFOURPATTES",
+        "subtitle": "DU BON, DU BEAU, DU JOYEUX",
+        "gift_box_alt": "Boîte cadeau Fourpattes ouverte remplie d’accessoires pour chiens et chats",
+        "quality_title": "QUALITÉ",
+        "quality_text": "Des matériaux sélectionnés avec soin.",
+        "comfort_title": "CONFORT",
+        "comfort_text": "Pensé pour leur bien-être.",
+        "style_title": "STYLE",
+        "style_text": "Des accessoires pleins de personnalité.",
+        "originality_title": "DURABILITÉ",
+        "originality_text": "Des produits conçus pour accompagner leur quotidien.",
+        "durability_title": "ORIGINALITÉ",
+        "durability_text": "Des créations qui sortent de l’ordinaire.",
+        "image_alt": "Gamelle Fourpattes",
+        "annotation": "Une gamelle pensée\npour les petits bonheurs",
+        "fact_one": "Pensé pour leur bien-être",
+        "fact_two": "Des moments de complicité",
+        "fact_three": "Sélectionné avec attention",
+        "image_size": 72,
+        "image_x": -6,
+        "image_y": 6,
+        "height_mobile": 720,
+        "height_desktop": 620,
+        "background": "#005E66",
+        "text_color": "#F7C84B",
+        "accent_color": "#65B2B2",
+        "decorations": false,
+        "enable_scene_animations": false,
+        "flip_top_wave": false,
+        "show_bottom_wave": false,
+        "bottom_color": "#B1CD71",
+        "flip_bottom_wave": true
+      }
+    },
+    "thread_box_life": {
+      "type": "fourpattes-story-thread",
+      "settings": {
+        "enabled": false,
+        "object_type": "ball",
+        "object_color": "#F4B63F",
+        "secondary_color": "#2D1C63",
+        "line_color": "#BFE2F3",
+        "opacity": 50,
+        "alignment": "right",
+        "enable_animations": false,
+        "show_on_mobile": false
+      }
+    },
+    "bowl_out": {
+      "type": "pet-bowl-feature",
+      "blocks": {
+        "life_ball": {
+          "type": "accessory",
+          "settings": {
+            "kind": "ball",
+            "image_alt": "Balle Fourpattes colorée pour jouer",
+            "label": "JEU",
+            "title": "Balle",
+            "text": "Une partie peut commencer partout.",
+            "badge": "",
+            "slot": "one",
+            "motion": "none",
+            "rotation": -2,
+            "color": "#F4B63F"
+          }
+        },
+        "life_mouse": {
+          "type": "accessory",
+          "settings": {
+            "kind": "mouse",
+            "image_alt": "Souris Fourpattes pour éveiller la curiosité du chat",
+            "label": "ÉVEIL",
+            "title": "Souris",
+            "text": "Pensée pour réveiller sa curiosité.",
+            "badge": "",
+            "slot": "two",
+            "motion": "none",
+            "rotation": 2,
+            "color": "#B79ADE"
+          }
+        },
+        "life_leash": {
+          "type": "accessory",
+          "settings": {
+            "kind": "leash",
+            "image_alt": "Laisse Fourpattes légèrement déroulée",
+            "label": "PROMENADE",
+            "title": "Laisse",
+            "text": "Prête pour les balades à deux.",
+            "badge": "",
+            "slot": "three",
+            "motion": "none",
+            "rotation": -2,
+            "color": "#2D1C63"
+          }
+        },
+        "life_cushion": {
+          "type": "accessory",
+          "settings": {
+            "kind": "cushion",
+            "image_alt": "Coussin Fourpattes doux pour le repos",
+            "label": "CONFORT",
+            "title": "Coussin",
+            "text": "Un coin doux après l’aventure.",
+            "badge": "",
+            "slot": "four",
+            "motion": "none",
+            "rotation": 2,
+            "color": "#F29FBB"
+          }
+        }
+      },
+      "block_order": [
+        "life_ball",
+        "life_mouse",
+        "life_leash",
+        "life_cushion"
+      ],
+      "settings": {
+        "variant": "lime",
+        "title": "TOUT CE QUI PART AVEC\nFOURPATTES",
+        "subtitle": "Des essentiels joyeux, pensés pour leur bien-être au quotidien.",
+        "image_alt": "Chien et chat Fourpattes assis ensemble au centre de leurs accessoires",
+        "annotation": "Une attention pour chaque moment partagé.",
+        "fact_one": "Une partie peut commencer partout.",
+        "fact_two": "Prête pour les balades à deux.",
+        "fact_three": "Un coin doux après l’aventure.",
+        "image_size": 56,
+        "image_x": 0,
+        "image_y": 0,
+        "height_mobile": 920,
+        "height_desktop": 720,
+        "background": "#B1CD71",
+        "text_color": "#005E66",
+        "accent_color": "#82B45F",
+        "decorations": false,
+        "enable_scene_animations": false,
+        "flip_top_wave": true,
+        "show_bottom_wave": true,
+        "bottom_color": "#F9F0EB",
+        "flip_bottom_wave": false
+      }
+    },
+    "reviews": {
+      "type": "fourpattes-community-gallery",
+      "settings": {
+        "enabled": true,
+        "eyebrow": "LA COMMUNAUTÉ FOURPATTES",
+        "title": "ILS FONT DÉJÀ PARTIE DE LA MEUTE",
+        "subtitle": "Des moments de complicité partagés par notre communauté.",
+        "gallery_label": "Photos et histoires de la communauté FourPattes",
+        "desktop_layout": "mosaic",
+        "mobile_layout": "carousel",
+        "max_width": 1040,
+        "padding_top": 48,
+        "padding_bottom": 52,
+        "enable_animations": false,
+        "show_decorations": false,
+        "show_participation": true,
+        "participation_title": "Votre compagnon pourrait être le prochain",
+        "participation_text": "Partagez une photo de votre compagnon et rejoignez la meute.",
+        "button_label": "Partager une photo",
+        "button_style": "solid",
+        "secondary_link_label": "Voir tous les avis",
+        "empty_eyebrow": "LA MEUTE COMMENCE ICI",
+        "empty_title": "Votre compagnon pourrait être le premier",
+        "empty_text": "Partagez son expérience FourPattes après votre commande.",
+        "empty_button_label": "Découvrir FourPattes",
+        "background": "#F9F0EB",
+        "text_color": "#2D1C63",
+        "accent_color": "#C82552",
+        "card_color": "#FFF9F4",
+        "soft_color": "#BFE2F3",
+        "show_top_wave": false,
+        "flip_top_wave": false,
+        "show_bottom_wave": false,
+        "bottom_color": "#702758",
+        "flip_bottom_wave": false
+      }
+    },
+    "mission": {
+      "type": "fourpattes-mission",
+      "blocks": {
+        "mission_1": {
+          "type": "commitment",
+          "settings": {
+            "kicker": "NOUS CHOISISSONS",
+            "title": "Le bien-être avant tout",
+            "text": "<p>Des accessoires utiles et adaptés à leur quotidien, sélectionnés avec attention.</p>",
+            "illustration_alt": "Accessoires FourPattes choisis avec soin",
+            "scene": "select",
+            "icon": "paw",
+            "background": "#FFF9F4",
+            "accent": "#5BC4C6",
+            "soft_color": "#DDF2F1",
+            "offset": 0,
+            "animation": "none",
+            "animation_delay": 0
+          }
+        },
+        "mission_2": {
+          "type": "commitment",
+          "settings": {
+            "kicker": "NOUS PRÉPARONS",
+            "title": "Chaque détail compte",
+            "text": "<p>Chaque commande est préparée avec soin, jusque dans les petits détails.</p>",
+            "illustration_alt": "Commande FourPattes préparée avec attention",
+            "scene": "prepare",
+            "icon": "gift",
+            "background": "#FFF9F4",
+            "accent": "#F3B63B",
+            "soft_color": "#FCE8BA",
+            "offset": 0,
+            "animation": "none",
+            "animation_delay": 0
+          }
+        },
+        "mission_3": {
+          "type": "commitment",
+          "settings": {
+            "kicker": "ILS DÉCOUVRENT",
+            "title": "La joie prend vie",
+            "text": "<p>Le colis s’ouvre, le jeu commence et les accessoires trouvent leur place.</p>",
+            "illustration_alt": "Chien et chat découvrant leurs accessoires",
+            "scene": "discover",
+            "icon": "sparkle",
+            "background": "#FFF9F4",
+            "accent": "#C82552",
+            "soft_color": "#F6D7E2",
+            "offset": 0,
+            "animation": "none",
+            "animation_delay": 0
+          }
+        },
+        "mission_4": {
+          "type": "commitment",
+          "settings": {
+            "kicker": "VOUS PARTAGEZ",
+            "title": "Des souvenirs à garder",
+            "text": "<p>Une promenade, un jeu ou un moment calme devient votre histoire commune.</p>",
+            "illustration_alt": "Souvenir heureux partagé avec un compagnon",
+            "scene": "remember",
+            "icon": "heart",
+            "background": "#FFF9F4",
+            "accent": "#B7D76D",
+            "soft_color": "#E5F0C6",
+            "offset": 0,
+            "animation": "none",
+            "animation_delay": 0
+          }
+        }
+      },
+      "block_order": [
+        "mission_1",
+        "mission_2",
+        "mission_3",
+        "mission_4"
+      ],
+      "settings": {
+        "enable_section": true,
+        "eyebrow": "NOTRE RAISON D’ÊTRE",
+        "title": "PLUS QU’UNE BOUTIQUE,\nUNE MISSION.",
+        "introduction": "<p>Chaque décision vise à offrir plus de bonheur aux animaux et à leurs humains.</p>",
+        "conclusion": "Les meilleurs accessoires deviennent une partie de leur histoire.",
+        "button_label": "Découvrir notre univers",
+        "background": "#702758",
+        "text_color": "#FFFFFF",
+        "card_background": "#FFF9F4",
+        "card_text": "#2D1C63",
+        "accent_color": "#F3B63B",
+        "route_color": "#FFF9F4",
+        "show_decorations": false,
+        "enable_animations": false,
+        "max_width": 1300,
+        "card_gap": 20,
+        "card_radius": 26,
+        "padding_top_desktop": 64,
+        "padding_bottom_desktop": 80,
+        "padding_top_mobile": 44,
+        "padding_bottom_mobile": 52,
+        "show_top_wave": true,
+        "flip_top_wave": false,
+        "show_bottom_wave": true,
+        "bottom_background": "#F9F0EB",
+        "flip_bottom_wave": true
+      }
+    },
+    "newsletter": {
+      "type": "fourpattes-newsletter-with-patous",
+      "settings": {
+        "enable_section": true,
+        "eyebrow": "PATOUS GARDE UNE PLACE POUR VOUS",
+        "title": "REJOIGNEZ\nLA MEUTE",
+        "text": "<p>Nouveautés utiles, conseils et surprises pour votre compagnon.</p>",
+        "placeholder": "Votre adresse e-mail",
+        "button_label": "Je rejoins la meute",
+        "reassurance": "Conseils utiles et nouveautés — jamais de spam",
+        "show_patous": true,
+        "patous_alt": "Patous invite les visiteurs à rejoindre la meute FourPattes",
+        "patous_size": 220,
+        "patous_position": "left",
+        "show_bubble": false,
+        "bubble_text": "Promis : jamais de spam.\nSeulement quelques surprises.",
+        "enable_animations": false,
+        "show_decorations": false,
+        "show_dotted_line": false,
+        "background": "#F9F0EB",
+        "card_background": "#E9D9F7",
+        "text_color": "#2D1C63",
+        "accent_color": "#C82552",
+        "button_color": "#2D1C63",
+        "button_text_color": "#FFFFFF",
+        "bubble_color": "#FFFDF9",
+        "bubble_text_color": "#2D1C63",
+        "max_width": 960,
+        "padding_top_desktop": 48,
+        "padding_bottom_desktop": 44,
+        "padding_top_mobile": 32,
+        "padding_bottom_mobile": 36
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "favorites",
+    "bowl_in",
+    "thread_box_life",
+    "bowl_out",
+    "reviews",
+    "mission",
+    "newsletter"
+  ]
+}
