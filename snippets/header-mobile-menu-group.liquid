@@ -17,6 +17,11 @@
   assign primary_is_grouped = false
   assign secondary_is_grouped = false
   assign visible_count = 0
+  assign view_all_text = 'View all'
+
+  if request.locale.iso_code contains 'fr'
+    assign view_all_text = 'Voir tout'
+  endif
 
   if first_group.links != blank
     assign primary_is_grouped = true
@@ -98,7 +103,7 @@
         {%- endif -%}
 
         <a class="pet-menu-drawer__view-all" href="{{ fallback_link }}">
-          <span>{{ 'general.view_all' | t }} — {{ label }}</span>
+          <span>{{ view_all_text }} — {{ label }}</span>
           <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
         </a>
       </div>
