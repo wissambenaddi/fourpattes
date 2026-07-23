@@ -4,11 +4,62 @@
   "sections": {
     "announcement": {
       "type": "announcement-bar-custom",
+      "blocks": {
+        "delivery": {
+          "type": "message",
+          "settings": {
+            "enabled": true,
+            "text": "Livraison offerte dès 49 €",
+            "mobile_text": "",
+            "icon": "truck",
+            "new_tab": false
+          }
+        },
+        "tracking": {
+          "type": "message",
+          "settings": {
+            "enabled": true,
+            "text": "Expédition suivie",
+            "mobile_text": "",
+            "icon": "package",
+            "new_tab": false
+          }
+        },
+        "payment": {
+          "type": "message",
+          "settings": {
+            "enabled": true,
+            "text": "Paiement sécurisé",
+            "mobile_text": "",
+            "icon": "lock",
+            "new_tab": false
+          }
+        },
+        "care": {
+          "type": "message",
+          "settings": {
+            "enabled": true,
+            "text": "Chaque colis est préparé avec soin",
+            "mobile_text": "Colis préparé avec soin",
+            "icon": "paw",
+            "new_tab": false
+          }
+        }
+      },
+      "block_order": ["delivery", "tracking", "payment", "care"],
       "settings": {
-        "text": "Livraison offerte dès 49 €",
-        "accessibility_label": "Annonce",
+        "enabled": true,
+        "enable_rotation": true,
+        "display_duration": 5,
+        "transition_speed": 400,
+        "density": "compact",
+        "show_icons": true,
+        "pause_on_hover": true,
+        "mobile_behavior": "rotate",
+        "accessibility_label": "Informations de livraison et de paiement",
         "background": "#F7C84B",
         "text_color": "#2D1C63",
+        "icon_color": "#2D1C63",
         "sticky": false
       }
     },
