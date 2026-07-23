@@ -1,48 +1,114 @@
 {% doc %}
-  Renders one mobile navigation universe.
+  Renders one mobile navigation universe as a compact accordion.
+
+  The selected Shopify Navigation menu can be grouped with two top-level headings,
+  each containing category children. A flat menu is also supported. The drawer shows
+  at most four category links plus one global view-all link.
 
   @param {linklist} menu - Shopify Navigation menu.
   @param {string} label - Visible label.
   @param {string} icon - FourPattes header icon name.
   @param {string} fallback_link - URL used when no menu is selected.
 {% enddoc %}
+
+{%- liquid
+  assign first_group = menu.links | first
+  assign second_group = menu.links[1]
+  assign primary_is_grouped = false
+  assign secondary_is_grouped = false
+  assign visible_count = 0
+
+  if first_group.links != blank
+    assign primary_is_grouped = true
+  endif
+
+  if second_group.links != blank
+    assign secondary_is_grouped = true
+  endif
+-%}
+
 <li class="pet-menu-drawer__item">
   {%- if menu != blank and menu.links != blank -%}
     <details class="pet-menu-drawer__details">
       <summary>
         <span class="pet-menu-drawer__summary-label">
-          <span class="pet-menu-drawer__universe-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: icon %}</span>
+          <span class="pet-menu-drawer__universe-icon" aria-hidden="true">
+            {% render 'fourpattes-header-icon', name: icon %}
+          </span>
           <span>{{ label }}</span>
         </span>
-        <span class="pet-menu-drawer__chevron" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'chevron' %}</span>
+        <span class="pet-menu-drawer__chevron" aria-hidden="true">
+          {% render 'fourpattes-header-icon', name: 'chevron' %}
+        </span>
       </summary>
-      <ul class="pet-menu-drawer__sublist" role="list">
-        {%- for link in menu.links -%}
-          <li>
-            {%- if link.links != blank -%}
-              <details class="pet-menu-drawer__nested-details">
-                <summary>
+
+      <div class="pet-menu-drawer__submenu-content">
+        <span class="pet-menu-drawer__group-title">
+          {%- if primary_is_grouped -%}{{ first_group.title }}{%- else -%}Catégories mises en avant{%- endif -%}
+        </span>
+        <ul class="pet-menu-drawer__sublist" role="list">
+          {%- if primary_is_grouped -%}
+            {%- for link in first_group.links limit: 3 -%}
+              <li>
+                <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
                   <span>{{ link.title }}</span>
-                  <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'chevron' %}</span>
-                </summary>
-                <ul role="list">
-                  <li><a class="pet-menu-drawer__view-all" href="{{ link.url }}">{{ 'general.view_all' | t }}</a></li>
-                  {%- for child_link in link.links -%}
-                    <li><a href="{{ child_link.url }}"{% if child_link.current %} aria-current="page"{% endif %}>{{ child_link.title }}</a></li>
-                  {%- endfor -%}
-                </ul>
-              </details>
-            {%- else -%}
-              <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
-            {%- endif -%}
-          </li>
-        {%- endfor -%}
-      </ul>
+                  <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                </a>
+              </li>
+              {%- assign visible_count = visible_count | plus: 1 -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for link in menu.links limit: 3 -%}
+              <li>
+                <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                  <span>{{ link.title }}</span>
+                  <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                </a>
+              </li>
+              {%- assign visible_count = visible_count | plus: 1 -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </ul>
+
+        {%- assign remaining_links = 4 | minus: visible_count -%}
+        {%- if remaining_links > 0 and secondary_is_grouped -%}
+          <span class="pet-menu-drawer__group-title">{{ second_group.title }}</span>
+          <ul class="pet-menu-drawer__sublist" role="list">
+            {%- for link in second_group.links limit: remaining_links -%}
+              <li>
+                <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                  <span>{{ link.title }}</span>
+                  <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- elsif remaining_links > 0 and primary_is_grouped == false and menu.links.size > 3 -%}
+          <span class="pet-menu-drawer__group-title">Autres essentiels</span>
+          <ul class="pet-menu-drawer__sublist" role="list">
+            {%- for link in menu.links offset: 3 limit: remaining_links -%}
+              <li>
+                <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                  <span>{{ link.title }}</span>
+                  <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        <a class="pet-menu-drawer__view-all" href="{{ fallback_link }}">
+          <span>{{ 'general.view_all' | t }} — {{ label }}</span>
+          <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+        </a>
+      </div>
     </details>
   {%- else -%}
     <a class="pet-menu-drawer__direct-link" href="{{ fallback_link }}">
       <span class="pet-menu-drawer__summary-label">
-        <span class="pet-menu-drawer__universe-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: icon %}</span>
+        <span class="pet-menu-drawer__universe-icon" aria-hidden="true">
+          {% render 'fourpattes-header-icon', name: icon %}
+        </span>
         <span>{{ label }}</span>
       </span>
       <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
