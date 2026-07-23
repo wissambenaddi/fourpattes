@@ -25,12 +25,17 @@
   assign secondary_heading = 'Autres essentiels'
   assign primary_is_grouped = false
   assign secondary_is_grouped = false
+  assign has_menu_links = false
   assign show_secondary = false
   assign panel_icon = 'discover'
   assign view_all_text = 'View all'
 
   if request.locale.iso_code contains 'fr'
     assign view_all_text = 'Voir tout'
+  endif
+
+  if menu != blank and menu.links != blank
+    assign has_menu_links = true
   endif
 
   if menu_id contains 'Dog'
@@ -69,40 +74,15 @@
       <strong>{{ label }}</strong>
     </div>
 
-    <div class="pet-header__mega-layout">
+    <div class="pet-header__mega-layout{% unless has_menu_links %} pet-header__mega-layout--editorial-only{% endunless %}">
       <div class="pet-header__mega-navigation">
-        <div class="pet-header__mega-links pet-header__mega-links--curated">
-          <section class="pet-header__mega-column">
-            <h3>{{ primary_heading }}</h3>
-            <ul role="list">
-              {%- if primary_is_grouped -%}
-                {%- for link in first_group.links limit: 3 -%}
-                  <li>
-                    <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                      <span>{{ link.title }}</span>
-                      <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                    </a>
-                  </li>
-                {%- endfor -%}
-              {%- else -%}
-                {%- for link in menu.links limit: 3 -%}
-                  <li>
-                    <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                      <span>{{ link.title }}</span>
-                      <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                    </a>
-                  </li>
-                {%- endfor -%}
-              {%- endif -%}
-            </ul>
-          </section>
-
-          {%- if show_secondary -%}
+        {%- if has_menu_links -%}
+          <div class="pet-header__mega-links pet-header__mega-links--curated">
             <section class="pet-header__mega-column">
-              <h3>{{ secondary_heading }}</h3>
+              <h3>{{ primary_heading }}</h3>
               <ul role="list">
-                {%- if secondary_is_grouped -%}
-                  {%- for link in second_group.links limit: 3 -%}
+                {%- if primary_is_grouped -%}
+                  {%- for link in first_group.links limit: 3 -%}
                     <li>
                       <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
                         <span>{{ link.title }}</span>
@@ -111,7 +91,7 @@
                     </li>
                   {%- endfor -%}
                 {%- else -%}
-                  {%- for link in menu.links offset: 3 limit: 3 -%}
+                  {%- for link in menu.links limit: 3 -%}
                     <li>
                       <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
                         <span>{{ link.title }}</span>
@@ -122,8 +102,35 @@
                 {%- endif -%}
               </ul>
             </section>
-          {%- endif -%}
-        </div>
+
+            {%- if show_secondary -%}
+              <section class="pet-header__mega-column">
+                <h3>{{ secondary_heading }}</h3>
+                <ul role="list">
+                  {%- if secondary_is_grouped -%}
+                    {%- for link in second_group.links limit: 3 -%}
+                      <li>
+                        <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                          <span>{{ link.title }}</span>
+                          <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  {%- else -%}
+                    {%- for link in menu.links offset: 3 limit: 3 -%}
+                      <li>
+                        <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                          <span>{{ link.title }}</span>
+                          <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  {%- endif -%}
+                </ul>
+              </section>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
 
         {%- if cta_link != blank -%}
           <a class="pet-header__mega-view-all" href="{{ cta_link }}">
