@@ -1,25 +1,34 @@
 {% doc %}
-  Renders one mobile navigation universe as a compact accordion.
+  Renders one FourPattes mobile universe as a single-level accessible accordion.
 
-  The selected Shopify Navigation menu can be grouped with two top-level headings,
-  each containing category children. A flat menu is also supported. The drawer shows
-  at most four category links plus one global view-all link.
+  The dedicated Shopify Navigation menu supplies up to six top-level links.
+  When no menu is selected, the storefront keeps a direct universe link while
+  the Theme Editor shows configuration guidance.
 
-  @param {linklist} menu - Shopify Navigation menu.
-  @param {string} label - Visible label.
-  @param {string} icon - FourPattes header icon name.
-  @param {string} fallback_link - URL used when no menu is selected.
-  @param {boolean} force_accordion - Keeps the accessible accordion markup when mega menus are enabled.
+  @param {linklist} menu - Dedicated Shopify Navigation menu.
+  @param {string} label - Visible universe label.
+  @param {string} icon - FourPattes icon name.
+  @param {string} fallback_link - Direct universe destination.
+  @param {boolean} card_enabled - Whether the editorial card is enabled.
+  @param {boolean} card_mobile - Whether the reduced card appears in the drawer.
+  @param {image} image - Optional card image.
+  @param {string} image_alt - Optional merchant-defined image alternative.
+  @param {string} card_title - Compact card title.
+  @param {string} card_text - Compact card text.
+  @param {string} cta_label - Card CTA label.
+  @param {color} card_background - Card background colour.
+  @param {array} badge_blocks - Section badge blocks.
+  @param {string} badge_universe - dog, cat or discover.
+  @param {boolean} show_badges - Global badge visibility.
+  @param {string} editor_message - Theme Editor empty-state guidance.
 {% enddoc %}
 
 {%- liquid
-  assign first_group = menu.links | first
-  assign second_group = menu.links[1]
-  assign primary_is_grouped = false
-  assign secondary_is_grouped = false
   assign has_menu_links = false
-  assign visible_count = 0
+  assign card_has_content = false
+  assign rendered_badges = 0
   assign view_all_text = 'View all'
+  assign image_alt_value = image_alt | default: image.alt | default: card_title
 
   if request.locale.iso_code contains 'fr'
     assign view_all_text = 'Voir tout'
@@ -29,17 +38,15 @@
     assign has_menu_links = true
   endif
 
-  if first_group.links != blank
-    assign primary_is_grouped = true
-  endif
-
-  if second_group.links != blank
-    assign secondary_is_grouped = true
+  if card_enabled and card_mobile
+    if image != blank or card_title != blank or card_text != blank or cta_label != blank
+      assign card_has_content = true
+    endif
   endif
 -%}
 
 <li class="pet-menu-drawer__item">
-  {%- if has_menu_links or force_accordion -%}
+  {%- if has_menu_links or request.design_mode -%}
     <details class="pet-menu-drawer__details">
       <summary>
         <span class="pet-menu-drawer__summary-label">
@@ -55,65 +62,83 @@
 
       <div class="pet-menu-drawer__submenu-content">
         {%- if has_menu_links -%}
-          <span class="pet-menu-drawer__group-title">
-            {%- if primary_is_grouped -%}{{ first_group.title }}{%- else -%}Catégories mises en avant{%- endif -%}
-          </span>
           <ul class="pet-menu-drawer__sublist" role="list">
-            {%- if primary_is_grouped -%}
-              {%- for link in first_group.links limit: 3 -%}
-                <li>
-                  <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                    <span>{{ link.title }}</span>
-                    <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                  </a>
-                </li>
-                {%- assign visible_count = visible_count | plus: 1 -%}
-              {%- endfor -%}
-            {%- else -%}
-              {%- for link in menu.links limit: 3 -%}
-                <li>
-                  <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                    <span>{{ link.title }}</span>
-                    <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                  </a>
-                </li>
-                {%- assign visible_count = visible_count | plus: 1 -%}
-              {%- endfor -%}
-            {%- endif -%}
-          </ul>
+            {%- for link in menu.links limit: 6 -%}
+              {%- liquid
+                assign matched_badge = blank
 
-          {%- assign remaining_links = 4 | minus: visible_count -%}
-          {%- if remaining_links > 0 and secondary_is_grouped -%}
-            <span class="pet-menu-drawer__group-title">{{ second_group.title }}</span>
-            <ul class="pet-menu-drawer__sublist" role="list">
-              {%- for link in second_group.links limit: remaining_links -%}
-                <li>
-                  <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                    <span>{{ link.title }}</span>
+                if show_badges and rendered_badges < 2
+                  for block in badge_blocks
+                    if block.type == 'submenu_badge' and block.settings.universe == badge_universe and block.settings.link_label == link.title and block.settings.badge_text != blank
+                      assign matched_badge = block
+                      assign rendered_badges = rendered_badges | plus: 1
+                      break
+                    endif
+                  endfor
+                endif
+              -%}
+              <li>
+                <a
+                  class="pet-menu-drawer__submenu-link{% if forloop.first %} is-featured{% endif %}"
+                  href="{{ link.url }}"
+                  {% if link.current %}aria-current="page"{% endif %}
+                >
+                  <span>{{ link.title }}</span>
+                  <span class="pet-menu-drawer__submenu-meta">
+                    {%- if matched_badge != blank -%}
+                      <span class="pet-header__submenu-badge pet-header__submenu-badge--{{ matched_badge.settings.style }}" {{ matched_badge.shopify_attributes }}>
+                        {{ matched_badge.settings.badge_text }}
+                      </span>
+                    {%- endif -%}
                     <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                  </a>
-                </li>
-              {%- endfor -%}
-            </ul>
-          {%- elsif remaining_links > 0 and primary_is_grouped == false and menu.links.size > 3 -%}
-            <span class="pet-menu-drawer__group-title">Autres essentiels</span>
-            <ul class="pet-menu-drawer__sublist" role="list">
-              {%- for link in menu.links offset: 3 limit: remaining_links -%}
-                <li>
-                  <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                    <span>{{ link.title }}</span>
-                    <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                  </a>
-                </li>
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
+                  </span>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- else -%}
+          <div class="pet-header__submenu-editor-help" role="status">
+            <strong>{{ label }}</strong>
+            <span>{{ editor_message }}</span>
+          </div>
         {%- endif -%}
 
-        <a class="pet-menu-drawer__view-all" href="{{ fallback_link }}">
-          <span>{{ view_all_text }} — {{ label }}</span>
-          <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-        </a>
+        {%- if card_has_content -%}
+          <a
+            class="pet-menu-drawer__submenu-card"
+            href="{{ fallback_link }}"
+            style="--pet-submenu-card-bg: {{ card_background | default: '#E7F8F7' }};"
+          >
+            {%- if image != blank -%}
+              <span class="pet-menu-drawer__submenu-card-media">
+                {{ image
+                  | image_url: width: 240
+                  | image_tag:
+                    widths: '96, 144, 192, 240',
+                    sizes: '72px',
+                    loading: 'lazy',
+                    alt: image_alt_value
+                }}
+              </span>
+            {%- else -%}
+              <span class="pet-menu-drawer__submenu-card-illustration" aria-hidden="true">
+                {% render 'fourpattes-header-icon', name: icon %}
+              </span>
+            {%- endif -%}
+            <span class="pet-menu-drawer__submenu-card-copy">
+              {%- if card_title != blank -%}<strong>{{ card_title }}</strong>{%- endif -%}
+              {%- if card_text != blank -%}<span>{{ card_text }}</span>{%- endif -%}
+              {%- if cta_label != blank -%}<b>{{ cta_label }}</b>{%- endif -%}
+            </span>
+          </a>
+        {%- endif -%}
+
+        {%- if fallback_link != blank -%}
+          <a class="pet-menu-drawer__view-all" href="{{ fallback_link }}">
+            <span>{{ view_all_text }} — {{ label }}</span>
+            <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+          </a>
+        {%- endif -%}
       </div>
     </details>
   {%- else -%}
