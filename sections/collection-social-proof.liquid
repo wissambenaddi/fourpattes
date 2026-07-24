@@ -1,0 +1,75 @@
+{%- liquid
+  assign valid_blocks = 0
+  for block in section.blocks
+    if block.type == '@app'
+      assign valid_blocks = valid_blocks | plus: 1
+    elsif block.settings.quote != blank
+      assign valid_blocks = valid_blocks | plus: 1
+    endif
+  endfor
+-%}
+
+{%- if valid_blocks > 0 or request.design_mode -%}
+  <section class="fp-collection-social" aria-labelledby="CollectionSocialTitle-{{ section.id }}">
+    <div class="pet-shell">
+      {%- if section.settings.title != blank -%}<h2 id="CollectionSocialTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>{%- endif -%}
+
+      {%- if valid_blocks > 0 -%}
+        <div class="fp-collection-social__grid">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                <div class="fp-collection-social__app" {{ block.shopify_attributes }}>{% render block %}</div>
+              {%- when 'story' -%}
+                {%- if block.settings.quote != blank -%}
+                  <figure class="fp-collection-story" {{ block.shopify_attributes }}>
+                    {%- if block.settings.image != blank -%}
+                      {{ block.settings.image
+                        | image_url: width: 700
+                        | image_tag:
+                          widths: '240, 360, 520, 700',
+                          sizes: '(min-width: 990px) 28vw, 88vw',
+                          loading: 'lazy',
+                          class: 'fp-collection-story__image',
+                          alt: block.settings.image.alt | default: block.settings.author
+                      }}
+                    {%- endif -%}
+                    <blockquote>“{{ block.settings.quote | escape }}”</blockquote>
+                    {%- if block.settings.author != blank -%}<figcaption>{{ block.settings.author | escape }}</figcaption>{%- endif -%}
+                    {%- if block.settings.link != blank and block.settings.link_label != blank -%}<a href="{{ block.settings.link }}">{{ block.settings.link_label | escape }}</a>{%- endif -%}
+                  </figure>
+                {%- endif -%}
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      {%- elsif request.design_mode -%}
+        <p class="fp-collection-editor-note">Ajoutez un bloc d’application d’avis ou une histoire communautaire réelle. Aucun avis fictif n’est affiché.</p>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Preuve sociale collection",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "La communauté FourPattes" }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "story",
+      "name": "Histoire communautaire",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "textarea", "id": "quote", "label": "Citation réelle" },
+        { "type": "text", "id": "author", "label": "Auteur" },
+        { "type": "text", "id": "link_label", "label": "Libellé du lien" },
+        { "type": "url", "id": "link", "label": "Lien" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Preuve sociale collection" }]
+}
+{% endschema %}
