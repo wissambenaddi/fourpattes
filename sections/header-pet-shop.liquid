@@ -2,6 +2,10 @@
   assign dog_mega_id = 'PetMegaDog-' | append: section.id
   assign cat_mega_id = 'PetMegaCat-' | append: section.id
   assign discover_mega_id = 'PetMegaDiscover-' | append: section.id
+  assign dog_trigger_id = 'PetMegaDogTrigger-' | append: section.id
+  assign cat_trigger_id = 'PetMegaCatTrigger-' | append: section.id
+  assign discover_trigger_id = 'PetMegaDiscoverTrigger-' | append: section.id
+
   assign dog_fallback_link = section.settings.dog_cta_link | default: routes.all_products_collection_url
   assign cat_fallback_link = section.settings.cat_cta_link | default: routes.all_products_collection_url
   assign discover_fallback_link = section.settings.discover_cta_link | default: routes.root_url
@@ -10,19 +14,33 @@
   assign dog_navigation_menu = section.settings.dog_menu
   assign cat_navigation_menu = section.settings.cat_menu
   assign discover_navigation_menu = section.settings.discover_menu
-  assign uses_shared_menu_fallback = false
+  assign dog_has_menu = false
+  assign cat_has_menu = false
+  assign discover_has_menu = false
+  assign render_dog_submenu = false
+  assign render_cat_submenu = false
+  assign render_discover_submenu = false
 
-  if dog_navigation_menu == blank
-    assign dog_navigation_menu = section.settings.menu
-    assign uses_shared_menu_fallback = true
+  if dog_navigation_menu != blank and dog_navigation_menu.links != blank
+    assign dog_has_menu = true
   endif
-  if cat_navigation_menu == blank
-    assign cat_navigation_menu = section.settings.menu
-    assign uses_shared_menu_fallback = true
+  if cat_navigation_menu != blank and cat_navigation_menu.links != blank
+    assign cat_has_menu = true
   endif
-  if discover_navigation_menu == blank
-    assign discover_navigation_menu = section.settings.menu
-    assign uses_shared_menu_fallback = true
+  if discover_navigation_menu != blank and discover_navigation_menu.links != blank
+    assign discover_has_menu = true
+  endif
+
+  if section.settings.enable_mega_menus
+    if dog_has_menu or request.design_mode
+      assign render_dog_submenu = true
+    endif
+    if cat_has_menu or request.design_mode
+      assign render_cat_submenu = true
+    endif
+    if discover_has_menu or request.design_mode
+      assign render_discover_submenu = true
+    endif
   endif
 
   if request.locale.iso_code contains 'fr'
@@ -32,6 +50,9 @@
     assign cart_empty_label = 'Panier, aucun article'
     assign cart_one_label = 'Panier, 1 article'
     assign cart_many_template = 'Panier, __COUNT__ articles'
+    assign dog_editor_message = 'Sélectionnez le menu Univers Chien dans les paramètres du header.'
+    assign cat_editor_message = 'Sélectionnez le menu Univers Chat dans les paramètres du header.'
+    assign discover_editor_message = 'Sélectionnez le menu Découvrir dans les paramètres du header.'
   else
     assign navigation_label = 'Primary navigation'
     assign useful_links_label = 'Useful links'
@@ -39,6 +60,9 @@
     assign cart_empty_label = 'Cart, no items'
     assign cart_one_label = 'Cart, 1 item'
     assign cart_many_template = 'Cart, __COUNT__ items'
+    assign dog_editor_message = 'Select the Dog Universe menu in the header settings.'
+    assign cat_editor_message = 'Select the Cat Universe menu in the header settings.'
+    assign discover_editor_message = 'Select the Discover menu in the header settings.'
   endif
 
   assign cart_label = cart_empty_label
@@ -62,6 +86,7 @@
     --header-height: {{ section.settings.header_height }}px;
     --header-logo-width: {{ section.settings.logo_width }}px;
     --header-logo-mobile-width: {{ section.settings.logo_width_mobile }}px;
+    --pet-submenu-width: {{ section.settings.submenu_width }}px;
   "
   data-pet-header
   data-pet-premium-header
@@ -106,43 +131,124 @@
 
     <nav class="pet-header__nav" aria-label="{{ navigation_label | escape }}">
       <ul class="pet-header__links" role="list">
-        {%- if section.settings.enable_mega_menus -%}
+        {%- if render_dog_submenu -%}
           <li class="pet-header__link-item pet-header__link-item--mega" data-pet-mega-item>
-            <button class="pet-header__nav-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="{{ dog_mega_id }}" data-pet-mega-trigger>
-              {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'dog' %}</span>{%- endif -%}
+            <button
+              class="pet-header__nav-trigger"
+              id="{{ dog_trigger_id }}"
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="{{ dog_mega_id }}"
+              data-pet-mega-trigger
+            >
+              {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: section.settings.dog_icon %}</span>{%- endif -%}
               <span>{{ section.settings.dog_label }}</span>
               <span class="pet-header__nav-chevron" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'chevron' %}</span>
             </button>
-            {% render 'header-mega-menu', menu: dog_navigation_menu, menu_id: dog_mega_id, label: section.settings.dog_label, image: section.settings.dog_image, card_title: section.settings.dog_card_title, card_text: section.settings.dog_card_text, cta_label: section.settings.dog_cta_label, cta_link: dog_fallback_link %}
+            {% render 'header-mega-menu',
+              menu: dog_navigation_menu,
+              menu_id: dog_mega_id,
+              trigger_id: dog_trigger_id,
+              label: section.settings.dog_label,
+              icon: section.settings.dog_icon,
+              alignment: 'start',
+              image: section.settings.dog_image,
+              image_alt: section.settings.dog_image_alt,
+              card_enabled: section.settings.dog_card_enabled,
+              card_title: section.settings.dog_card_title,
+              card_text: section.settings.dog_card_text,
+              cta_label: section.settings.dog_cta_label,
+              cta_link: dog_fallback_link,
+              card_background: section.settings.dog_card_background,
+              badge_blocks: section.blocks,
+              badge_universe: 'dog',
+              show_badges: section.settings.show_submenu_badges,
+              editor_message: dog_editor_message
+            %}
           </li>
         {%- else -%}
-          <li class="pet-header__link-item"><a class="pet-header__nav-link" href="{{ dog_fallback_link }}">{%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'dog' %}</span>{%- endif -%}<span>{{ section.settings.dog_label }}</span></a></li>
+          <li class="pet-header__link-item"><a class="pet-header__nav-link" href="{{ dog_fallback_link }}">{%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: section.settings.dog_icon %}</span>{%- endif -%}<span>{{ section.settings.dog_label }}</span></a></li>
         {%- endif -%}
 
-        {%- if section.settings.enable_mega_menus -%}
+        {%- if render_cat_submenu -%}
           <li class="pet-header__link-item pet-header__link-item--mega" data-pet-mega-item>
-            <button class="pet-header__nav-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="{{ cat_mega_id }}" data-pet-mega-trigger>
-              {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'cat' %}</span>{%- endif -%}
+            <button
+              class="pet-header__nav-trigger"
+              id="{{ cat_trigger_id }}"
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="{{ cat_mega_id }}"
+              data-pet-mega-trigger
+            >
+              {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: section.settings.cat_icon %}</span>{%- endif -%}
               <span>{{ section.settings.cat_label }}</span>
               <span class="pet-header__nav-chevron" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'chevron' %}</span>
             </button>
-            {% render 'header-mega-menu', menu: cat_navigation_menu, menu_id: cat_mega_id, label: section.settings.cat_label, image: section.settings.cat_image, card_title: section.settings.cat_card_title, card_text: section.settings.cat_card_text, cta_label: section.settings.cat_cta_label, cta_link: cat_fallback_link %}
+            {% render 'header-mega-menu',
+              menu: cat_navigation_menu,
+              menu_id: cat_mega_id,
+              trigger_id: cat_trigger_id,
+              label: section.settings.cat_label,
+              icon: section.settings.cat_icon,
+              alignment: 'center',
+              image: section.settings.cat_image,
+              image_alt: section.settings.cat_image_alt,
+              card_enabled: section.settings.cat_card_enabled,
+              card_title: section.settings.cat_card_title,
+              card_text: section.settings.cat_card_text,
+              cta_label: section.settings.cat_cta_label,
+              cta_link: cat_fallback_link,
+              card_background: section.settings.cat_card_background,
+              badge_blocks: section.blocks,
+              badge_universe: 'cat',
+              show_badges: section.settings.show_submenu_badges,
+              editor_message: cat_editor_message
+            %}
           </li>
         {%- else -%}
-          <li class="pet-header__link-item"><a class="pet-header__nav-link" href="{{ cat_fallback_link }}">{%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'cat' %}</span>{%- endif -%}<span>{{ section.settings.cat_label }}</span></a></li>
+          <li class="pet-header__link-item"><a class="pet-header__nav-link" href="{{ cat_fallback_link }}">{%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: section.settings.cat_icon %}</span>{%- endif -%}<span>{{ section.settings.cat_label }}</span></a></li>
         {%- endif -%}
 
-        {%- if section.settings.enable_mega_menus -%}
+        {%- if render_discover_submenu -%}
           <li class="pet-header__link-item pet-header__link-item--mega" data-pet-mega-item>
-            <button class="pet-header__nav-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="{{ discover_mega_id }}" data-pet-mega-trigger>
-              {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'discover' %}</span>{%- endif -%}
+            <button
+              class="pet-header__nav-trigger"
+              id="{{ discover_trigger_id }}"
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="{{ discover_mega_id }}"
+              data-pet-mega-trigger
+            >
+              {%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: section.settings.discover_icon %}</span>{%- endif -%}
               <span>{{ section.settings.discover_label }}</span>
               <span class="pet-header__nav-chevron" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'chevron' %}</span>
             </button>
-            {% render 'header-mega-menu', menu: discover_navigation_menu, menu_id: discover_mega_id, label: section.settings.discover_label, image: section.settings.discover_image, card_title: section.settings.discover_card_title, card_text: section.settings.discover_card_text, cta_label: section.settings.discover_cta_label, cta_link: discover_fallback_link %}
+            {% render 'header-mega-menu',
+              menu: discover_navigation_menu,
+              menu_id: discover_mega_id,
+              trigger_id: discover_trigger_id,
+              label: section.settings.discover_label,
+              icon: section.settings.discover_icon,
+              alignment: 'end',
+              image: section.settings.discover_image,
+              image_alt: section.settings.discover_image_alt,
+              card_enabled: section.settings.discover_card_enabled,
+              card_title: section.settings.discover_card_title,
+              card_text: section.settings.discover_card_text,
+              cta_label: section.settings.discover_cta_label,
+              cta_link: discover_fallback_link,
+              card_background: section.settings.discover_card_background,
+              badge_blocks: section.blocks,
+              badge_universe: 'discover',
+              show_badges: section.settings.show_submenu_badges,
+              editor_message: discover_editor_message
+            %}
           </li>
         {%- else -%}
-          <li class="pet-header__link-item"><a class="pet-header__nav-link" href="{{ discover_fallback_link }}">{%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'discover' %}</span>{%- endif -%}<span>{{ section.settings.discover_label }}</span></a></li>
+          <li class="pet-header__link-item"><a class="pet-header__nav-link" href="{{ discover_fallback_link }}">{%- if section.settings.show_menu_icons -%}<span class="pet-header__nav-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: section.settings.discover_icon %}</span>{%- endif -%}<span>{{ section.settings.discover_label }}</span></a></li>
         {%- endif -%}
 
         <li class="pet-header__link-item">
@@ -188,9 +294,60 @@
 
       <nav aria-label="{{ navigation_label | escape }}">
         <ul class="pet-menu-drawer__links" role="list">
-          {% render 'header-mobile-menu-group', menu: dog_navigation_menu, label: section.settings.dog_label, icon: 'dog', fallback_link: dog_fallback_link, force_accordion: section.settings.enable_mega_menus %}
-          {% render 'header-mobile-menu-group', menu: cat_navigation_menu, label: section.settings.cat_label, icon: 'cat', fallback_link: cat_fallback_link, force_accordion: section.settings.enable_mega_menus %}
-          {% render 'header-mobile-menu-group', menu: discover_navigation_menu, label: section.settings.discover_label, icon: 'discover', fallback_link: discover_fallback_link, force_accordion: section.settings.enable_mega_menus %}
+          {% render 'header-mobile-menu-group',
+            menu: dog_navigation_menu,
+            label: section.settings.dog_label,
+            icon: section.settings.dog_icon,
+            fallback_link: dog_fallback_link,
+            card_enabled: section.settings.dog_card_enabled,
+            card_mobile: section.settings.dog_card_mobile,
+            image: section.settings.dog_image,
+            image_alt: section.settings.dog_image_alt,
+            card_title: section.settings.dog_card_title,
+            card_text: section.settings.dog_card_text,
+            cta_label: section.settings.dog_cta_label,
+            card_background: section.settings.dog_card_background,
+            badge_blocks: section.blocks,
+            badge_universe: 'dog',
+            show_badges: section.settings.show_submenu_badges,
+            editor_message: dog_editor_message
+          %}
+          {% render 'header-mobile-menu-group',
+            menu: cat_navigation_menu,
+            label: section.settings.cat_label,
+            icon: section.settings.cat_icon,
+            fallback_link: cat_fallback_link,
+            card_enabled: section.settings.cat_card_enabled,
+            card_mobile: section.settings.cat_card_mobile,
+            image: section.settings.cat_image,
+            image_alt: section.settings.cat_image_alt,
+            card_title: section.settings.cat_card_title,
+            card_text: section.settings.cat_card_text,
+            cta_label: section.settings.cat_cta_label,
+            card_background: section.settings.cat_card_background,
+            badge_blocks: section.blocks,
+            badge_universe: 'cat',
+            show_badges: section.settings.show_submenu_badges,
+            editor_message: cat_editor_message
+          %}
+          {% render 'header-mobile-menu-group',
+            menu: discover_navigation_menu,
+            label: section.settings.discover_label,
+            icon: section.settings.discover_icon,
+            fallback_link: discover_fallback_link,
+            card_enabled: section.settings.discover_card_enabled,
+            card_mobile: section.settings.discover_card_mobile,
+            image: section.settings.discover_image,
+            image_alt: section.settings.discover_image_alt,
+            card_title: section.settings.discover_card_title,
+            card_text: section.settings.discover_card_text,
+            cta_label: section.settings.discover_cta_label,
+            card_background: section.settings.discover_card_background,
+            badge_blocks: section.blocks,
+            badge_universe: 'discover',
+            show_badges: section.settings.show_submenu_badges,
+            editor_message: discover_editor_message
+          %}
           <li class="pet-menu-drawer__item">
             <a class="pet-menu-drawer__direct-link" href="{{ story_link }}">
               <span class="pet-menu-drawer__summary-label"><span class="pet-menu-drawer__universe-icon" aria-hidden="true">{% render 'fourpattes-header-icon', name: 'story' %}</span><span>{{ section.settings.story_label }}</span></span>
@@ -199,7 +356,7 @@
           </li>
         </ul>
 
-        {%- if uses_shared_menu_fallback == false and section.settings.menu != blank and section.settings.menu.links != blank -%}
+        {%- if section.settings.menu != blank and section.settings.menu.links != blank -%}
           <div class="pet-menu-drawer__secondary">
             <span class="pet-menu-drawer__secondary-title">{{ useful_links_label }}</span>
             <ul role="list">{%- for link in section.settings.menu.links -%}<li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>{%- endfor -%}</ul>
@@ -224,7 +381,9 @@
     { "type": "header", "content": "Structure" },
     { "type": "link_list", "id": "menu", "label": "Menu mobile complémentaire", "default": "main-menu" },
     { "type": "checkbox", "id": "show_menu_icons", "label": "Afficher les icônes des univers", "default": true },
-    { "type": "checkbox", "id": "enable_mega_menus", "label": "Activer les méga-menus", "default": true },
+    { "type": "checkbox", "id": "enable_mega_menus", "label": "Activer les sous-menus", "default": true },
+    { "type": "range", "id": "submenu_width", "min": 300, "max": 380, "step": 10, "unit": "px", "label": "Largeur des sous-menus", "default": 350 },
+    { "type": "checkbox", "id": "show_submenu_badges", "label": "Afficher les badges configurés", "default": true },
     { "type": "checkbox", "id": "sticky", "label": "En-tête fixe", "default": true },
     { "type": "checkbox", "id": "shrink_on_scroll", "label": "Réduire l'en-tête au défilement", "default": true },
     { "type": "range", "id": "header_height", "min": 72, "max": 88, "step": 4, "unit": "px", "label": "Hauteur sur ordinateur", "default": 80 },
@@ -232,31 +391,61 @@
     { "type": "range", "id": "logo_width_mobile", "min": 80, "max": 140, "step": 5, "unit": "px", "label": "Largeur du logo sur mobile", "default": 105 },
 
     { "type": "header", "content": "Univers Chien" },
-    { "type": "text", "id": "dog_label", "label": "Libellé", "default": "Univers Chien" },
-    { "type": "link_list", "id": "dog_menu", "label": "Menu Chien" },
-    { "type": "image_picker", "id": "dog_image", "label": "Image éditoriale Chien" },
-    { "type": "text", "id": "dog_card_title", "label": "Titre de la carte Chien", "default": "Nos favoris chiens" },
-    { "type": "textarea", "id": "dog_card_text", "label": "Texte de la carte Chien", "default": "Des accessoires choisis pour les promenades, les jeux et les grands moments de complicité." },
-    { "type": "text", "id": "dog_cta_label", "label": "Libellé du bouton Chien", "default": "Voir l'univers chien" },
-    { "type": "url", "id": "dog_cta_link", "label": "Lien de l'univers Chien" },
+    { "type": "text", "id": "dog_label", "label": "Titre", "default": "Univers Chien" },
+    { "type": "select", "id": "dog_icon", "label": "Icône", "default": "dog", "options": [
+      { "value": "dog", "label": "Chien" },
+      { "value": "cat", "label": "Chat" },
+      { "value": "discover", "label": "Étoiles" },
+      { "value": "story", "label": "Cœur" }
+    ] },
+    { "type": "link_list", "id": "dog_menu", "label": "Menu du sous-menu Chien" },
+    { "type": "checkbox", "id": "dog_card_enabled", "label": "Afficher la petite carte", "default": true },
+    { "type": "checkbox", "id": "dog_card_mobile", "label": "Afficher la carte dans le drawer", "default": false },
+    { "type": "image_picker", "id": "dog_image", "label": "Image de la carte" },
+    { "type": "text", "id": "dog_image_alt", "label": "Texte alternatif de l'image" },
+    { "type": "text", "id": "dog_card_title", "label": "Titre de la carte", "default": "Prêts pour la promenade ?" },
+    { "type": "textarea", "id": "dog_card_text", "label": "Texte de la carte", "default": "Découvrez les favoris de la meute." },
+    { "type": "text", "id": "dog_cta_label", "label": "Libellé du CTA", "default": "Découvrir l'univers chien" },
+    { "type": "url", "id": "dog_cta_link", "label": "Lien principal et CTA" },
+    { "type": "color", "id": "dog_card_background", "label": "Fond de la carte", "default": "#E7F8F7" },
 
     { "type": "header", "content": "Univers Chat" },
-    { "type": "text", "id": "cat_label", "label": "Libellé", "default": "Univers Chat" },
-    { "type": "link_list", "id": "cat_menu", "label": "Menu Chat" },
-    { "type": "image_picker", "id": "cat_image", "label": "Image éditoriale Chat" },
-    { "type": "text", "id": "cat_card_title", "label": "Titre de la carte Chat", "default": "Nos favoris chats" },
-    { "type": "textarea", "id": "cat_card_text", "label": "Texte de la carte Chat", "default": "Des idées pour jouer, se prélasser et éveiller la curiosité des félins." },
-    { "type": "text", "id": "cat_cta_label", "label": "Libellé du bouton Chat", "default": "Voir l'univers chat" },
-    { "type": "url", "id": "cat_cta_link", "label": "Lien de l'univers Chat" },
+    { "type": "text", "id": "cat_label", "label": "Titre", "default": "Univers Chat" },
+    { "type": "select", "id": "cat_icon", "label": "Icône", "default": "cat", "options": [
+      { "value": "cat", "label": "Chat" },
+      { "value": "dog", "label": "Chien" },
+      { "value": "discover", "label": "Étoiles" },
+      { "value": "story", "label": "Cœur" }
+    ] },
+    { "type": "link_list", "id": "cat_menu", "label": "Menu du sous-menu Chat" },
+    { "type": "checkbox", "id": "cat_card_enabled", "label": "Afficher la petite carte", "default": true },
+    { "type": "checkbox", "id": "cat_card_mobile", "label": "Afficher la carte dans le drawer", "default": false },
+    { "type": "image_picker", "id": "cat_image", "label": "Image de la carte" },
+    { "type": "text", "id": "cat_image_alt", "label": "Texte alternatif de l'image" },
+    { "type": "text", "id": "cat_card_title", "label": "Titre de la carte", "default": "Les chats ont déjà choisi" },
+    { "type": "textarea", "id": "cat_card_text", "label": "Texte de la carte", "default": "Découvrez leurs favoris pour jouer et se prélasser." },
+    { "type": "text", "id": "cat_cta_label", "label": "Libellé du CTA", "default": "Découvrir l'univers chat" },
+    { "type": "url", "id": "cat_cta_link", "label": "Lien principal et CTA" },
+    { "type": "color", "id": "cat_card_background", "label": "Fond de la carte", "default": "#F0E8FA" },
 
     { "type": "header", "content": "Découvrir" },
-    { "type": "text", "id": "discover_label", "label": "Libellé", "default": "Découvrir" },
-    { "type": "link_list", "id": "discover_menu", "label": "Menu Découvrir" },
-    { "type": "image_picker", "id": "discover_image", "label": "Image éditoriale Découvrir" },
-    { "type": "text", "id": "discover_card_title", "label": "Titre de la carte Découvrir", "default": "La vie avec FourPattes" },
-    { "type": "textarea", "id": "discover_card_text", "label": "Texte de la carte Découvrir", "default": "Nouveautés, conseils et histoires pour profiter encore plus de la vie ensemble." },
-    { "type": "text", "id": "discover_cta_label", "label": "Libellé du bouton Découvrir", "default": "Explorer FourPattes" },
-    { "type": "url", "id": "discover_cta_link", "label": "Lien Découvrir" },
+    { "type": "text", "id": "discover_label", "label": "Titre", "default": "Découvrir" },
+    { "type": "select", "id": "discover_icon", "label": "Icône", "default": "discover", "options": [
+      { "value": "discover", "label": "Étoiles" },
+      { "value": "story", "label": "Cœur" },
+      { "value": "dog", "label": "Chien" },
+      { "value": "cat", "label": "Chat" }
+    ] },
+    { "type": "link_list", "id": "discover_menu", "label": "Menu du sous-menu Découvrir" },
+    { "type": "checkbox", "id": "discover_card_enabled", "label": "Afficher la petite carte", "default": true },
+    { "type": "checkbox", "id": "discover_card_mobile", "label": "Afficher la carte dans le drawer", "default": false },
+    { "type": "image_picker", "id": "discover_image", "label": "Image de la carte" },
+    { "type": "text", "id": "discover_image_alt", "label": "Texte alternatif de l'image" },
+    { "type": "text", "id": "discover_card_title", "label": "Titre de la carte", "default": "La vie avec FourPattes" },
+    { "type": "textarea", "id": "discover_card_text", "label": "Texte de la carte", "default": "Conseils, nouveautés et histoires à partager." },
+    { "type": "text", "id": "discover_cta_label", "label": "Libellé du CTA", "default": "Explorer FourPattes" },
+    { "type": "url", "id": "discover_cta_link", "label": "Lien principal et CTA" },
+    { "type": "color", "id": "discover_card_background", "label": "Fond de la carte", "default": "#FFF1D7" },
 
     { "type": "header", "content": "Notre histoire" },
     { "type": "text", "id": "story_label", "label": "Libellé", "default": "Notre histoire" },
@@ -275,8 +464,29 @@
     { "type": "color", "id": "accent_color", "label": "Accent actif et focus", "default": "#F4B63F" },
     { "type": "color", "id": "surface_color", "label": "Fond des menus", "default": "#FFF9F4" },
     { "type": "color", "id": "action_background", "label": "Fond des boutons d'action", "default": "#3B2873" },
-    { "type": "color", "id": "badge_background", "label": "Fond du badge", "default": "#F4B63F" },
-    { "type": "color", "id": "badge_text_color", "label": "Texte du badge", "default": "#26155F" }
-  ]
+    { "type": "color", "id": "badge_background", "label": "Fond du badge panier", "default": "#F4B63F" },
+    { "type": "color", "id": "badge_text_color", "label": "Texte du badge panier", "default": "#26155F" }
+  ],
+  "blocks": [
+    {
+      "type": "submenu_badge",
+      "name": "Badge de sous-menu",
+      "settings": [
+        { "type": "select", "id": "universe", "label": "Sous-menu", "default": "dog", "options": [
+          { "value": "dog", "label": "Univers Chien" },
+          { "value": "cat", "label": "Univers Chat" },
+          { "value": "discover", "label": "Découvrir" }
+        ] },
+        { "type": "text", "id": "link_label", "label": "Libellé exact du lien" },
+        { "type": "text", "id": "badge_text", "label": "Texte du badge" },
+        { "type": "select", "id": "style", "label": "Style", "default": "turquoise", "options": [
+          { "value": "turquoise", "label": "Turquoise" },
+          { "value": "yellow", "label": "Jaune" },
+          { "value": "pink", "label": "Rose" }
+        ] }
+      ]
+    }
+  ],
+  "max_blocks": 6
 }
 {% endschema %}
