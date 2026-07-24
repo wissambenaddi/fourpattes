@@ -1,0 +1,87 @@
+{%- liquid
+  assign metafield_benefits = collection.metafields.custom.benefits.value
+  assign has_metafield_benefits = false
+  if metafield_benefits != blank
+    assign has_metafield_benefits = true
+  endif
+  assign should_render = false
+  if has_metafield_benefits or section.blocks.size > 0
+    assign should_render = true
+  endif
+-%}
+
+{%- if should_render or request.design_mode -%}
+  <section class="fp-collection-benefits" aria-labelledby="CollectionBenefitsTitle-{{ section.id }}">
+    <div class="pet-shell">
+      {%- if section.settings.title != blank -%}<h2 id="CollectionBenefitsTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>{%- endif -%}
+
+      {%- if should_render -%}
+        <div class="fp-collection-benefits__grid">
+          {%- if has_metafield_benefits -%}
+            {%- for item in metafield_benefits limit: 4 -%}
+              {%- liquid
+                assign item_icon = item.icon.value | default: item.icon | default: 'paw'
+                assign item_title = item.title.value | default: item.title
+                assign item_text = item.text.value | default: item.text
+              -%}
+              {%- if item_title != blank -%}
+                <article class="fp-collection-benefit">
+                  <span class="fp-collection-benefit__icon" aria-hidden="true">{% render 'collection-icon', name: item_icon %}</span>
+                  <h3>{{ item_title | escape }}</h3>
+                  {%- if item_text != blank -%}<p>{{ item_text | escape }}</p>{%- endif -%}
+                </article>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for block in section.blocks limit: 4 -%}
+              {%- if block.settings.title != blank -%}
+                <article class="fp-collection-benefit" {{ block.shopify_attributes }}>
+                  <span class="fp-collection-benefit__icon" aria-hidden="true">{% render 'collection-icon', name: block.settings.icon %}</span>
+                  <h3>{{ block.settings.title | escape }}</h3>
+                  {%- if block.settings.text != blank -%}<p>{{ block.settings.text | escape }}</p>{%- endif -%}
+                </article>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      {%- elsif request.design_mode -%}
+        <p class="fp-collection-editor-note">Ajoutez jusqu’à quatre blocs ou renseignez le métachamp <code>custom.benefits</code>.</p>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Bénéfices collection",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "Les essentiels pour bien choisir" }
+  ],
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Bénéfice",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "comfort",
+          "options": [
+            { "value": "comfort", "label": "Confort" },
+            { "value": "strength", "label": "Résistance" },
+            { "value": "easy", "label": "Facilité" },
+            { "value": "choice", "label": "Choix" },
+            { "value": "care", "label": "Soin" },
+            { "value": "paw", "label": "Patte" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Titre" },
+        { "type": "text", "id": "text", "label": "Phrase courte" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Bénéfices collection" }]
+}
+{% endschema %}
