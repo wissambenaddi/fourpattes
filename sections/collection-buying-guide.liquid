@@ -1,0 +1,61 @@
+{%- liquid
+  assign guide_title = collection.metafields.custom.buying_guide_title.value | default: section.settings.title
+  assign guide_text = collection.metafields.custom.buying_guide_text.value | default: section.settings.text
+  assign guide_image = collection.metafields.custom.buying_guide_image.value | default: section.settings.image
+  assign guide_cta_label = collection.metafields.custom.buying_guide_cta_label.value | default: section.settings.cta_label
+  assign guide_cta_link = collection.metafields.custom.buying_guide_cta_link.value | default: section.settings.cta_link
+
+  assign has_content = false
+  if guide_text != blank or guide_image != blank or guide_cta_label != blank
+    assign has_content = true
+  endif
+-%}
+
+{%- if section.settings.enabled and has_content or request.design_mode -%}
+  <section class="fp-collection-guide">
+    <div class="pet-shell">
+      {%- if has_content -%}
+        <div class="fp-collection-guide__inner">
+          <div class="fp-collection-guide__icon" aria-hidden="true">{% render 'collection-icon', name: 'guide' %}</div>
+          <div class="fp-collection-guide__copy">
+            {%- if guide_title != blank -%}<h2>{{ guide_title | escape }}</h2>{%- endif -%}
+            {%- if guide_text != blank -%}<div class="fp-collection-guide__text">{{ guide_text | newline_to_br }}</div>{%- endif -%}
+            {%- if guide_cta_label != blank and guide_cta_link != blank -%}
+              <a class="pet-button pet-button--outline" href="{{ guide_cta_link }}">{{ guide_cta_label | escape }}</a>
+            {%- endif -%}
+          </div>
+          {%- if guide_image != blank -%}
+            <div class="fp-collection-guide__media">
+              {{ guide_image
+                | image_url: width: 900
+                | image_tag:
+                  widths: '320, 480, 640, 900',
+                  sizes: '(min-width: 990px) 32vw, 88vw',
+                  loading: 'lazy',
+                  class: 'fp-collection-guide__image',
+                  alt: guide_image.alt | default: guide_title
+              }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- elsif request.design_mode -%}
+        <p class="fp-collection-editor-note">Renseignez les réglages du guide ou les métachamps <code>custom.buying_guide_*</code>.</p>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Guide d’achat collection",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Activer le guide", "default": true },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Comment choisir ?" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "cta_label", "label": "Libellé du CTA" },
+    { "type": "url", "id": "cta_link", "label": "Lien du CTA" }
+  ],
+  "presets": [{ "name": "Guide d’achat collection" }]
+}
+{% endschema %}
