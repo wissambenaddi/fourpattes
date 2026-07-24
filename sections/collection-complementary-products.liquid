@@ -1,0 +1,48 @@
+{%- liquid
+  assign complementary_collection = collection.metafields.custom.complementary_collection.value | default: section.settings.collection
+  assign can_render = false
+
+  if complementary_collection != blank and complementary_collection.handle != collection.handle and complementary_collection.products_count > 0
+    assign can_render = true
+  endif
+-%}
+
+{%- if section.settings.enabled and can_render or request.design_mode -%}
+  <section class="fp-collection-complementary" aria-labelledby="ComplementaryTitle-{{ section.id }}">
+    <div class="pet-shell">
+      {%- if can_render -%}
+        <div class="fp-collection-section-heading">
+          <div>
+            {%- if section.settings.eyebrow != blank -%}<p class="pet-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+            <h2 id="ComplementaryTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>
+          </div>
+          <a href="{{ complementary_collection.url }}">{{ section.settings.view_all_label | escape }} <span aria-hidden="true">→</span></a>
+        </div>
+
+        <div class="pet-product-grid fp-collection-product-grid fp-collection-product-grid--complementary">
+          {%- for product in complementary_collection.products limit: section.settings.products_to_show -%}
+            {% render 'product-card-pet', product: product, index: forloop.index, show_quick_add: section.settings.show_quick_add, image_ratio: 'square' %}
+          {%- endfor -%}
+        </div>
+      {%- elsif request.design_mode -%}
+        <p class="fp-collection-editor-note">Sélectionnez une collection complémentaire ou renseignez <code>custom.complementary_collection</code>.</p>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Produits complémentaires",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Activer la section", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Pour aller plus loin" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Complétez votre équipement" },
+    { "type": "collection", "id": "collection", "label": "Collection complémentaire" },
+    { "type": "range", "id": "products_to_show", "min": 2, "max": 4, "step": 1, "label": "Produits à afficher", "default": 4 },
+    { "type": "checkbox", "id": "show_quick_add", "label": "Afficher l’ajout rapide", "default": false },
+    { "type": "text", "id": "view_all_label", "label": "Libellé Voir tout", "default": "Voir la collection" }
+  ],
+  "presets": [{ "name": "Produits complémentaires" }]
+}
+{% endschema %}
