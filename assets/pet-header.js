@@ -1,5 +1,6 @@
 (() => {
   const desktopMedia = window.matchMedia('(min-width: 1120px)');
+  const hoverMedia = window.matchMedia('(hover: hover) and (pointer: fine)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const qs = (selector, scope = document) => scope.querySelector(selector);
   const qsa = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -45,7 +46,7 @@
         window.clearTimeout(closeTimer);
         closeTimer = window.setTimeout(() => {
           if (!item.matches(':hover') && !item.contains(document.activeElement)) close();
-        }, 140);
+        }, 200);
       };
 
       trigger.addEventListener('click', () => {
@@ -53,7 +54,9 @@
         if (expanded) close();
         else open();
       });
-      item.addEventListener('pointerenter', open);
+      item.addEventListener('pointerenter', () => {
+        if (hoverMedia.matches) open();
+      });
       item.addEventListener('pointerleave', scheduleClose);
       item.addEventListener('focusin', open);
       item.addEventListener('focusout', scheduleClose);
