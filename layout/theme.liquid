@@ -53,12 +53,18 @@
       {{ 'homepage-flow.css' | asset_url | stylesheet_tag }}
       {{ 'fourpattes-story-thread.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
+    {%- if request.page_type == 'collection' -%}
+      {{ 'collection-premium.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
     {{ 'pet-header.css' | asset_url | stylesheet_tag }}
     {{ 'pet-header-brand-refinement.css' | asset_url | stylesheet_tag }}
     {{ 'pet-header-submenus.css' | asset_url | stylesheet_tag }}
     <script>document.documentElement.classList.remove('no-js');</script>
     <script src="{{ 'pet-theme.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pet-header.js' | asset_url }}" defer="defer"></script>
+    {%- if request.page_type == 'collection' -%}
+      <script src="{{ 'collection-premium.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
     {{ content_for_header }}
   </head>
 
