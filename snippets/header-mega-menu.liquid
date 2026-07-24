@@ -1,10 +1,10 @@
 {% doc %}
   Renders one compact, vertical and accessible FourPattes desktop submenu.
 
-  The selected Shopify Navigation menu supplies up to seven top-level links.
-  When the dedicated picker is empty, the snippet resolves the conventional
-  universe menu handle, then an exact matching parent in main-menu. It never
-  exposes unrelated main-menu links as submenu categories.
+  The dedicated Shopify Navigation menu selected in the Theme Editor supplies
+  up to seven top-level links. The promotional Patous card is independent from
+  the navigation list. No menu handle, collection URL or main-menu fallback is
+  inferred by the theme.
 
   @param {linklist} menu - Dedicated Shopify Navigation menu.
   @param {string} menu_id - Unique panel DOM id.
@@ -31,7 +31,6 @@
 
 {%- liquid
   assign resolved_menu = menu
-  assign conventional_menu_handle = blank
   assign card_has_content = false
   assign has_menu_links = false
   assign rendered_badges = 0
@@ -39,41 +38,8 @@
   assign image_alt_value = image_alt | default: image.alt | default: card_title
   assign patous_alt = 'Patous, the FourPattes mascot'
 
-  case badge_universe
-    when 'dog'
-      assign conventional_menu_handle = 'univers-chien'
-    when 'cat'
-      assign conventional_menu_handle = 'univers-chat'
-    when 'discover'
-      assign conventional_menu_handle = 'decouvrir'
-  endcase
-
   if request.locale.iso_code contains 'fr'
     assign patous_alt = 'Patous, la mascotte FourPattes'
-  endif
-
-  if resolved_menu == blank or resolved_menu.links == blank
-    if conventional_menu_handle != blank
-      assign conventional_menu = linklists[conventional_menu_handle]
-      if conventional_menu != blank and conventional_menu.links != blank
-        assign resolved_menu = conventional_menu
-      endif
-    endif
-  endif
-
-  if resolved_menu == blank or resolved_menu.links == blank
-    assign primary_menu = linklists['main-menu']
-    assign expected_parent_handle = label | handleize
-
-    if primary_menu != blank and primary_menu.links != blank
-      for primary_link in primary_menu.links
-        assign primary_link_handle = primary_link.title | handleize
-        if primary_link_handle == expected_parent_handle and primary_link.links != blank
-          assign resolved_menu = primary_link
-          break
-        endif
-      endfor
-    endif
   endif
 
   if resolved_menu != blank and resolved_menu.links != blank
@@ -88,12 +54,13 @@
 -%}
 
 <div
-  class="pet-header__mega pet-header__mega--compact pet-header__mega--align-{{ panel_alignment }}"
+  class="pet-header__mega pet-header__mega--compact pet-header__mega--align-{{ panel_alignment }}{% unless has_menu_links %} pet-header__mega--without-links{% endunless %}"
   id="{{ menu_id }}"
   role="region"
   aria-labelledby="{{ trigger_id }}"
   hidden
   data-pet-mega-panel
+  data-pet-menu-links="{{ has_menu_links }}"
 >
   <div
     class="pet-header__mega-inner"
