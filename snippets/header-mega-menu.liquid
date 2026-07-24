@@ -1,170 +1,149 @@
 {% doc %}
-  Renders one accessible FourPattes desktop submenu from a Shopify Navigation menu.
+  Renders one compact, vertical and accessible FourPattes desktop submenu.
 
-  Recommended menu structure:
-  - first top-level item: primary group with up to three category children;
-  - second top-level item: secondary group with up to three category children.
+  The selected Shopify Navigation menu supplies up to seven top-level links.
+  No collection, commercial ranking or badge is inferred by the theme.
 
-  A flat menu remains supported: its first three links become the primary group and
-  the next three links become the secondary group. No commercial badge is inferred.
-
-  @param {linklist} menu - Shopify Navigation menu selected by the merchant.
-  @param {string} menu_id - Unique DOM id.
-  @param {string} label - Visible and accessible universe label.
-  @param {image} image - Optional editorial image.
-  @param {string} card_title - Editorial card title.
-  @param {string} card_text - Editorial card text.
-  @param {string} cta_label - Card CTA label.
-  @param {string} cta_link - Card and view-all destination.
+  @param {linklist} menu - Dedicated Shopify Navigation menu.
+  @param {string} menu_id - Unique panel DOM id.
+  @param {string} trigger_id - Id of the controlling button.
+  @param {string} label - Visible universe label.
+  @param {string} icon - FourPattes icon name.
+  @param {string} alignment - start, center or end.
+  @param {image} image - Optional compact editorial image.
+  @param {string} image_alt - Optional merchant-defined image alternative.
+  @param {boolean} card_enabled - Whether the compact card is enabled.
+  @param {string} card_title - Compact card title.
+  @param {string} card_text - Compact card text.
+  @param {string} cta_label - Card or footer CTA label.
+  @param {string} cta_link - Card and universe destination.
+  @param {color} card_background - Card background colour.
+  @param {array} badge_blocks - Section badge blocks.
+  @param {string} badge_universe - dog, cat or discover.
+  @param {boolean} show_badges - Global badge visibility.
+  @param {string} editor_message - Theme Editor empty-state guidance.
 {% enddoc %}
 
 {%- liquid
-  assign first_group = menu.links | first
-  assign second_group = menu.links[1]
-  assign primary_heading = 'Catégories mises en avant'
-  assign secondary_heading = 'Autres essentiels'
-  assign primary_is_grouped = false
-  assign secondary_is_grouped = false
   assign has_menu_links = false
-  assign show_secondary = false
-  assign panel_icon = 'discover'
-  assign view_all_text = 'View all'
-
-  if request.locale.iso_code contains 'fr'
-    assign view_all_text = 'Voir tout'
-  endif
+  assign card_has_content = false
+  assign rendered_badges = 0
+  assign panel_alignment = alignment | default: 'center'
+  assign image_alt_value = image_alt | default: image.alt | default: card_title
 
   if menu != blank and menu.links != blank
     assign has_menu_links = true
   endif
 
-  if menu_id contains 'Dog'
-    assign panel_icon = 'dog'
-  elsif menu_id contains 'Cat'
-    assign panel_icon = 'cat'
-  endif
-
-  if first_group.links != blank
-    assign primary_is_grouped = true
-    assign primary_heading = first_group.title
-  endif
-
-  if second_group.links != blank
-    assign secondary_is_grouped = true
-    assign secondary_heading = second_group.title
-    assign show_secondary = true
-  elsif primary_is_grouped == false and menu.links.size > 3
-    assign show_secondary = true
+  if card_enabled
+    if image != blank or card_title != blank or card_text != blank or cta_label != blank
+      assign card_has_content = true
+    endif
   endif
 -%}
 
 <div
-  class="pet-header__mega pet-header__mega--compact"
+  class="pet-header__mega pet-header__mega--compact pet-header__mega--align-{{ panel_alignment }}"
   id="{{ menu_id }}"
   role="region"
-  aria-label="{{ label | escape }}"
+  aria-labelledby="{{ trigger_id }}"
   hidden
   data-pet-mega-panel
 >
-  <div class="pet-header__mega-inner">
+  <div
+    class="pet-header__mega-inner"
+    style="--pet-submenu-card-bg: {{ card_background | default: '#E7F8F7' }};"
+  >
     <div class="pet-header__mega-titlebar">
       <span class="pet-header__mega-title-icon" aria-hidden="true">
-        {% render 'fourpattes-header-icon', name: panel_icon %}
+        {% render 'fourpattes-header-icon', name: icon %}
       </span>
       <strong>{{ label }}</strong>
     </div>
 
-    <div class="pet-header__mega-layout{% unless has_menu_links %} pet-header__mega-layout--editorial-only{% endunless %}">
-      <div class="pet-header__mega-navigation">
-        {%- if has_menu_links -%}
-          <div class="pet-header__mega-links pet-header__mega-links--curated">
-            <section class="pet-header__mega-column">
-              <h3>{{ primary_heading }}</h3>
-              <ul role="list">
-                {%- if primary_is_grouped -%}
-                  {%- for link in first_group.links limit: 3 -%}
-                    <li>
-                      <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                        <span>{{ link.title }}</span>
-                        <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                      </a>
-                    </li>
-                  {%- endfor -%}
-                {%- else -%}
-                  {%- for link in menu.links limit: 3 -%}
-                    <li>
-                      <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                        <span>{{ link.title }}</span>
-                        <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                      </a>
-                    </li>
-                  {%- endfor -%}
-                {%- endif -%}
-              </ul>
-            </section>
+    <div class="pet-header__submenu-body">
+      {%- if has_menu_links -%}
+        <ul class="pet-header__submenu-list" role="list">
+          {%- for link in menu.links limit: 7 -%}
+            {%- liquid
+              assign matched_badge = blank
 
-            {%- if show_secondary -%}
-              <section class="pet-header__mega-column">
-                <h3>{{ secondary_heading }}</h3>
-                <ul role="list">
-                  {%- if secondary_is_grouped -%}
-                    {%- for link in second_group.links limit: 3 -%}
-                      <li>
-                        <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                          <span>{{ link.title }}</span>
-                          <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                        </a>
-                      </li>
-                    {%- endfor -%}
-                  {%- else -%}
-                    {%- for link in menu.links offset: 3 limit: 3 -%}
-                      <li>
-                        <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
-                          <span>{{ link.title }}</span>
-                          <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-                        </a>
-                      </li>
-                    {%- endfor -%}
+              if show_badges and rendered_badges < 2
+                for block in badge_blocks
+                  if block.type == 'submenu_badge' and block.settings.universe == badge_universe and block.settings.link_label == link.title and block.settings.badge_text != blank
+                    assign matched_badge = block
+                    assign rendered_badges = rendered_badges | plus: 1
+                    break
+                  endif
+                endfor
+              endif
+            -%}
+            <li>
+              <a
+                class="pet-header__submenu-link{% if forloop.first %} is-featured{% endif %}"
+                href="{{ link.url }}"
+                {% if link.current %}aria-current="page"{% endif %}
+              >
+                <span class="pet-header__submenu-link-label">{{ link.title }}</span>
+                <span class="pet-header__submenu-link-meta">
+                  {%- if matched_badge != blank -%}
+                    <span
+                      class="pet-header__submenu-badge pet-header__submenu-badge--{{ matched_badge.settings.style }}"
+                      {{ matched_badge.shopify_attributes }}
+                    >
+                      {{ matched_badge.settings.badge_text }}
+                    </span>
                   {%- endif -%}
-                </ul>
-              </section>
-            {%- endif -%}
-          </div>
-        {%- endif -%}
+                  <span class="pet-header__submenu-arrow" aria-hidden="true">
+                    {% render 'fourpattes-header-icon', name: 'arrow' %}
+                  </span>
+                </span>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- elsif request.design_mode -%}
+        <div class="pet-header__submenu-editor-help" role="status">
+          <strong>{{ label }}</strong>
+          <span>{{ editor_message }}</span>
+        </div>
+      {%- endif -%}
 
-        {%- if cta_link != blank -%}
-          <a class="pet-header__mega-view-all" href="{{ cta_link }}">
-            <span>{{ view_all_text }} — {{ label }}</span>
-            <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
-          </a>
-        {%- endif -%}
-      </div>
-
-      {%- if image != blank or card_title != blank or card_text != blank or cta_label != blank -%}
-        <a class="pet-header__mega-card" href="{{ cta_link }}">
+      {%- if card_has_content -%}
+        <div class="pet-header__submenu-separator" aria-hidden="true"></div>
+        <a class="pet-header__submenu-card" href="{{ cta_link }}">
           {%- if image != blank -%}
-            <div class="pet-header__mega-media">
+            <span class="pet-header__submenu-card-media">
               {{ image
-                | image_url: width: 640
+                | image_url: width: 360
                 | image_tag:
-                  widths: '240, 360, 480, 640',
-                  sizes: '(min-width: 1120px) 240px, 1px',
+                  widths: '120, 180, 240, 360',
+                  sizes: '(min-width: 1120px) 108px, 1px',
                   loading: 'lazy',
-                  alt: image.alt | default: card_title
+                  alt: image_alt_value
               }}
-            </div>
+            </span>
           {%- else -%}
-            <span class="pet-header__mega-illustration" aria-hidden="true">
-              {% render 'fourpattes-header-icon', name: panel_icon %}
+            <span class="pet-header__submenu-card-illustration" aria-hidden="true">
+              {% render 'fourpattes-header-icon', name: icon %}
             </span>
           {%- endif -%}
-          <span class="pet-header__mega-copy">
+          <span class="pet-header__submenu-card-copy">
             {%- if card_title != blank -%}<strong>{{ card_title }}</strong>{%- endif -%}
             {%- if card_text != blank -%}<span>{{ card_text }}</span>{%- endif -%}
             {%- if cta_label != blank -%}
-              <b>{{ cta_label }} {% render 'fourpattes-header-icon', name: 'arrow' %}</b>
+              <b>
+                <span>{{ cta_label }}</span>
+                <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
+              </b>
             {%- endif -%}
           </span>
+        </a>
+      {%- elsif cta_link != blank and has_menu_links -%}
+        <div class="pet-header__submenu-separator" aria-hidden="true"></div>
+        <a class="pet-header__submenu-footer-link" href="{{ cta_link }}">
+          <span>{{ cta_label | default: label }}</span>
+          <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
         </a>
       {%- endif -%}
     </div>
