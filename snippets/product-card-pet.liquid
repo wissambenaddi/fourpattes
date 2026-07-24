@@ -1,8 +1,9 @@
 {% doc %}
-  Renders a playful Shopify product card.
+  Renders a responsive Shopify product card.
   @param {product} product - Shopify product object.
-  @param {number} [index] - Card index used for color and rotation.
+  @param {number} [index] - Card index used for loading priority and legacy palettes.
   @param {boolean} [show_quick_add] - Shows native quick-add form.
+  @param {string} [image_ratio] - square, portrait or adapt.
 {% enddoc %}
 
 {%- liquid
@@ -12,9 +13,45 @@
   assign minimum_price = product.price_min | money
   assign rating_value = product.metafields.reviews.rating.value
   assign rating_count = product.metafields.reviews.rating_count.value
+  assign secondary_image = product.images[1]
+  assign image_loading = 'lazy'
+  assign image_fetchpriority = 'auto'
+  assign ratio_value = '1 / 1'
+  assign primary_image_class = 'pet-product-card__image pet-product-card__image--primary'
+
+  if secondary_image != blank
+    assign primary_image_class = primary_image_class | append: ' has-secondary'
+  endif
+
+  if card_index <= 4
+    assign image_loading = 'eager'
+  endif
+
+  if card_index == 1
+    assign image_fetchpriority = 'high'
+  endif
+
+  case image_ratio
+    when 'portrait'
+      assign ratio_value = '4 / 5'
+    when 'adapt'
+      if product.featured_image.aspect_ratio != blank
+        assign ratio_value = product.featured_image.aspect_ratio
+      endif
+  endcase
+
+  assign available_label = 'Available'
+  assign unavailable_label = 'Unavailable'
+  if request.locale.iso_code contains 'fr'
+    assign available_label = 'Disponible'
+    assign unavailable_label = 'Indisponible'
+  endif
 -%}
 
-<article class="pet-product-card pet-product-card--{{ palette_index }} pet-product-card--tilt-{{ card_index | modulo: 3 }}">
+<article
+  class="pet-product-card pet-product-card--{{ palette_index }} pet-product-card--tilt-{{ card_index | modulo: 3 }}"
+  style="--fp-product-image-ratio: {{ ratio_value }};"
+>
   <a class="pet-product-card__link" href="{{ product.url }}">
     <div class="pet-product-card__media">
       {%- if product.compare_at_price > product.price -%}
@@ -24,29 +61,57 @@
       {%- elsif product.tags contains 'Nouveau' or product.tags contains 'new' -%}
         <span class="pet-badge pet-badge--new">Nouveau</span>
       {%- endif -%}
+
       {%- if product.featured_image != blank -%}
-        {{ product.featured_image | image_url: width: 700 | image_tag: widths: '220, 320, 480, 700', sizes: '(min-width: 990px) 220px, 42vw', loading: 'lazy', alt: product.featured_image.alt | default: product.title }}
+        {{ product.featured_image
+          | image_url: width: 800
+          | image_tag:
+            widths: '220, 320, 480, 640, 800',
+            sizes: '(min-width: 1200px) 22vw, (min-width: 750px) 30vw, 46vw',
+            loading: image_loading,
+            fetchpriority: image_fetchpriority,
+            class: primary_image_class,
+            alt: product.featured_image.alt | default: product.title
+        }}
+        {%- if secondary_image != blank -%}
+          {{ secondary_image
+            | image_url: width: 800
+            | image_tag:
+              widths: '220, 320, 480, 640, 800',
+              sizes: '(min-width: 1200px) 22vw, (min-width: 750px) 30vw, 46vw',
+              loading: 'lazy',
+              class: 'pet-product-card__image pet-product-card__image--secondary',
+              alt: secondary_image.alt | default: product.title
+          }}
+        {%- endif -%}
       {%- else -%}
         {{ 'product-1' | placeholder_svg_tag: 'pet-product-card__placeholder' }}
       {%- endif -%}
     </div>
-    <h3 class="pet-product-card__title">{{ product.title }}</h3>
-    {%- if rating_value != blank -%}
-      <div class="pet-product-card__rating" aria-label="{{ rating_value.rating }} sur {{ rating_value.scale_max }}">
-        <span aria-hidden="true">★</span>
-        <strong>{{ rating_value.rating | round: 1 }}</strong>
-        {%- if rating_count != blank -%}<small>({{ rating_count }})</small>{%- endif -%}
+
+    <div class="pet-product-card__content">
+      <h3 class="pet-product-card__title">{{ product.title }}</h3>
+
+      {%- if rating_value != blank -%}
+        <div class="pet-product-card__rating" aria-label="{{ rating_value.rating }} sur {{ rating_value.scale_max }}">
+          <span aria-hidden="true">★</span>
+          <strong>{{ rating_value.rating | round: 1 }}</strong>
+          {%- if rating_count != blank -%}<small>({{ rating_count }})</small>{%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="pet-product-card__price">
+        {%- if product.price_varies -%}
+          {{ 'products.price_from' | t: price: minimum_price }}
+        {%- else -%}
+          {{ product.price | money }}
+        {%- endif -%}
+        {%- if product.compare_at_price > product.price -%}<s>{{ product.compare_at_price | money }}</s>{%- endif -%}
       </div>
-    {%- endif -%}
-    <div class="pet-product-card__price">
-      {%- if product.price_varies -%}
-        {{ 'products.price_from' | t: price: minimum_price }}
-      {%- else -%}
-        {{ product.price | money }}
-      {%- endif -%}
-      {%- if product.compare_at_price > product.price -%}
-        <s>{{ product.compare_at_price | money }}</s>
-      {%- endif -%}
+
+      <span class="pet-product-card__availability">
+        {%- if product.available -%}{{ available_label }}{%- else -%}{{ unavailable_label }}{%- endif -%}
+      </span>
     </div>
   </a>
 
