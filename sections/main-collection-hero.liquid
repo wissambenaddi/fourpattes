@@ -1,0 +1,100 @@
+{%- liquid
+  assign hero_title = section.settings.custom_title | default: collection.title
+  assign hero_description = collection.metafields.custom.hero_subtitle.value
+
+  if hero_description == blank
+    assign hero_description = section.settings.subtitle
+  endif
+
+  if hero_description == blank and section.settings.show_collection_description and collection.description != blank
+    assign hero_description = collection.description | strip_html | truncatewords: 34
+  endif
+
+  assign hero_image = collection.image
+  if hero_image == blank and collection.metafields.custom.hero_image.value != blank
+    assign hero_image = collection.metafields.custom.hero_image.value
+  endif
+  if hero_image == blank and section.settings.fallback_image != blank
+    assign hero_image = section.settings.fallback_image
+  endif
+
+  assign hero_badge = collection.metafields.custom.hero_badge.value | default: section.settings.badge
+  assign hero_cta_label = collection.metafields.custom.hero_cta_label.value | default: section.settings.cta_label
+  assign hero_cta_link = collection.metafields.custom.hero_cta_link.value | default: section.settings.cta_link
+  assign hero_background = section.settings.background
+  if collection.metafields.custom.accent_color.value != blank
+    assign hero_background = collection.metafields.custom.accent_color.value
+  endif
+-%}
+
+{%- if section.settings.show -%}
+  <section
+    class="fp-collection-hero fp-collection-hero--{{ section.settings.alignment }}{% if hero_image == blank %} fp-collection-hero--text-only{% endif %}"
+    style="--fp-collection-hero-bg: {{ hero_background }}; --fp-collection-hero-text: {{ section.settings.text_color }};"
+    aria-labelledby="CollectionTitle-{{ section.id }}"
+  >
+    {%- if section.settings.show_paws -%}
+      <span class="fp-collection-hero__paw fp-collection-hero__paw--one" aria-hidden="true">{% render 'collection-icon', name: 'paw' %}</span>
+      <span class="fp-collection-hero__paw fp-collection-hero__paw--two" aria-hidden="true">{% render 'collection-icon', name: 'paw' %}</span>
+    {%- endif -%}
+
+    <div class="pet-shell fp-collection-hero__inner">
+      <div class="fp-collection-hero__content" data-pet-reveal>
+        {%- if hero_badge != blank -%}<p class="fp-collection-hero__badge">{{ hero_badge | escape }}</p>{%- endif -%}
+        <h1 id="CollectionTitle-{{ section.id }}">{{ hero_title | escape }}</h1>
+        {%- if hero_description != blank -%}<p class="fp-collection-hero__description">{{ hero_description | escape }}</p>{%- endif -%}
+        {%- if hero_cta_label != blank and hero_cta_link != blank -%}
+          <a class="pet-button fp-collection-hero__cta" href="{{ hero_cta_link }}">{{ hero_cta_label | escape }}</a>
+        {%- endif -%}
+      </div>
+
+      {%- if hero_image != blank -%}
+        <div class="fp-collection-hero__media" data-pet-reveal>
+          {{ hero_image
+            | image_url: width: 1400
+            | image_tag:
+              widths: '360, 540, 720, 960, 1200, 1400',
+              sizes: '(min-width: 990px) 46vw, 92vw',
+              loading: 'eager',
+              fetchpriority: 'high',
+              class: 'fp-collection-hero__image',
+              alt: hero_image.alt | default: hero_title
+          }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <svg class="fp-collection-wave fp-collection-wave--bottom" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 34c185 52 352 54 535 10 191-46 363-46 545-2 145 35 261 31 360 3v45H0Z"/>
+    </svg>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Hero collection premium",
+  "settings": [
+    { "type": "checkbox", "id": "show", "label": "Afficher le hero", "default": true },
+    { "type": "text", "id": "badge", "label": "Sur-titre facultatif" },
+    { "type": "text", "id": "custom_title", "label": "Titre personnalisé", "info": "Laisser vide pour utiliser le titre de la collection." },
+    { "type": "textarea", "id": "subtitle", "label": "Description courte de secours" },
+    { "type": "checkbox", "id": "show_collection_description", "label": "Utiliser la description de collection en dernier recours", "default": true },
+    { "type": "image_picker", "id": "fallback_image", "label": "Image de secours globale" },
+    { "type": "text", "id": "cta_label", "label": "Libellé du CTA" },
+    { "type": "url", "id": "cta_link", "label": "Lien du CTA" },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignement",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Texte à gauche" },
+        { "value": "center", "label": "Centré" }
+      ]
+    },
+    { "type": "checkbox", "id": "show_paws", "label": "Afficher les pattes décoratives", "default": true },
+    { "type": "color", "id": "background", "label": "Fond par défaut", "default": "#BFE2F3" },
+    { "type": "color", "id": "text_color", "label": "Couleur du texte", "default": "#2D1C63" }
+  ]
+}
+{% endschema %}
