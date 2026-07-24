@@ -1,0 +1,64 @@
+{%- liquid
+  assign banner_title = collection.metafields.custom.editorial_banner_title.value | default: section.settings.title
+  assign banner_text = collection.metafields.custom.editorial_banner_text.value | default: section.settings.text
+  assign banner_image = collection.metafields.custom.editorial_banner_image.value | default: section.settings.image
+  assign banner_cta_label = collection.metafields.custom.editorial_banner_cta_label.value | default: section.settings.cta_label
+  assign banner_cta_link = collection.metafields.custom.editorial_banner_cta_link.value | default: section.settings.cta_link
+
+  assign has_content = false
+  if banner_title != blank or banner_text != blank or banner_image != blank
+    assign has_content = true
+  endif
+-%}
+
+{%- if section.settings.enabled and has_content or request.design_mode -%}
+  <section class="fp-collection-editorial" style="--fp-editorial-bg: {{ section.settings.background }}; --fp-editorial-text: {{ section.settings.text_color }};">
+    <div class="pet-shell">
+      {%- if has_content -%}
+        <div class="fp-collection-editorial__card{% if banner_image == blank %} fp-collection-editorial__card--text-only{% endif %}">
+          <div class="fp-collection-editorial__copy" data-pet-reveal>
+            {%- if section.settings.eyebrow != blank -%}<p class="pet-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+            {%- if banner_title != blank -%}<h2>{{ banner_title | escape }}</h2>{%- endif -%}
+            {%- if banner_text != blank -%}<p>{{ banner_text | escape }}</p>{%- endif -%}
+            {%- if banner_cta_label != blank and banner_cta_link != blank -%}
+              <a class="pet-button" href="{{ banner_cta_link }}">{{ banner_cta_label | escape }}</a>
+            {%- endif -%}
+          </div>
+          {%- if banner_image != blank -%}
+            <div class="fp-collection-editorial__media" data-pet-reveal>
+              {{ banner_image
+                | image_url: width: 1100
+                | image_tag:
+                  widths: '360, 540, 720, 900, 1100',
+                  sizes: '(min-width: 990px) 42vw, 92vw',
+                  loading: 'lazy',
+                  class: 'fp-collection-editorial__image',
+                  alt: banner_image.alt | default: banner_title
+              }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- elsif request.design_mode -%}
+        <p class="fp-collection-editor-note">Cette bannière est facultative. Ajoutez du contenu dans le Theme Editor ou via les métachamps éditoriaux.</p>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Bannière collection",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Activer la bannière", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Le conseil FourPattes" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "cta_label", "label": "Libellé du CTA" },
+    { "type": "url", "id": "cta_link", "label": "Lien du CTA" },
+    { "type": "color", "id": "background", "label": "Fond", "default": "#F7C84B" },
+    { "type": "color", "id": "text_color", "label": "Texte", "default": "#2D1C63" }
+  ],
+  "presets": [{ "name": "Bannière collection" }]
+}
+{% endschema %}
