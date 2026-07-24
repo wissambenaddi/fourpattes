@@ -1,13 +1,13 @@
 {% doc %}
   Renders one FourPattes mobile universe as a single-level accessible accordion.
 
-  The dedicated Shopify Navigation menu supplies up to six top-level links.
-  When no menu is selected, the storefront keeps the compact accordion with its
-  direct universe link while the Theme Editor can show configuration guidance.
+  The selected Shopify Navigation menu supplies up to six top-level links.
+  When the dedicated picker is empty, the snippet resolves the conventional
+  universe menu handle, then an exact matching parent in main-menu. Unrelated
+  main-menu links are never exposed as submenu categories.
 
   @param {linklist} menu - Dedicated Shopify Navigation menu.
   @param {string} label - Visible universe label.
-  @param {string} icon - FourPattes icon name.
   @param {string} fallback_link - Direct universe destination.
   @param {boolean} force_accordion - Keeps the accordion markup when submenus are enabled.
   @param {boolean} card_enabled - Whether the editorial card is enabled.
@@ -25,17 +25,54 @@
 {% enddoc %}
 
 {%- liquid
+  assign resolved_menu = menu
+  assign conventional_menu_handle = blank
   assign has_menu_links = false
   assign card_has_content = false
   assign rendered_badges = 0
   assign view_all_text = 'View all'
   assign image_alt_value = image_alt | default: image.alt | default: card_title
+  assign patous_alt = 'Patous, the FourPattes mascot'
+
+  case badge_universe
+    when 'dog'
+      assign conventional_menu_handle = 'univers-chien'
+    when 'cat'
+      assign conventional_menu_handle = 'univers-chat'
+    when 'discover'
+      assign conventional_menu_handle = 'decouvrir'
+  endcase
 
   if request.locale.iso_code contains 'fr'
     assign view_all_text = 'Voir tout'
+    assign patous_alt = 'Patous, la mascotte FourPattes'
   endif
 
-  if menu != blank and menu.links != blank
+  if resolved_menu == blank or resolved_menu.links == blank
+    if conventional_menu_handle != blank
+      assign conventional_menu = linklists[conventional_menu_handle]
+      if conventional_menu != blank and conventional_menu.links != blank
+        assign resolved_menu = conventional_menu
+      endif
+    endif
+  endif
+
+  if resolved_menu == blank or resolved_menu.links == blank
+    assign primary_menu = linklists['main-menu']
+    assign expected_parent_handle = label | handleize
+
+    if primary_menu != blank and primary_menu.links != blank
+      for primary_link in primary_menu.links
+        assign primary_link_handle = primary_link.title | handleize
+        if primary_link_handle == expected_parent_handle and primary_link.links != blank
+          assign resolved_menu = primary_link
+          break
+        endif
+      endfor
+    endif
+  endif
+
+  if resolved_menu != blank and resolved_menu.links != blank
     assign has_menu_links = true
   endif
 
@@ -51,9 +88,6 @@
     <details class="pet-menu-drawer__details">
       <summary>
         <span class="pet-menu-drawer__summary-label">
-          <span class="pet-menu-drawer__universe-icon" aria-hidden="true">
-            {% render 'fourpattes-header-icon', name: icon %}
-          </span>
           <span>{{ label }}</span>
         </span>
         <span class="pet-menu-drawer__chevron" aria-hidden="true">
@@ -61,10 +95,10 @@
         </span>
       </summary>
 
-      <div class="pet-menu-drawer__submenu-content">
+      <div class="pet-menu-drawer__submenu-content pet-menu-drawer__submenu-content--without-icon">
         {%- if has_menu_links -%}
           <ul class="pet-menu-drawer__sublist" role="list">
-            {%- for link in menu.links limit: 6 -%}
+            {%- for link in resolved_menu.links limit: 6 -%}
               {%- liquid
                 assign matched_badge = blank
 
@@ -117,13 +151,20 @@
                   | image_tag:
                     widths: '96, 144, 192, 240',
                     sizes: '72px',
-                    loading: 'lazy',
+                    loading: 'eager',
                     alt: image_alt_value
                 }}
               </span>
             {%- else -%}
-              <span class="pet-menu-drawer__submenu-card-illustration" aria-hidden="true">
-                {% render 'fourpattes-header-icon', name: icon %}
+              <span class="pet-menu-drawer__submenu-card-media pet-menu-drawer__submenu-card-media--patous">
+                <img
+                  src="{{ 'mascotte-fourpattes-bandana.webp' | asset_url }}"
+                  width="863"
+                  height="1027"
+                  loading="eager"
+                  decoding="async"
+                  alt="{{ patous_alt | escape }}"
+                >
               </span>
             {%- endif -%}
             <span class="pet-menu-drawer__submenu-card-copy">
@@ -145,9 +186,6 @@
   {%- else -%}
     <a class="pet-menu-drawer__direct-link" href="{{ fallback_link }}">
       <span class="pet-menu-drawer__summary-label">
-        <span class="pet-menu-drawer__universe-icon" aria-hidden="true">
-          {% render 'fourpattes-header-icon', name: icon %}
-        </span>
         <span>{{ label }}</span>
       </span>
       <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
