@@ -1,0 +1,117 @@
+{%- liquid
+  assign metafield_collections = collection.metafields.custom.related_collections.value
+  assign has_metafield_collections = false
+  if metafield_collections != blank
+    assign has_metafield_collections = true
+  endif
+
+  assign has_items = false
+  if has_metafield_collections or section.blocks.size > 0
+    assign has_items = true
+  endif
+-%}
+
+{%- if has_items or request.design_mode -%}
+  <section class="fp-collection-related" aria-labelledby="RelatedCollectionsTitle-{{ section.id }}">
+    <div class="pet-shell">
+      <div class="fp-collection-section-heading">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}<p class="pet-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+          <h2 id="RelatedCollectionsTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>
+        </div>
+      </div>
+
+      {%- if has_items -%}
+        <div class="fp-collection-related__grid">
+          {%- if has_metafield_collections -%}
+            {%- for related in metafield_collections limit: section.settings.cards_to_show -%}
+              {%- unless related.handle == collection.handle -%}
+                <a class="fp-related-card" href="{{ related.url }}">
+                  <span class="fp-related-card__media">
+                    {%- if related.image != blank -%}
+                      {{ related.image
+                        | image_url: width: 700
+                        | image_tag:
+                          widths: '220, 360, 520, 700',
+                          sizes: '(min-width: 990px) 22vw, 45vw',
+                          loading: 'lazy',
+                          alt: related.image.alt | default: related.title
+                      }}
+                    {%- else -%}
+                      <span class="fp-related-card__placeholder" aria-hidden="true">{% render 'collection-icon', name: 'paw' %}</span>
+                    {%- endif -%}
+                  </span>
+                  <strong>{{ related.title | escape }}</strong>
+                  <span aria-hidden="true">→</span>
+                </a>
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for block in section.blocks limit: section.settings.cards_to_show -%}
+              {%- assign related = block.settings.collection -%}
+              {%- if related != blank and related.handle != collection.handle -%}
+                <a class="fp-related-card" href="{{ related.url }}" {{ block.shopify_attributes }}>
+                  <span class="fp-related-card__media">
+                    {%- if block.settings.image != blank -%}
+                      {{ block.settings.image
+                        | image_url: width: 700
+                        | image_tag:
+                          widths: '220, 360, 520, 700',
+                          sizes: '(min-width: 990px) 22vw, 45vw',
+                          loading: 'lazy',
+                          alt: block.settings.image.alt | default: related.title
+                      }}
+                    {%- elsif related.image != blank -%}
+                      {{ related.image
+                        | image_url: width: 700
+                        | image_tag:
+                          widths: '220, 360, 520, 700',
+                          sizes: '(min-width: 990px) 22vw, 45vw',
+                          loading: 'lazy',
+                          alt: related.image.alt | default: related.title
+                      }}
+                    {%- else -%}
+                      <span class="fp-related-card__placeholder" aria-hidden="true">{% render 'collection-icon', name: 'paw' %}</span>
+                    {%- endif -%}
+                  </span>
+                  <strong>{{ block.settings.title | default: related.title | escape }}</strong>
+                  <span aria-hidden="true">→</span>
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      {%- elsif request.design_mode -%}
+        <p class="fp-collection-editor-note">Ajoutez des blocs collection ou renseignez <code>custom.related_collections</code>.</p>
+      {%- endif -%}
+    </div>
+
+    <svg class="fp-collection-wave fp-collection-wave--footer" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 42c168-39 337-39 505 0 196 45 373 43 548-7 146-42 275-41 387-4v59H0Z"/>
+    </svg>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collections liées",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Poursuivez l’exploration" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "À découvrir aussi" },
+    { "type": "range", "id": "cards_to_show", "min": 3, "max": 6, "step": 1, "label": "Cartes à afficher", "default": 4 }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "title", "label": "Titre personnalisé" },
+        { "type": "image_picker", "id": "image", "label": "Image personnalisée" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Collections liées" }]
+}
+{% endschema %}
