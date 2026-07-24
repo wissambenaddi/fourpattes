@@ -1,104 +1,132 @@
-# Sous-menus FourPattes — audit, correctif et configuration
+# Sous-menus compacts FourPattes — configuration
 
-## Correctif des panneaux invisibles
+## Architecture finale
 
-### Cause racine
+Les anciens méga-menus horizontaux ont été remplacés par trois cartes verticales indépendantes :
 
-Le header rendait le déclencheur et le panneau desktop uniquement lorsque le menu spécialisé de l’univers était déjà sélectionné et contenait au moins un lien.
+- Univers Chien ;
+- Univers Chat ;
+- Découvrir.
 
-Les réglages `dog_menu`, `cat_menu` et `discover_menu` étant absents de `sections/header-group.json`, Liquid rendait trois liens directs au lieu des éléments attendus par `pet-header.js` :
+Chaque panneau desktop utilise une seule colonne, affiche au maximum sept liens Shopify et mesure 350 px par défaut. Le réglage accepte une largeur comprise entre 300 et 380 px.
 
-- aucun `data-pet-mega-item` ;
-- aucun `data-pet-mega-trigger` ;
-- aucun `aria-controls` ;
-- aucun panneau `data-pet-mega-panel`.
+Le drawer tablette et mobile affiche au maximum six liens, puis un lien global vers l’univers.
 
-Le CSS et le JavaScript ne pouvaient donc pas ouvrir les sous-menus, car leur markup n’existait pas dans la page.
+## Aucun repli vers le menu principal
 
-### Comportement corrigé
+Le thème ne réutilise plus automatiquement `main-menu` pour alimenter Chien, Chat ou Découvrir.
 
-Lorsque **Activer les méga-menus** est coché :
+Cela évite l’apparition de liens génériques comme :
 
-- les trois déclencheurs et leurs panneaux sont toujours rendus ;
-- le menu spécialisé sélectionné dans l’éditeur reste prioritaire ;
-- si ce menu est vide, le `Menu mobile complémentaire` sert de repli Shopify Navigation ;
-- si tous les menus sont vides, le panneau conserve sa carte éditoriale et son lien global ;
-- le drawer mobile conserve un accordéon accessible, même sans catégories ;
-- le menu complémentaire n’est pas dupliqué dans le drawer lorsqu’il sert déjà de repli.
+- Accueil ;
+- Catalogue ;
+- Contact ;
+- Mon Magasin.
 
-Le repli garantit le fonctionnement immédiat. Il doit être remplacé par trois menus spécialisés dès que les collections Chien, Chat et Découvrir sont disponibles.
+Si aucun menu spécialisé n’est sélectionné :
 
-## Audit commercial réalisé
+- le storefront conserve un lien direct vers l’univers ;
+- aucun panneau vide n’est rendu ;
+- le Theme Editor affiche une aide de configuration uniquement pendant la personnalisation.
 
-- Période récente analysée : 90 jours.
-- Période de contrôle analysée : 12 mois.
-- Résultat Shopify Analytics : aucune vente exploitable par type de produit.
-- Catalogue Shopify : aucun produit actif trouvé.
-- Collections Shopify : uniquement la collection d’accueil, actuellement vide.
-- Menus existants : menu principal générique, pied de page et compte client.
+## Menus Shopify à créer
 
-Il n’est donc pas possible de déterminer honnêtement les catégories chien ou chat les plus achetées. Le thème n’ajoute aucun badge « Meilleure vente » et n’invente aucun classement.
+Dans **Boutique en ligne → Navigation**, créer trois menus plats distincts.
 
-## Source des catégories
+### Menu Univers Chien
 
-Chaque univers utilise en priorité le menu sélectionné dans l’éditeur de thème :
+Exemple de structure, à adapter aux collections réelles :
 
-- **Menu Chien** pour Univers Chien ;
-- **Menu Chat** pour Univers Chat ;
-- **Menu Découvrir** pour Découvrir.
+1. Tous les accessoires ;
+2. Harnais ;
+3. Laisses ;
+4. Colliers ;
+5. Jouets ;
+6. Gamelles ;
+7. Couchages.
 
-Les URLs et les catégories proviennent uniquement de Shopify Navigation. Elles ne sont pas codées en dur dans le thème.
+### Menu Univers Chat
 
-Tant qu’un menu spécialisé n’est pas sélectionné, le menu complémentaire du header est utilisé comme repli. Dans la configuration actuelle de la boutique, ce repli correspond à `main-menu`.
+Exemple de structure indépendante :
 
-## Structure recommandée d’un menu
+1. Tous les accessoires ;
+2. Jouets ;
+3. Plumeaux et souris ;
+4. Couchages ;
+5. Griffoirs ;
+6. Gamelles ;
+7. Fontaines.
 
-Créer deux éléments de premier niveau dans Shopify Navigation :
+### Menu Découvrir
 
-1. `Catégories mises en avant`
-   - Catégorie 1
-   - Catégorie 2
-   - Catégorie 3
-2. `Autres essentiels`
-   - Catégorie 4
-   - Catégorie 5
-   - Catégorie 6
+Utiliser uniquement des destinations éditoriales réellement disponibles :
 
-Le panneau desktop affiche au maximum trois enfants de chaque groupe. Le drawer mobile affiche au maximum quatre catégories au total, puis le lien global vers l’univers.
+1. Nouveautés ;
+2. Idées cadeaux ;
+3. Notre mission ;
+4. La communauté ;
+5. Conseils et guides.
 
-Un menu plat reste compatible :
+Ne pas ajouter « Meilleures ventes » tant qu’une véritable collection correspondante n’existe pas.
 
-- les trois premiers liens deviennent la première colonne ;
-- les trois liens suivants deviennent la seconde colonne.
+## Sélection dans le Theme Editor
 
-## Utilisation future de données commerciales
+Dans les paramètres de l’en-tête, sélectionner :
 
-Lorsque les ventes et le catalogue seront disponibles :
+- **Menu du sous-menu Chien** ;
+- **Menu du sous-menu Chat** ;
+- **Menu du sous-menu Découvrir**.
 
-1. analyser les unités vendues et le chiffre d’affaires sur 90 jours ;
-2. contrôler la cohérence sur 12 mois ;
-3. séparer les produits chien et chat ;
-4. exclure les commandes annulées et tenir compte des remboursements ;
-5. placer les trois catégories validées en premier dans chaque menu ;
-6. renommer le premier groupe en `Les plus achetés` seulement après validation.
+Le premier lien de chaque menu reçoit une mise en avant légère. Aucun lien n’est créé automatiquement par le thème.
 
-## Carte éditoriale
+## Petite carte éditoriale
 
-La carte de droite utilise les réglages indépendants de chaque univers :
+Chaque univers possède des réglages indépendants :
 
+- activation de la carte ;
+- affichage facultatif dans le drawer ;
 - image ;
+- texte alternatif ;
 - titre ;
-- texte ;
+- texte court ;
 - libellé du CTA ;
-- lien du CTA.
+- lien ;
+- couleur de fond.
 
-En l’absence de données de vente, conserver une formulation éditoriale telle que `Nos favoris` ou `Nos coups de cœur`, et éviter `Les plus commandés`.
+Si la carte est désactivée, le panneau conserve un CTA texte compact en bas.
 
-## Comportement responsive et accessible
+## Badges facultatifs
 
-- Desktop : ouverture au survol, au focus et au clic via le système existant.
-- Clavier : `aria-expanded`, `aria-haspopup`, navigation par Tab, fermeture avec Échap et retour du focus.
-- Clic extérieur : fermeture via le script existant.
-- Mobile et tablette : accordéons natifs `<details>` avec zones tactiles d’au moins 44 px.
-- Sticky : le panneau reste au-dessus du contenu et conserve le correctif pleine largeur du header.
-- Réduction des mouvements : l’animation d’entrée du panneau est désactivée lorsque l’utilisateur le demande.
+Ajouter un bloc **Badge de sous-menu** dans la section d’en-tête, puis renseigner :
+
+- l’univers ;
+- le libellé exact du lien Shopify ;
+- le texte du badge ;
+- le style turquoise, jaune ou rose.
+
+Le rendu limite l’affichage à deux badges par panneau. La section accepte six blocs au total.
+
+Les badges doivent correspondre à une information réelle. Le thème ne génère aucun badge « Populaire », « Promotion » ou « Meilleure vente » automatiquement.
+
+## Responsive et accessibilité
+
+- Desktop à partir de 1120 px : ouverture au survol avec souris, au focus et au clic.
+- Appareil tactile large : ouverture au clic, sans dépendance au hover.
+- Tablette et mobile sous 1120 px : accordéons natifs dans le drawer.
+- Fermeture desktop : sortie différée de 200 ms, clic extérieur, Échap ou ouverture d’un autre panneau.
+- Les panneaux fermés utilisent l’attribut `hidden` et ne sont pas parcourables au clavier.
+- Les zones tactiles mesurent au moins 44 px.
+- `prefers-reduced-motion` désactive l’animation d’entrée.
+
+## Éléments préservés
+
+La transformation ne modifie pas :
+
+- la barre d’annonce ;
+- le Hero ;
+- le logo ;
+- le sticky pleine largeur ;
+- le compte ;
+- le sac et son badge ;
+- la suppression de la recherche ;
+- les templates produit, collection, panier, compte ou 404.
