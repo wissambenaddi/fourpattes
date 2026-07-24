@@ -2,13 +2,14 @@
   Renders one compact, vertical and accessible FourPattes desktop submenu.
 
   The selected Shopify Navigation menu supplies up to seven top-level links.
-  No collection, commercial ranking or badge is inferred by the theme.
+  When the dedicated picker is empty, the snippet resolves the conventional
+  universe menu handle, then an exact matching parent in main-menu. It never
+  exposes unrelated main-menu links as submenu categories.
 
   @param {linklist} menu - Dedicated Shopify Navigation menu.
   @param {string} menu_id - Unique panel DOM id.
   @param {string} trigger_id - Id of the controlling button.
   @param {string} label - Visible universe label.
-  @param {string} icon - FourPattes icon name.
   @param {string} alignment - start, center or end.
   @param {image} image - Optional compact editorial image.
   @param {string} image_alt - Optional merchant-defined image alternative.
@@ -24,14 +25,58 @@
   @param {string} editor_message - Theme Editor empty-state guidance.
 {% enddoc %}
 
+{%- if badge_universe == 'dog' -%}
+  {{ 'pet-header-compact-fix.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
 {%- liquid
-  assign has_menu_links = false
+  assign resolved_menu = menu
+  assign conventional_menu_handle = blank
   assign card_has_content = false
+  assign has_menu_links = false
   assign rendered_badges = 0
   assign panel_alignment = alignment | default: 'center'
   assign image_alt_value = image_alt | default: image.alt | default: card_title
+  assign patous_alt = 'Patous, the FourPattes mascot'
 
-  if menu != blank and menu.links != blank
+  case badge_universe
+    when 'dog'
+      assign conventional_menu_handle = 'univers-chien'
+    when 'cat'
+      assign conventional_menu_handle = 'univers-chat'
+    when 'discover'
+      assign conventional_menu_handle = 'decouvrir'
+  endcase
+
+  if request.locale.iso_code contains 'fr'
+    assign patous_alt = 'Patous, la mascotte FourPattes'
+  endif
+
+  if resolved_menu == blank or resolved_menu.links == blank
+    if conventional_menu_handle != blank
+      assign conventional_menu = linklists[conventional_menu_handle]
+      if conventional_menu != blank and conventional_menu.links != blank
+        assign resolved_menu = conventional_menu
+      endif
+    endif
+  endif
+
+  if resolved_menu == blank or resolved_menu.links == blank
+    assign primary_menu = linklists['main-menu']
+    assign expected_parent_handle = label | handleize
+
+    if primary_menu != blank and primary_menu.links != blank
+      for primary_link in primary_menu.links
+        assign primary_link_handle = primary_link.title | handleize
+        if primary_link_handle == expected_parent_handle and primary_link.links != blank
+          assign resolved_menu = primary_link
+          break
+        endif
+      endfor
+    endif
+  endif
+
+  if resolved_menu != blank and resolved_menu.links != blank
     assign has_menu_links = true
   endif
 
@@ -55,16 +100,13 @@
     style="--pet-submenu-card-bg: {{ card_background | default: '#E7F8F7' }};"
   >
     <div class="pet-header__mega-titlebar">
-      <span class="pet-header__mega-title-icon" aria-hidden="true">
-        {% render 'fourpattes-header-icon', name: icon %}
-      </span>
       <strong>{{ label }}</strong>
     </div>
 
     <div class="pet-header__submenu-body">
       {%- if has_menu_links -%}
         <ul class="pet-header__submenu-list" role="list">
-          {%- for link in menu.links limit: 7 -%}
+          {%- for link in resolved_menu.links limit: 7 -%}
             {%- liquid
               assign matched_badge = blank
 
@@ -110,7 +152,7 @@
       {%- endif -%}
 
       {%- if card_has_content -%}
-        <div class="pet-header__submenu-separator" aria-hidden="true"></div>
+        {%- if has_menu_links or request.design_mode -%}<div class="pet-header__submenu-separator" aria-hidden="true"></div>{%- endif -%}
         <a class="pet-header__submenu-card" href="{{ cta_link }}">
           {%- if image != blank -%}
             <span class="pet-header__submenu-card-media">
@@ -119,13 +161,20 @@
                 | image_tag:
                   widths: '120, 180, 240, 360',
                   sizes: '(min-width: 1120px) 108px, 1px',
-                  loading: 'lazy',
+                  loading: 'eager',
                   alt: image_alt_value
               }}
             </span>
           {%- else -%}
-            <span class="pet-header__submenu-card-illustration" aria-hidden="true">
-              {% render 'fourpattes-header-icon', name: icon %}
+            <span class="pet-header__submenu-card-media pet-header__submenu-card-media--patous">
+              <img
+                src="{{ 'mascotte-fourpattes-bandana.webp' | asset_url }}"
+                width="863"
+                height="1027"
+                loading="eager"
+                decoding="async"
+                alt="{{ patous_alt | escape }}"
+              >
             </span>
           {%- endif -%}
           <span class="pet-header__submenu-card-copy">
@@ -140,7 +189,7 @@
           </span>
         </a>
       {%- elsif cta_link != blank -%}
-        <div class="pet-header__submenu-separator" aria-hidden="true"></div>
+        {%- if has_menu_links or request.design_mode -%}<div class="pet-header__submenu-separator" aria-hidden="true"></div>{%- endif -%}
         <a class="pet-header__submenu-footer-link" href="{{ cta_link }}">
           <span>{{ cta_label | default: label }}</span>
           <span aria-hidden="true">{% render 'fourpattes-header-icon', name: 'arrow' %}</span>
