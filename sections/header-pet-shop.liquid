@@ -14,34 +14,9 @@
   assign dog_navigation_menu = section.settings.dog_menu
   assign cat_navigation_menu = section.settings.cat_menu
   assign discover_navigation_menu = section.settings.discover_menu
-  assign dog_has_menu = false
-  assign cat_has_menu = false
-  assign discover_has_menu = false
-  assign render_dog_submenu = false
-  assign render_cat_submenu = false
-  assign render_discover_submenu = false
-
-  if dog_navigation_menu != blank and dog_navigation_menu.links != blank
-    assign dog_has_menu = true
-  endif
-  if cat_navigation_menu != blank and cat_navigation_menu.links != blank
-    assign cat_has_menu = true
-  endif
-  if discover_navigation_menu != blank and discover_navigation_menu.links != blank
-    assign discover_has_menu = true
-  endif
-
-  if section.settings.enable_mega_menus
-    if dog_has_menu or request.design_mode
-      assign render_dog_submenu = true
-    endif
-    if cat_has_menu or request.design_mode
-      assign render_cat_submenu = true
-    endif
-    if discover_has_menu or request.design_mode
-      assign render_discover_submenu = true
-    endif
-  endif
+  assign render_dog_submenu = section.settings.enable_mega_menus
+  assign render_cat_submenu = section.settings.enable_mega_menus
+  assign render_discover_submenu = section.settings.enable_mega_menus
 
   if request.locale.iso_code contains 'fr'
     assign navigation_label = 'Navigation principale'
@@ -299,6 +274,7 @@
             label: section.settings.dog_label,
             icon: section.settings.dog_icon,
             fallback_link: dog_fallback_link,
+            force_accordion: section.settings.enable_mega_menus,
             card_enabled: section.settings.dog_card_enabled,
             card_mobile: section.settings.dog_card_mobile,
             image: section.settings.dog_image,
@@ -317,6 +293,7 @@
             label: section.settings.cat_label,
             icon: section.settings.cat_icon,
             fallback_link: cat_fallback_link,
+            force_accordion: section.settings.enable_mega_menus,
             card_enabled: section.settings.cat_card_enabled,
             card_mobile: section.settings.cat_card_mobile,
             image: section.settings.cat_image,
@@ -335,6 +312,7 @@
             label: section.settings.discover_label,
             icon: section.settings.discover_icon,
             fallback_link: discover_fallback_link,
+            force_accordion: section.settings.enable_mega_menus,
             card_enabled: section.settings.discover_card_enabled,
             card_mobile: section.settings.discover_card_mobile,
             image: section.settings.discover_image,
