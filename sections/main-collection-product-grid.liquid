@@ -1,0 +1,259 @@
+{%- liquid
+  assign current_sort = collection.sort_by | default: collection.default_sort_by
+  assign active_filter_count = 0
+
+  for filter in collection.filters
+    assign active_filter_count = active_filter_count | plus: filter.active_values.size
+    if filter.min_value.value != blank or filter.max_value.value != blank
+      assign active_filter_count = active_filter_count | plus: 1
+    endif
+  endfor
+
+  assign filters_label = 'Filters'
+  assign filter_sort_label = 'Filter and sort'
+  assign sort_label = 'Sort by'
+  assign apply_label = 'Apply'
+  assign reset_label = 'Reset'
+  assign close_label = 'Close filters'
+  assign min_label = 'Min.'
+  assign max_label = 'Max.'
+  assign products_label = 'products'
+  assign product_label = 'product'
+  assign empty_filter_title = 'No products match these filters'
+  assign empty_filter_text = 'Try removing one or more filters.'
+  assign clear_filters_label = 'Clear filters'
+
+  if request.locale.iso_code contains 'fr'
+    assign filters_label = 'Filtres'
+    assign filter_sort_label = 'Filtrer et trier'
+    assign sort_label = 'Trier par'
+    assign apply_label = 'Appliquer'
+    assign reset_label = 'Réinitialiser'
+    assign close_label = 'Fermer les filtres'
+    assign min_label = 'Min.'
+    assign max_label = 'Max.'
+    assign products_label = 'produits'
+    assign product_label = 'produit'
+    assign empty_filter_title = 'Aucun produit ne correspond à ces filtres'
+    assign empty_filter_text = 'Essayez de retirer un ou plusieurs filtres.'
+    assign clear_filters_label = 'Effacer les filtres'
+  endif
+-%}
+
+<section
+  class="fp-collection-grid-section"
+  style="--fp-collection-columns-desktop: {{ section.settings.columns_desktop }}; --fp-collection-columns-mobile: {{ section.settings.columns_mobile }};"
+  data-fp-collection
+  aria-labelledby="CollectionProductsTitle-{{ section.id }}"
+>
+  <div class="pet-shell">
+    <div class="fp-collection-grid__heading">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="pet-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        <h2 id="CollectionProductsTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>
+      </div>
+    </div>
+
+    {%- paginate collection.products by section.settings.products_per_page -%}
+      <div class="fp-collection-toolbar">
+        <div class="fp-collection-toolbar__left">
+          {%- if section.settings.show_filters and collection.filters != empty -%}
+            <button
+              class="fp-collection-filter-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="CollectionFilterDrawer-{{ section.id }}"
+              data-fp-filter-open
+            >
+              <span aria-hidden="true">{% render 'collection-icon', name: 'filter' %}</span>
+              <span>{{ filter_sort_label }}</span>
+              {%- if active_filter_count > 0 -%}<b>{{ active_filter_count }}</b>{%- endif -%}
+            </button>
+          {%- endif -%}
+
+          <p class="fp-collection-count" aria-live="polite">
+            <strong>{{ paginate.items }}</strong>
+            {%- if paginate.items == 1 -%} {{ product_label }}{%- else -%} {{ products_label }}{%- endif -%}
+          </p>
+        </div>
+
+        {%- if section.settings.show_sorting -%}
+          <form class="fp-collection-sort" method="get" action="{{ collection.url }}">
+            {%- for filter in collection.filters -%}
+              {%- for value in filter.active_values -%}
+                <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
+              {%- endfor -%}
+              {%- if filter.type == 'price_range' -%}
+                {%- if filter.min_value.value != blank -%}<input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '.' }}">{%- endif -%}
+                {%- if filter.max_value.value != blank -%}<input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '.' }}">{%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+            <label for="SortBy-{{ section.id }}">{{ sort_label }}</label>
+            <select id="SortBy-{{ section.id }}" name="sort_by" data-pet-auto-submit>
+              {%- for option in collection.sort_options -%}
+                <option value="{{ option.value }}"{% if option.value == current_sort %} selected{% endif %}>{{ option.name }}</option>
+              {%- endfor -%}
+            </select>
+          </form>
+        {%- endif -%}
+      </div>
+
+      {%- if active_filter_count > 0 -%}
+        <div class="fp-collection-active-filters" aria-label="{{ filters_label | escape }}">
+          {%- for filter in collection.filters -%}
+            {%- for value in filter.active_values -%}
+              <a href="{{ value.url_to_remove }}">
+                <span>{{ filter.label | escape }}: {{ value.label | escape }}</span>
+                <span aria-hidden="true">×</span>
+              </a>
+            {%- endfor -%}
+            {%- assign has_price_filter = false -%}
+            {%- if filter.type == 'price_range' -%}
+              {%- if filter.min_value.value != blank or filter.max_value.value != blank -%}
+                {%- assign has_price_filter = true -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- if has_price_filter -%}
+              <a href="{{ filter.url_to_remove }}">
+                <span>
+                  {{ filter.label | escape }}:
+                  {%- if filter.min_value.value != blank %} {{ filter.min_value.value | money }}{% endif -%}
+                  {%- if filter.min_value.value != blank and filter.max_value.value != blank %} –{% endif -%}
+                  {%- if filter.max_value.value != blank %} {{ filter.max_value.value | money }}{% endif -%}
+                </span>
+                <span aria-hidden="true">×</span>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+          <a class="fp-collection-active-filters__clear" href="{{ collection.url }}">{{ clear_filters_label }}</a>
+        </div>
+      {%- endif -%}
+
+      <div class="fp-collection-layout">
+        {%- if section.settings.show_filters and collection.filters != empty -%}
+          <aside class="fp-collection-filters-desktop" aria-label="{{ filters_label | escape }}">
+            {% render 'collection-filter-form',
+              collection: collection,
+              scope: 'desktop',
+              section: section,
+              active_filter_count: active_filter_count,
+              filters_label: filters_label,
+              apply_label: apply_label,
+              reset_label: reset_label,
+              min_label: min_label,
+              max_label: max_label
+            %}
+          </aside>
+        {%- endif -%}
+
+        <div class="fp-collection-products">
+          {%- if collection.products.size > 0 -%}
+            <div class="pet-product-grid fp-collection-product-grid">
+              {%- for product in collection.products -%}
+                {% render 'product-card-pet',
+                  product: product,
+                  index: forloop.index,
+                  show_quick_add: section.settings.show_quick_add,
+                  image_ratio: section.settings.image_ratio
+                %}
+              {%- endfor -%}
+            </div>
+          {%- else -%}
+            <div class="fp-collection-empty" role="status">
+              {%- if active_filter_count > 0 -%}
+                <span class="fp-collection-empty__icon" aria-hidden="true">{% render 'collection-icon', name: 'filter' %}</span>
+                <h3>{{ empty_filter_title }}</h3>
+                <p>{{ empty_filter_text }}</p>
+                <a class="pet-button pet-button--outline" href="{{ collection.url }}">{{ clear_filters_label }}</a>
+              {%- else -%}
+                <img
+                  class="fp-collection-empty__patous"
+                  src="{{ 'mascotte-fourpattes-bandana.webp' | asset_url }}"
+                  width="863"
+                  height="1027"
+                  loading="lazy"
+                  alt=""
+                >
+                <h3>{{ section.settings.empty_title | escape }}</h3>
+                <p>{{ section.settings.empty_text | escape }}</p>
+                {%- assign empty_link = routes.all_products_collection_url -%}
+                {%- if section.settings.empty_link != blank -%}{%- assign empty_link = section.settings.empty_link.url -%}{%- endif -%}
+                {%- if section.settings.empty_cta_label != blank and empty_link != blank -%}
+                  <a class="pet-button" href="{{ empty_link }}">{{ section.settings.empty_cta_label | escape }}</a>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="pet-pagination fp-collection-pagination" aria-label="Pagination">
+              {{ paginate | default_pagination }}
+            </nav>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- if section.settings.show_filters and collection.filters != empty -%}
+        <div
+          class="fp-collection-filter-drawer"
+          id="CollectionFilterDrawer-{{ section.id }}"
+          hidden
+          data-fp-filter-drawer
+        >
+          <button class="fp-collection-filter-drawer__overlay" type="button" aria-label="{{ close_label | escape }}" data-fp-filter-close></button>
+          <div class="fp-collection-filter-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="CollectionFilterDrawerTitle-{{ section.id }}">
+            <div class="fp-collection-filter-drawer__top">
+              <strong id="CollectionFilterDrawerTitle-{{ section.id }}">{{ filter_sort_label }}</strong>
+              <button class="fp-collection-filter-drawer__close" type="button" aria-label="{{ close_label | escape }}" data-fp-filter-close>
+                {% render 'collection-icon', name: 'close' %}
+              </button>
+            </div>
+            {% render 'collection-filter-form',
+              collection: collection,
+              scope: 'mobile',
+              section: section,
+              active_filter_count: active_filter_count,
+              filters_label: filters_label,
+              apply_label: apply_label,
+              reset_label: reset_label,
+              min_label: min_label,
+              max_label: max_label
+            %}
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Grille collection premium",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "La sélection FourPattes" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Découvrez la collection" },
+    { "type": "range", "id": "products_per_page", "min": 8, "max": 32, "step": 4, "label": "Produits par page", "default": 16 },
+    { "type": "checkbox", "id": "show_filters", "label": "Afficher les filtres", "default": true },
+    { "type": "checkbox", "id": "show_sorting", "label": "Afficher le tri", "default": true },
+    { "type": "checkbox", "id": "show_quick_add", "label": "Afficher l’ajout rapide", "default": true },
+    { "type": "range", "id": "columns_desktop", "min": 3, "max": 4, "step": 1, "label": "Colonnes sur ordinateur", "default": 3 },
+    { "type": "range", "id": "columns_mobile", "min": 1, "max": 2, "step": 1, "label": "Colonnes sur mobile", "default": 2 },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Ratio des images produit",
+      "default": "square",
+      "options": [
+        { "value": "square", "label": "Carré" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "adapt", "label": "Adaptatif" }
+      ]
+    },
+    { "type": "header", "content": "État vide" },
+    { "type": "text", "id": "empty_title", "label": "Titre", "default": "La meute prépare encore cette sélection" },
+    { "type": "textarea", "id": "empty_text", "label": "Texte", "default": "De nouveaux produits pourront être ajoutés ici prochainement." },
+    { "type": "text", "id": "empty_cta_label", "label": "Libellé du CTA", "default": "Découvrir tous les produits" },
+    { "type": "collection", "id": "empty_link", "label": "Collection du CTA" }
+  ]
+}
+{% endschema %}
