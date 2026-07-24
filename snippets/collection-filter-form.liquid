@@ -1,0 +1,87 @@
+{%- liquid
+  assign current_sort = collection.sort_by | default: collection.default_sort_by
+  assign form_id = 'CollectionFilters-' | append: scope | append: '-' | append: section.id
+-%}
+
+<form id="{{ form_id }}" class="fp-collection-filter-form" method="get" action="{{ collection.url }}">
+  <input type="hidden" name="sort_by" value="{{ current_sort }}">
+
+  <div class="fp-collection-filter-form__heading">
+    <strong>{{ filters_label }}</strong>
+    {%- if active_filter_count > 0 -%}<span>{{ active_filter_count }}</span>{%- endif -%}
+  </div>
+
+  {%- for filter in collection.filters -%}
+    {%- assign filter_is_active = false -%}
+    {%- if filter.active_values.size > 0 or filter.min_value.value != blank or filter.max_value.value != blank -%}
+      {%- assign filter_is_active = true -%}
+    {%- endif -%}
+
+    <details class="fp-collection-filter" {% if filter_is_active %}open{% endif %}>
+      <summary>
+        <span>{{ filter.label | escape }}</span>
+        <span aria-hidden="true">{% render 'pet-icon', name: 'chevron' %}</span>
+      </summary>
+
+      <div class="fp-collection-filter__content">
+        {%- case filter.type -%}
+          {%- when 'boolean', 'list' -%}
+            <ul role="list">
+              {%- for value in filter.values -%}
+                {%- assign input_id = scope | append: '-' | append: filter.param_name | handle | append: '-' | append: forloop.index | append: '-' | append: section.id -%}
+                <li>
+                  <label for="{{ input_id }}">
+                    <input
+                      id="{{ input_id }}"
+                      type="checkbox"
+                      name="{{ value.param_name }}"
+                      value="{{ value.value }}"
+                      {% if value.active %}checked{% endif %}
+                      {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                    >
+                    <span>{{ value.label | escape }}</span>
+                    <small>{{ value.count }}</small>
+                  </label>
+                </li>
+              {%- endfor -%}
+            </ul>
+
+          {%- when 'price_range' -%}
+            <div class="fp-collection-filter__price">
+              <label for="{{ scope }}-PriceMin-{{ section.id }}">
+                <span>{{ min_label }}</span>
+                <input
+                  id="{{ scope }}-PriceMin-{{ section.id }}"
+                  type="number"
+                  name="{{ filter.min_value.param_name }}"
+                  value="{{ filter.min_value.value | money_without_currency | replace: ',', '.' }}"
+                  min="0"
+                  max="{{ filter.range_max | money_without_currency | replace: ',', '.' }}"
+                  inputmode="decimal"
+                  placeholder="0"
+                >
+              </label>
+              <label for="{{ scope }}-PriceMax-{{ section.id }}">
+                <span>{{ max_label }}</span>
+                <input
+                  id="{{ scope }}-PriceMax-{{ section.id }}"
+                  type="number"
+                  name="{{ filter.max_value.param_name }}"
+                  value="{{ filter.max_value.value | money_without_currency | replace: ',', '.' }}"
+                  min="0"
+                  max="{{ filter.range_max | money_without_currency | replace: ',', '.' }}"
+                  inputmode="decimal"
+                  placeholder="{{ filter.range_max | money_without_currency | replace: ',', '.' }}"
+                >
+              </label>
+            </div>
+        {%- endcase -%}
+      </div>
+    </details>
+  {%- endfor -%}
+
+  <div class="fp-collection-filter-form__actions">
+    <button class="pet-button" type="submit">{{ apply_label }}</button>
+    <a href="{{ collection.url }}">{{ reset_label }}</a>
+  </div>
+</form>
