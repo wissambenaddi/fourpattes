@@ -139,7 +139,7 @@
             {%- endif -%}
           </span>
         </a>
-      {%- elsif cta_link != blank and has_menu_links -%}
+      {%- elsif cta_link != blank -%}
         <div class="pet-header__submenu-separator" aria-hidden="true"></div>
         <a class="pet-header__submenu-footer-link" href="{{ cta_link }}">
           <span>{{ cta_label | default: label }}</span>
