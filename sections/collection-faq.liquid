@@ -1,0 +1,130 @@
+{%- liquid
+  assign metafield_faq = collection.metafields.custom.faq.value
+  assign has_metafield_faq = false
+  if metafield_faq != blank
+    assign has_metafield_faq = true
+  endif
+
+  assign has_faq = false
+  if has_metafield_faq or section.blocks.size > 0
+    assign has_faq = true
+  endif
+-%}
+
+{%- if has_faq or request.design_mode -%}
+  <section class="fp-collection-faq" aria-labelledby="CollectionFaqTitle-{{ section.id }}">
+    <div class="pet-shell fp-collection-faq__inner">
+      <div class="fp-collection-faq__heading">
+        {%- if section.settings.eyebrow != blank -%}<p class="pet-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        <h2 id="CollectionFaqTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>
+      </div>
+
+      {%- if has_faq -%}
+        <div class="fp-collection-faq__items" data-fp-faq>
+          {%- if has_metafield_faq -%}
+            {%- for item in metafield_faq limit: 8 -%}
+              {%- liquid
+                assign question = item.question.value | default: item.question
+                assign answer = item.answer.value | default: item.answer
+                assign answer_id = 'FaqAnswer-' | append: section.id | append: '-meta-' | append: forloop.index
+              -%}
+              {%- if question != blank and answer != blank -%}
+                <div class="fp-collection-faq__item">
+                  <h3>
+                    <button type="button" aria-expanded="false" aria-controls="{{ answer_id }}" data-fp-faq-button>
+                      <span>{{ question | escape }}</span><span aria-hidden="true">+</span>
+                    </button>
+                  </h3>
+                  <div id="{{ answer_id }}" class="fp-collection-faq__answer" hidden data-fp-faq-answer>{{ answer | newline_to_br }}</div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for block in section.blocks -%}
+              {%- if block.settings.question != blank and block.settings.answer != blank -%}
+                {%- assign answer_id = 'FaqAnswer-' | append: section.id | append: '-' | append: block.id -%}
+                <div class="fp-collection-faq__item" {{ block.shopify_attributes }}>
+                  <h3>
+                    <button type="button" aria-expanded="false" aria-controls="{{ answer_id }}" data-fp-faq-button>
+                      <span>{{ block.settings.question | escape }}</span><span aria-hidden="true">+</span>
+                    </button>
+                  </h3>
+                  <div id="{{ answer_id }}" class="fp-collection-faq__answer" hidden data-fp-faq-answer>{{ block.settings.answer }}</div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      {%- elsif request.design_mode -%}
+        <p class="fp-collection-editor-note">Ajoutez des blocs FAQ ou renseignez le métachamp <code>custom.faq</code>.</p>
+      {%- endif -%}
+    </div>
+
+    {%- if has_faq -%}
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {%- assign faq_json_count = 0 -%}
+            {%- if has_metafield_faq -%}
+              {%- for item in metafield_faq limit: 8 -%}
+                {%- assign question = item.question.value | default: item.question -%}
+                {%- assign answer = item.answer.value | default: item.answer -%}
+                {%- if question != blank and answer != blank -%}
+                  {%- if faq_json_count > 0 -%},{%- endif -%}
+                  {
+                    "@type": "Question",
+                    "name": {{ question | json }},
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": {{ answer | strip_html | json }}
+                    }
+                  }
+                  {%- assign faq_json_count = faq_json_count | plus: 1 -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- else -%}
+              {%- for block in section.blocks -%}
+                {%- if block.settings.question != blank and block.settings.answer != blank -%}
+                  {%- if faq_json_count > 0 -%},{%- endif -%}
+                  {
+                    "@type": "Question",
+                    "name": {{ block.settings.question | json }},
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": {{ block.settings.answer | strip_html | json }}
+                    }
+                  }
+                  {%- assign faq_json_count = faq_json_count | plus: 1 -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          ]
+        }
+      </script>
+    {%- endif -%}
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FAQ collection",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Besoin d’un conseil ?" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Questions fréquentes" }
+  ],
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Réponse" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FAQ collection" }]
+}
+{% endschema %}
