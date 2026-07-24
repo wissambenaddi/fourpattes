@@ -1,0 +1,59 @@
+{%- if section.blocks.size > 0 -%}
+  <section class="fp-collection-trust" aria-label="{{ section.settings.accessibility_label | escape }}">
+    <div class="pet-shell fp-collection-trust__grid">
+      {%- for block in section.blocks limit: 4 -%}
+        {%- if block.settings.title != blank -%}
+          <div class="fp-collection-trust__item" {{ block.shopify_attributes }}>
+            <span class="fp-collection-trust__icon" aria-hidden="true">{% render 'collection-icon', name: block.settings.icon %}</span>
+            <span class="fp-collection-trust__copy">
+              <strong>{{ block.settings.title | escape }}</strong>
+              {%- if block.settings.text != blank -%}<small>{{ block.settings.text | escape }}</small>{%- endif -%}
+            </span>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Réassurance collection",
+  "settings": [
+    { "type": "text", "id": "accessibility_label", "label": "Libellé d’accessibilité", "default": "Informations de service" }
+  ],
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Élément",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "shipping",
+          "options": [
+            { "value": "shipping", "label": "Livraison" },
+            { "value": "payment", "label": "Paiement" },
+            { "value": "care", "label": "Soin" },
+            { "value": "support", "label": "Service client" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Titre" },
+        { "type": "text", "id": "text", "label": "Texte facultatif" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Réassurance collection",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "shipping", "title": "Livraison offerte dès 49 €" } },
+        { "type": "item", "settings": { "icon": "payment", "title": "Paiement sécurisé" } },
+        { "type": "item", "settings": { "icon": "care", "title": "Chaque colis est préparé avec soin" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
