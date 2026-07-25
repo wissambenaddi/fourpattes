@@ -1,0 +1,26 @@
+/* FourPattes collection touch-target safeguards */
+.fp-collection-active-filters a,
+.fp-collection-filter li label,
+.fp-collection-filter-form__actions > a,
+.fp-collection-pagination .page,
+.fp-collection-pagination a,
+.fp-collection-pagination span,
+.pet-template-collection .pet-quick-add__button,
+.pet-template-collection .pet-product-card__options,
+.pet-template-collection .pet-product-card__soldout {
+  min-height: 44px;
+}
+
+.fp-collection-filter-form__actions > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 420px) {
+  .pet-template-collection .pet-quick-add__button,
+  .pet-template-collection .pet-product-card__options,
+  .pet-template-collection .pet-product-card__soldout {
+    min-height: 44px;
+  }
+}
