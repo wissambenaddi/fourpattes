@@ -21,6 +21,10 @@
   assign ratio_value = '1 / 1'
   assign primary_image_class = 'pet-product-card__image pet-product-card__image--primary'
 
+  if request.page_type == 'collection'
+    assign is_collection_card = true
+  endif
+
   if is_collection_card
     assign secondary_image = product.images[1]
   endif
