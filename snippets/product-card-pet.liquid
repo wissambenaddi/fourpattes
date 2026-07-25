@@ -27,18 +27,16 @@
 
   if is_collection_card
     assign secondary_image = product.images[1]
+    if card_index <= 4
+      assign image_loading = 'eager'
+    endif
+    if card_index == 1
+      assign image_fetchpriority = 'high'
+    endif
   endif
 
   if secondary_image != blank
     assign primary_image_class = primary_image_class | append: ' has-secondary'
-  endif
-
-  if card_index <= 4
-    assign image_loading = 'eager'
-  endif
-
-  if card_index == 1
-    assign image_fetchpriority = 'high'
   endif
 
   case image_ratio
