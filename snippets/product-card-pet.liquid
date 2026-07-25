@@ -4,6 +4,7 @@
   @param {number} [index] - Card index used for loading priority and legacy palettes.
   @param {boolean} [show_quick_add] - Shows native quick-add form.
   @param {string} [image_ratio] - square, portrait or adapt.
+  @param {boolean} [collection_context] - Enables collection-only media and availability enhancements.
 {% enddoc %}
 
 {%- liquid
@@ -13,11 +14,16 @@
   assign minimum_price = product.price_min | money
   assign rating_value = product.metafields.reviews.rating.value
   assign rating_count = product.metafields.reviews.rating_count.value
-  assign secondary_image = product.images[1]
+  assign is_collection_card = collection_context | default: false
+  assign secondary_image = blank
   assign image_loading = 'lazy'
   assign image_fetchpriority = 'auto'
   assign ratio_value = '1 / 1'
   assign primary_image_class = 'pet-product-card__image pet-product-card__image--primary'
+
+  if is_collection_card
+    assign secondary_image = product.images[1]
+  endif
 
   if secondary_image != blank
     assign primary_image_class = primary_image_class | append: ' has-secondary'
@@ -49,7 +55,7 @@
 -%}
 
 <article
-  class="pet-product-card pet-product-card--{{ palette_index }} pet-product-card--tilt-{{ card_index | modulo: 3 }}"
+  class="pet-product-card pet-product-card--{{ palette_index }} pet-product-card--tilt-{{ card_index | modulo: 3 }}{% if is_collection_card %} pet-product-card--collection{% endif %}"
   style="--fp-product-image-ratio: {{ ratio_value }};"
 >
   <a class="pet-product-card__link" href="{{ product.url }}">
@@ -109,9 +115,11 @@
         {%- if product.compare_at_price > product.price -%}<s>{{ product.compare_at_price | money }}</s>{%- endif -%}
       </div>
 
-      <span class="pet-product-card__availability">
-        {%- if product.available -%}{{ available_label }}{%- else -%}{{ unavailable_label }}{%- endif -%}
-      </span>
+      {%- if is_collection_card -%}
+        <span class="pet-product-card__availability">
+          {%- if product.available -%}{{ available_label }}{%- else -%}{{ unavailable_label }}{%- endif -%}
+        </span>
+      {%- endif -%}
     </div>
   </a>
 
