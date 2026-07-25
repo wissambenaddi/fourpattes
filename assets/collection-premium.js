@@ -57,9 +57,16 @@
         }
       });
 
-      window.matchMedia('(min-width: 990px)').addEventListener('change', (event) => {
+      const desktopBreakpoint = window.matchMedia('(min-width: 990px)');
+      const handleBreakpointChange = (event) => {
         if (event.matches && !drawer.hidden) close();
-      });
+      };
+
+      if (typeof desktopBreakpoint.addEventListener === 'function') {
+        desktopBreakpoint.addEventListener('change', handleBreakpointChange);
+      } else if (typeof desktopBreakpoint.addListener === 'function') {
+        desktopBreakpoint.addListener(handleBreakpointChange);
+      }
     });
   }
 
