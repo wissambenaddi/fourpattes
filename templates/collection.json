@@ -132,7 +132,8 @@
       "settings": {
         "eyebrow": "Poursuivez l’exploration",
         "title": "À découvrir aussi",
-        "cards_to_show": 4
+        "cards_to_show": 4,
+        "show_footer_transition": true
       }
     }
   },
