@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "header",
   "name": "En-tête",
@@ -12,6 +21,7 @@
             "text": "Livraison offerte dès 49 €",
             "mobile_text": "",
             "icon": "truck",
+            "link": "",
             "new_tab": false
           }
         },
@@ -22,6 +32,7 @@
             "text": "Expédition suivie",
             "mobile_text": "",
             "icon": "package",
+            "link": "",
             "new_tab": false
           }
         },
@@ -32,6 +43,7 @@
             "text": "Paiement sécurisé",
             "mobile_text": "",
             "icon": "lock",
+            "link": "",
             "new_tab": false
           }
         },
@@ -42,11 +54,17 @@
             "text": "Chaque colis est préparé avec soin",
             "mobile_text": "Colis préparé avec soin",
             "icon": "paw",
+            "link": "",
             "new_tab": false
           }
         }
       },
-      "block_order": ["delivery", "tracking", "payment", "care"],
+      "block_order": [
+        "delivery",
+        "tracking",
+        "payment",
+        "care"
+      ],
       "settings": {
         "enabled": true,
         "enable_rotation": true,
@@ -57,9 +75,9 @@
         "pause_on_hover": true,
         "mobile_behavior": "rotate",
         "accessibility_label": "Informations de livraison et de paiement",
-        "background": "#F7C84B",
-        "text_color": "#2D1C63",
-        "icon_color": "#2D1C63",
+        "background": "#f7c84b",
+        "text_color": "#2d1c63",
+        "icon_color": "#2d1c63",
         "sticky": false
       }
     },
@@ -81,42 +99,53 @@
         "dog_menu": "univers-chien",
         "dog_card_enabled": true,
         "dog_card_mobile": false,
+        "dog_image_alt": "",
         "dog_card_title": "Prêts pour la promenade ?",
         "dog_card_text": "Découvrez les favoris de la meute.",
         "dog_cta_label": "Découvrir l'univers chien",
-        "dog_card_background": "#E7F8F7",
+        "dog_cta_link": "",
+        "dog_card_background": "#e7f8f7",
         "cat_label": "Univers Chat",
         "cat_icon": "cat",
         "cat_menu": "univers-chat",
         "cat_card_enabled": true,
         "cat_card_mobile": false,
+        "cat_image_alt": "",
         "cat_card_title": "Les chats ont déjà choisi",
         "cat_card_text": "Découvrez leurs favoris pour jouer et se prélasser.",
         "cat_cta_label": "Découvrir l'univers chat",
-        "cat_card_background": "#F0E8FA",
+        "cat_cta_link": "",
+        "cat_card_background": "#f0e8fa",
         "discover_label": "Découvrir",
         "discover_icon": "discover",
-        "discover_menu": "decouvrir",
+        "discover_menu": "d-couvrir",
         "discover_card_enabled": true,
         "discover_card_mobile": false,
+        "discover_image_alt": "",
         "discover_card_title": "La vie avec FourPattes",
         "discover_card_text": "Conseils, nouveautés et histoires à partager.",
         "discover_cta_label": "Explorer FourPattes",
-        "discover_card_background": "#FFF1D7",
+        "discover_cta_link": "",
+        "discover_card_background": "#fff1d7",
         "story_label": "Notre histoire",
+        "story_link": "",
+        "contact_link": "",
         "show_search": false,
         "show_account": true,
         "show_bag": true,
         "show_empty_badge": false,
-        "background": "#26155F",
-        "text_color": "#FFF9F4",
-        "accent_color": "#F4B63F",
-        "surface_color": "#FFF9F4",
-        "action_background": "#3B2873",
-        "badge_background": "#F4B63F",
-        "badge_text_color": "#26155F"
+        "background": "#26155f",
+        "text_color": "#fff9f4",
+        "accent_color": "#f4b63f",
+        "surface_color": "#fff9f4",
+        "action_background": "#3b2873",
+        "badge_background": "#f4b63f",
+        "badge_text_color": "#26155f"
       }
     }
   },
-  "order": ["announcement", "header"]
+  "order": [
+    "announcement",
+    "header"
+  ]
 }

@@ -1,15 +1,15 @@
 {% doc %}
   Renders one FourPattes mobile universe as a single-level accessible accordion.
 
-  The selected Shopify Navigation menu supplies up to six top-level links.
-  When the dedicated picker is empty, the snippet resolves the conventional
-  universe menu handle, then an exact matching parent in main-menu. Unrelated
-  main-menu links are never exposed as submenu categories.
+  The dedicated Shopify Navigation menu selected in the Theme Editor supplies
+  up to six top-level links. No menu handle, collection URL or main-menu
+  fallback is inferred by the theme. When no menu is configured, the public
+  drawer keeps a direct universe link while the Theme Editor shows guidance.
 
   @param {linklist} menu - Dedicated Shopify Navigation menu.
   @param {string} label - Visible universe label.
   @param {string} fallback_link - Direct universe destination.
-  @param {boolean} force_accordion - Keeps the accordion markup when submenus are enabled.
+  @param {boolean} force_accordion - Enables the accordion when links exist.
   @param {boolean} card_enabled - Whether the editorial card is enabled.
   @param {boolean} card_mobile - Whether the reduced card appears in the drawer.
   @param {image} image - Optional card image.
@@ -26,54 +26,27 @@
 
 {%- liquid
   assign resolved_menu = menu
-  assign conventional_menu_handle = blank
   assign has_menu_links = false
   assign card_has_content = false
+  assign render_accordion = false
   assign rendered_badges = 0
   assign view_all_text = 'View all'
   assign image_alt_value = image_alt | default: image.alt | default: card_title
   assign patous_alt = 'Patous, the FourPattes mascot'
-
-  case badge_universe
-    when 'dog'
-      assign conventional_menu_handle = 'univers-chien'
-    when 'cat'
-      assign conventional_menu_handle = 'univers-chat'
-    when 'discover'
-      assign conventional_menu_handle = 'decouvrir'
-  endcase
 
   if request.locale.iso_code contains 'fr'
     assign view_all_text = 'Voir tout'
     assign patous_alt = 'Patous, la mascotte FourPattes'
   endif
 
-  if resolved_menu == blank or resolved_menu.links == blank
-    if conventional_menu_handle != blank
-      assign conventional_menu = linklists[conventional_menu_handle]
-      if conventional_menu != blank and conventional_menu.links != blank
-        assign resolved_menu = conventional_menu
-      endif
-    endif
-  endif
-
-  if resolved_menu == blank or resolved_menu.links == blank
-    assign primary_menu = linklists['main-menu']
-    assign expected_parent_handle = label | handleize
-
-    if primary_menu != blank and primary_menu.links != blank
-      for primary_link in primary_menu.links
-        assign primary_link_handle = primary_link.title | handleize
-        if primary_link_handle == expected_parent_handle and primary_link.links != blank
-          assign resolved_menu = primary_link
-          break
-        endif
-      endfor
-    endif
-  endif
-
   if resolved_menu != blank and resolved_menu.links != blank
     assign has_menu_links = true
+  endif
+
+  if force_accordion and has_menu_links
+    assign render_accordion = true
+  elsif request.design_mode and force_accordion
+    assign render_accordion = true
   endif
 
   if card_enabled and card_mobile
@@ -83,8 +56,8 @@
   endif
 -%}
 
-<li class="pet-menu-drawer__item">
-  {%- if has_menu_links or force_accordion or request.design_mode -%}
+<li class="pet-menu-drawer__item" data-pet-menu-links="{{ has_menu_links }}">
+  {%- if render_accordion -%}
     <details class="pet-menu-drawer__details">
       <summary>
         <span class="pet-menu-drawer__summary-label">
